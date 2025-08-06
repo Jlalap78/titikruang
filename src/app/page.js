@@ -242,9 +242,9 @@ function LandingPage() {
               {[
                 { title: 'Ruang Curhat', desc: 'Curhat bebas dan anonim.', icon: '🗣️', href: '/ruang' },
                 { title: 'Diskusi Komunitas', desc: 'Dukungan teman senasib.', icon: '🤝', href: '/diskusi' },
-                { title: 'Konten Edukatif', desc: 'Suara ahli dan sesi live.', icon: '🎧', href: '/pembelajaran' },
-                { title: 'Simulasi Pinjaman', desc: 'Perhitungan.', icon: '💰', href: '/simulasipinjaman' },
-                { title: 'Kuis Bintang', desc: 'Tes interaktif pemulihan.', icon: '⭐', href: '/kuisbintang' },
+                { title: 'Konten Edukatif', desc: 'Pelajari bahaya dan risikonya.', icon: '🎧', href: '/pembelajaran' },
+                { title: 'Simulasi Pinjaman', desc: 'Hitung dulu, baru putuskan.', icon: '💰', href: '/simulasipinjaman' },
+                { title: 'Kuis Bintang', desc: 'Tes pengetahuanmu, dan dapatkan wawasan baru.', icon: '⭐', href: '/kuisbintang' },
                 { title: 'HelpBot & Hotline', desc: 'Bantuan cepat & AI.', icon: '🚨' },
               ].map((f, i) => {
                 const iconControls = useAnimationControls();
@@ -380,7 +380,7 @@ function LandingPage() {
                 <ul className="space-y-1">
                   <li><a href="#" className="hover:underline">Privasi</a></li>
                   <li><a href="#" className="hover:underline">Laporkan Penyalahgunaan</a></li>
-                  <li><a href="/Kontakkami" className="hover:underline">Kontak</a></li>
+                  <li><a href="/kontakkami" className="hover:underline">Kontak</a></li>
                 </ul>
               </div>
 
