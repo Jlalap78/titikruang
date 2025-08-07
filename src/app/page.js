@@ -244,7 +244,7 @@ function LandingPage() {
                 { title: 'Diskusi Komunitas', desc: 'Dukungan teman senasib.', icon: '🤝', href: '/diskusi' },
                 { title: 'Konten Edukatif', desc: 'Pelajari bahaya dan risikonya.', icon: '🎧', href: '/pembelajaran' },
                 { title: 'Simulasi Pinjaman', desc: 'Hitung dulu, baru putuskan.', icon: '💰', href: '/simulasipinjaman' },
-                { title: 'Kuis Bintang', desc: 'Tes pengetahuanmu, dan dapatkan wawasan baru.', icon: '⭐', href: '/kuisbintang' },
+                { title: 'Kuis Bintang', desc: 'Tes pengetahuanmu, dan dapatkan wasan baru.', icon: '⭐', href: '/kuisbintang' },
                 { title: 'HelpBot & Hotline', desc: 'Bantuan cepat & AI.', icon: '🚨' },
               ].map((f, i) => {
                 const iconControls = useAnimationControls();
@@ -378,7 +378,7 @@ function LandingPage() {
               <div>
                 <h4 className="text-base font-semibold mb-2">Bantuan</h4>
                 <ul className="space-y-1">
-                  <li><a href="#" className="hover:underline">Privasi</a></li>
+                  <li><a href="/policy" className="hover:underline">Syarat dan Ketentuan</a></li>
                   <li><a href="#" className="hover:underline">Laporkan Penyalahgunaan</a></li>
                   <li><a href="/kontakkami" className="hover:underline">Kontak</a></li>
                 </ul>

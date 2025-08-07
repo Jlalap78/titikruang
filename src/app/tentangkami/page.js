@@ -260,7 +260,7 @@ export default function TentangKami() {
             berfokus pada kekuatan masing-masing untuk menciptakan dampak sosial yang berkelanjutan.
           </p>
           <Image
-            src="/PKM.png"
+            src="/pkm.png"
             alt="Tim TitikRuang"
             width={900}
             height={300}
