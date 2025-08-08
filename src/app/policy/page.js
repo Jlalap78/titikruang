@@ -50,6 +50,19 @@ export default function LandingPage() {
     }, 50);
   };
 
+  const handleScrollTo = (group, id) => {
+    if (activeGroup === group) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      setActiveGroup(group);
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 50);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#3061F2] via-white to-[#F2BF27]/10 text-gray-800">
       {/* Header */}
@@ -230,78 +243,189 @@ export default function LandingPage() {
         {/* Sidebar */}
         <aside className="w-64 p-4 sticky top-20 h-[calc(100vh-5rem)] overflow-y-auto bg-white shadow hidden md:block">
           <nav className="space-y-4 text-sm">
+            {/* Tentang TitikRuang */}
             <div>
               <button
-                onClick={() => toggleSection("ruangguru")}
+                onClick={() => {
+                  toggleSection("tentang");
+                  setActiveGroup("tentang");
+                }}
                 className={`w-full text-left font-bold text-base ${
-                  activeGroup === "ruangguru"
-                    ? "text-blue-700"
-                    : "text-gray-800"
+                  activeGroup === "tentang" ? "text-blue-700" : "text-gray-800"
                 }`}
               >
-                Ruangguru (22)
+                Tentang TitikRuang
               </button>
               <ul
                 className={`mt-2 space-y-2 overflow-hidden transition-all duration-300 ease-in-out ${
-                  openSection === "ruangguru"
+                  openSection === "tentang"
                     ? "max-h-96 opacity-100"
                     : "max-h-0 opacity-0"
                 }`}
               >
-                {[
-                  "ruangbelajar",
-                  "ruangles online",
-                  "Ruanguji",
-                  "Roboguru",
-                  "Ruangbaca",
-                  "Ruangles",
-                  "Ruangpengajar",
-                  "Ruangpeduli",
-                ].map((item) => (
-                  <li
-                    key={item}
-                    className="cursor-pointer text-gray-700 hover:text-blue-700"
-                  >
-                    {item}
-                  </li>
-                ))}
+                <li
+                  className="cursor-pointer hover:text-blue-700"
+                  onClick={() => handleScrollTo("tentang", "tentang-umum")}
+                >
+                  Tentang TitikRuang
+                </li>
+                <li
+                  className="cursor-pointer hover:text-blue-700"
+                  onClick={() => handleScrollTo("tentang", "nilai-prinsip")}
+                >
+                  Nilai dan Prinsip Dasar Platform
+                </li>
               </ul>
             </div>
+
+            {/* Ketentuan Penggunaan */}
             <div>
               <button
-                onClick={() => toggleSection("brain")}
+                onClick={() => {
+                  toggleSection("ketentuan");
+                  setActiveGroup("ketentuan");
+                }}
                 className={`w-full text-left font-bold text-base ${
-                  activeGroup === "brain" ? "text-blue-700" : "text-gray-800"
+                  activeGroup === "ketentuan"
+                    ? "text-blue-700"
+                    : "text-gray-800"
                 }`}
               >
-                Brain Academy Online (3)
+                Ketentuan Penggunaan
               </button>
               <ul
                 className={`mt-2 space-y-2 overflow-hidden transition-all duration-300 ease-in-out ${
-                  openSection === "brain"
-                    ? "max-h-40 opacity-100"
+                  openSection === "ketentuan"
+                    ? "max-h-96 opacity-100"
                     : "max-h-0 opacity-0"
                 }`}
               >
-                <li>
-                  <a
-                    href="#istilah"
-                    className="text-blue-700 font-medium block"
-                  >
-                    Istilah Umum
-                  </a>
+                <li
+                  className="cursor-pointer hover:text-blue-700"
+                  onClick={() =>
+                    handleScrollTo("ketentuan", "akses-registrasi")
+                  }
+                >
+                  Akses dan Registrasi
                 </li>
-                <li>
-                  <a href="#layanan" className="block">
-                    Ketentuan Layanan
-                  </a>
+                <li
+                  className="cursor-pointer hover:text-blue-700"
+                  onClick={() => handleScrollTo("ketentuan", "batas-usia")}
+                >
+                  Batas Usia Pengguna
                 </li>
-                <li>
-                  <a href="#lainnya" className="block">
-                    Ketentuan Lainnya
-                  </a>
+                <li
+                  className="cursor-pointer hover:text-blue-700"
+                  onClick={() =>
+                    handleScrollTo("ketentuan", "komitmen-pengguna")
+                  }
+                >
+                  Komitmen Pengguna
                 </li>
               </ul>
+            </div>
+
+            {/* Kebijakan Privasi */}
+            <div>
+              <button
+                onClick={() => {
+                  toggleSection("privasi");
+                  setActiveGroup("privasi");
+                }}
+                className={`w-full text-left font-bold text-base ${
+                  activeGroup === "privasi" ? "text-blue-700" : "text-gray-800"
+                }`}
+              >
+                Kebijakan Privasi
+              </button>
+              <ul
+                className={`mt-2 space-y-2 overflow-hidden transition-all duration-300 ease-in-out ${
+                  openSection === "privasi"
+                    ? "max-h-96 opacity-100"
+                    : "max-h-0 opacity-0"
+                }`}
+              >
+                <li
+                  className="cursor-pointer hover:text-blue-700"
+                  onClick={() => handleScrollTo("privasi", "data-dikumpulkan")}
+                >
+                  Jenis Data yang Dikumpulkan
+                </li>
+                <li
+                  className="cursor-pointer hover:text-blue-700"
+                  onClick={() => handleScrollTo("privasi", "penggunaan-data")}
+                >
+                  Penggunaan Data
+                </li>
+                <li
+                  className="cursor-pointer hover:text-blue-700"
+                  onClick={() => handleScrollTo("privasi", "manajemen-privasi")}
+                >
+                  Manajemen Privasi dan Kendali
+                </li>
+              </ul>
+            </div>
+
+            {/* Dasar Hukum & Kepatuhan */}
+            <div>
+              <button
+                onClick={() => {
+                  toggleSection("hukum");
+                  setActiveGroup("hukum");
+                }}
+                className={`w-full text-left font-bold text-base ${
+                  activeGroup === "hukum" ? "text-blue-700" : "text-gray-800"
+                }`}
+              >
+                Dasar Hukum & Kepatuhan
+              </button>
+              <ul
+                className={`mt-2 space-y-2 overflow-hidden transition-all duration-300 ease-in-out ${
+                  openSection === "hukum"
+                    ? "max-h-96 opacity-100"
+                    : "max-h-0 opacity-0"
+                }`}
+              >
+                <li
+                  className="cursor-pointer hover:text-blue-700"
+                  onClick={() => handleScrollTo("hukum", "uu-ite")}
+                >
+                  UU ITE
+                </li>
+                <li
+                  className="cursor-pointer hover:text-blue-700"
+                  onClick={() => handleScrollTo("hukum", "uu-pdp")}
+                >
+                  UU Perlindungan Data Pribadi
+                </li>
+                <li
+                  className="cursor-pointer hover:text-blue-700"
+                  onClick={() => handleScrollTo("hukum", "kuhp")}
+                >
+                  KUHP
+                </li>
+                <li
+                  className="cursor-pointer hover:text-blue-700"
+                  onClick={() => handleScrollTo("hukum", "uu-anak")}
+                >
+                  UU Perlindungan Anak
+                </li>
+              </ul>
+            </div>
+
+            {/* FAQ */}
+            <div>
+              <button
+                onClick={() => {
+                  setActiveGroup("faq");
+                  toggleSection("faq");
+                }}
+                className={`w-full text-left font-bold text-base ${
+                  activeGroup === "faq" ? "text-blue-700" : "text-gray-800"
+                }`}
+              >
+                FAQ
+              </button>
             </div>
           </nav>
         </aside>
@@ -309,61 +433,178 @@ export default function LandingPage() {
         {/* Main Content */}
         <main className="flex-1 min-h-screen px-4 py-6">
           <section ref={contentRef} className="max-w-3xl mx-auto">
-            <p className="text-sm text-gray-600 mb-2">
-              Berlaku efektif sejak 14 November 2022
-            </p>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4 leading-snug">
-              SYARAT DAN KETENTUAN LAYANAN{" "}
-              {activeGroup === "ruangguru"
-                ? "RUANGGURU"
-                : "BRAIN ACADEMY ONLINE"}
-            </h1>
-
-            {activeGroup === "ruangguru" ? (
+            {/* Bagian 1 */}
+            {activeGroup === "tentang" && (
               <>
+                <h2 id="tentang-umum" className="text-2xl font-bold mb-4">
+                  Tentang TitikRuang
+                </h2>
                 <p className="mb-4 text-gray-700">
-                  Ruangguru adalah platform belajar digital terdepan di
-                  Indonesia...
+                  TitikRuang merupakan platform digital yang dirancang sebagai
+                  ruang aman yang nyaman dan anonim untuk individu-individu yang
+                  mengalami dampak psikososial, khususnya akibat keterlibatan
+                  dalam praktik judi online (judol) dan pinjaman online
+                  (pinjol). Platform ini menyediakan berbagai fasilitas untuk
+                  berbagi cerita, mengekspresikan perasaan, beserta wadah dalam
+                  mengakses informasi edukatif seputar pemulihan mental, sosial,
+                  maupun finansial. Pengguna dapat bergabung dalam komunitas
+                  yang relevan dengan pengalaman atau kebutuhan pemulihannya,
+                  serta berpartisipasi secara aktif dalam ruang diskusi tanpa
+                  harus mengungkapkan identitas pribadi.
                 </p>
-                <p className="mb-4 text-gray-700">
-                  Dengan teknologi dan kurikulum terbaik...
-                </p>
-                <div className="h-[600px] text-gray-400">
-                  Konten tambahan dari Ruangguru...
-                </div>
+
+                <h3
+                  id="nilai-prinsip"
+                  className="text-xl font-semibold mt-6 mb-2"
+                >
+                  Nilai dan Prinsip Dasar Platform
+                </h3>
+                <ul className="list-disc ml-6 space-y-2 text-gray-700">
+                  <li>
+                    Menjunjung tinggi kebebasan berpendapat dengan tetap
+                    menghormati hak orang lain.
+                  </li>
+                  <li>
+                    Mengutamakan keamanan, privasi, dan kenyamanan pengguna.
+                  </li>
+                  <li>
+                    Mendorong pertukaran informasi yang bermanfaat dan
+                    membangun.
+                  </li>
+                  <li>
+                    Memastikan aksesibilitas untuk semua kalangan tanpa
+                    diskriminasi.
+                  </li>
+                </ul>
               </>
-            ) : (
+            )}
+
+            {activeGroup === "ketentuan" && (
               <>
-                <p className="mb-4 text-gray-700">
-                  Kami berterima kasih atas kepercayaan Anda terhadap fitur...
-                </p>
-                <p className="mb-4 text-gray-700">
-                  Syarat dan Ketentuan ini merupakan satu kesatuan...
-                </p>
-
-                <h2 id="istilah" className="text-xl font-semibold mt-10 mb-2">
-                  Istilah Umum
+                <h2 id="akses-registrasi" className="text-2xl font-bold mb-4">
+                  Akses dan Registrasi
                 </h2>
                 <p className="mb-4 text-gray-700">
-                  Kecuali didefinisikan secara khusus...
+                  Untuk menggunakan layanan TitikRuang, pengguna dapat melakukan
+                  registrasi...
                 </p>
 
-                <h2 id="layanan" className="text-xl font-semibold mt-10 mb-2">
-                  Ketentuan Layanan
+                <h3 id="batas-usia" className="text-xl font-semibold mt-6 mb-2">
+                  Batas Usia Pengguna
+                </h3>
+                <p className="mb-4 text-gray-700">
+                  Platform ini diperuntukkan bagi pengguna berusia minimal 13
+                  tahun...
+                </p>
+
+                <h3
+                  id="komitmen-pengguna"
+                  className="text-xl font-semibold mt-6 mb-2"
+                >
+                  Komitmen Pengguna
+                </h3>
+                <ul className="list-disc ml-6 space-y-2 text-gray-700">
+                  <li>Menggunakan platform dengan itikad baik...</li>
+                  <li>Tidak menyebarkan konten SARA...</li>
+                  <li>Mematuhi semua peraturan...</li>
+                </ul>
+              </>
+            )}
+
+            {/* Bagian 2 */}
+            {activeGroup === "privasi" && (
+              <>
+                <h2 id="data-dikumpulkan" className="text-2xl font-bold mb-4">
+                  Jenis Data yang Dikumpulkan
                 </h2>
                 <p className="mb-4 text-gray-700">
-                  Pengguna diwajibkan untuk mengikuti aturan...
+                  TitikRuang mengumpulkan data yang diperlukan...
                 </p>
 
-                <h2 id="lainnya" className="text-xl font-semibold mt-10 mb-2">
-                  Ketentuan Lainnya
+                <h3
+                  id="penggunaan-data"
+                  className="text-xl font-semibold mt-6 mb-2"
+                >
+                  Penggunaan Data
+                </h3>
+                <ul className="list-decimal ml-6 space-y-2 text-gray-700">
+                  <li>Menjamin keamanan akun pengguna.</li>
+                  <li>Memberikan layanan yang dipersonalisasi.</li>
+                  <li>Melakukan analisis fitur.</li>
+                  <li>Memenuhi kewajiban hukum.</li>
+                </ul>
+
+                <h3
+                  id="manajemen-privasi"
+                  className="text-xl font-semibold mt-6 mb-2"
+                >
+                  Manajemen Privasi dan Kendali
+                </h3>
+                <p className="mb-4 text-gray-700">
+                  Pengguna memiliki hak penuh untuk mengatur privasi...
+                </p>
+              </>
+            )}
+
+            {activeGroup === "hukum" && (
+              <>
+                <h2 id="uu-ite" className="text-2xl font-bold mb-4">
+                  UU ITE
                 </h2>
                 <p className="mb-4 text-gray-700">
-                  Ruangguru berhak mengubah syarat dan ketentuan...
+                  Semua aktivitas di TitikRuang tunduk pada UU ITE...
                 </p>
 
-                <div className="h-[600px] text-gray-400">
-                  Simulasi konten panjang...
+                <h3 id="uu-pdp" className="text-xl font-semibold mt-6 mb-2">
+                  UU Perlindungan Data Pribadi
+                </h3>
+                <p className="mb-4 text-gray-700">
+                  Kami mematuhi UU Perlindungan Data Pribadi...
+                </p>
+
+                <h3 id="kuhp" className="text-xl font-semibold mt-6 mb-2">
+                  KUHP
+                </h3>
+                <p className="mb-4 text-gray-700">
+                  Pelanggaran hukum pidana akan diproses sesuai KUHP...
+                </p>
+
+                <h3 id="uu-anak" className="text-xl font-semibold mt-6 mb-2">
+                  UU Perlindungan Anak
+                </h3>
+                <p className="mb-4 text-gray-700">
+                  TitikRuang melarang segala bentuk eksploitasi anak...
+                </p>
+              </>
+            )}
+
+            {/* Bagian 3 */}
+            {activeGroup === "faq" && (
+              <>
+                <h2 className="text-2xl font-bold mb-4">FAQ</h2>
+                <div className="space-y-4 text-gray-700">
+                  <div>
+                    <p className="font-semibold">
+                      1. Apakah saya harus menggunakan identitas asli?
+                    </p>
+                    <p>Tidak, pengguna dapat menggunakan nama samaran...</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold">
+                      2. Apakah layanan ini berbayar?
+                    </p>
+                    <p>Saat ini semua layanan gratis.</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold">
+                      3. Bagaimana jika menemukan konten melanggar aturan?
+                    </p>
+                    <p>Gunakan fitur laporan di setiap konten.</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold">4. Apakah data saya aman?</p>
+                    <p>Data dikelola sesuai UU PDP.</p>
+                  </div>
                 </div>
               </>
             )}
@@ -390,13 +631,13 @@ export default function LandingPage() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <Image
-                  src="/logo.png"
+                  src="/logo3.png"
                   alt="TitikRuang Logo"
-                  width={32}
-                  height={32}
+                  width={64}
+                  height={64}
                   className="transition duration-300 hover:animate-glow"
                 />
-                <h3 className="text-xl font-bold">TitikRuang</h3>
+                <h3 className="text-xl font-bold h-30">TitikRuang</h3>
               </div>
               <p>DENGAR PULIH BANGKIT</p>
             </div>
@@ -521,6 +762,8 @@ export default function LandingPage() {
                 src="/logodiktisaintekberdampak_horizontallogo.png"
                 className="h-10"
               />
+              <img src="/logobelmawabersinergi-warna.png" className="h-20" />
+              <img src="/logopkm-bg.png" className="h-10" />
             </div>
           </div>
         </div>

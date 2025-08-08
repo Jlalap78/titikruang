@@ -240,11 +240,11 @@ function LandingPage() {
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                { title: 'Ruang Curhat', desc: 'Curhat bebas dan anonim.', icon: '🗣️', href: '/ruang' },
-                { title: 'Diskusi Komunitas', desc: 'Dukungan teman senasib.', icon: '🤝', href: '/diskusi' },
-                { title: 'Konten Edukatif', desc: 'Pelajari bahaya dan risikonya.', icon: '🎧', href: '/pembelajaran' },
-                { title: 'Simulasi Pinjaman', desc: 'Hitung dulu, baru putuskan.', icon: '💰', href: '/simulasipinjaman' },
-                { title: 'Kuis Bintang', desc: 'Tes pengetahuanmu, dan dapatkan wasan baru.', icon: '⭐', href: '/kuisbintang' },
+                { title: 'Ruang Curhat', desc: 'Curhat bebas & anonim', icon: '🗣️', href: '/ruang' },
+                { title: 'Diskusi Komunitas', desc: 'Dukungan teman senasib', icon: '🤝', href: '/diskusi' },
+                { title: 'Konten Edukatif', desc: 'Pelajari bahaya & risikonya', icon: '🎧', href: '/pembelajaran' },
+                { title: 'Simulasi Pinjaman', desc: 'Hitung dulu, baru putuskan', icon: '💰', href: '/simulasipinjaman' },
+                { title: 'Kuis Bintang', desc: 'Tes pengetahuanmu & dapatkan wasan baru', icon: '⭐', href: '/kuisbintang' },
                 { title: 'HelpBot & Hotline', desc: 'Bantuan cepat & AI.', icon: '🚨' },
               ].map((f, i) => {
                 const iconControls = useAnimationControls();
@@ -353,13 +353,13 @@ function LandingPage() {
               <div>
                 <div className="flex items-center gap-2 mb-2">
                   <Image
-                    src="/logo.png"
+                    src="/logo3.png"
                     alt="TitikRuang Logo"
-                    width={32}
-                    height={32}
+                    width={64}
+                    height={64}
                     className="transition duration-300 hover:animate-glow"
                   />
-                  <h3 className="text-xl font-bold">TitikRuang</h3>
+                  <h3 className="text-xl font-bold h-30">TitikRuang</h3>
                 </div>
                 <p>DENGAR PULIH BANGKIT</p>
               </div>
@@ -435,6 +435,9 @@ function LandingPage() {
                 <img src="/logo_of_ministry_of_education_and_culture_of_republic_of_indonesia.svg.webp" className="h-10" />
                 <img src="/logounairbiru.png" className="h-10" />
                 <img src="/logodiktisaintekberdampak_horizontallogo.png" className="h-10" />
+                <img src="/logobelmawabersinergi-warna.png" className='h-20'/>
+                <img src="/logopkm-bg.png" className='h-10'/>
+
               </div>
             </div>
           </div>
