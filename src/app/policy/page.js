@@ -585,24 +585,52 @@ export default function LandingPage() {
                 <div className="space-y-4 text-gray-700">
                   <div>
                     <p className="font-semibold">
-                      1. Apakah saya harus menggunakan identitas asli?
+                      1. Apa itu TitikRuang dan siapa saja yang bisa
+                      menggunakannya?
                     </p>
-                    <p>Tidak, pengguna dapat menggunakan nama samaran...</p>
+                    <p>
+                      TitikRuang merupakan platform digital berbasis komunitas
+                      yang menyediakan ruang aman, anonim, dan inklusif untuk
+                      berbagi cerita, edukasi, dan pemulihan psikososial bagi
+                      siapa pun, khususnya bagi korban yang sedang/pernah
+                      terdampak aktivitas judi online (judol) atau pinjaman
+                      online (pinjol).
+                    </p>
                   </div>
                   <div>
                     <p className="font-semibold">
-                      2. Apakah layanan ini berbayar?
+                      2. Apakah Saya harus menggunakan identitas asli untuk
+                      mendaftar di platform ini?
                     </p>
-                    <p>Saat ini semua layanan gratis.</p>
+                    <p>
+                      Tidak. TitikRuang menjunjung tinggi prinsip anonimitas.
+                      Pengguna umum dapat mengakses layanan cukup dengan
+                      username (nama pengguna) dan password (kata sandi) tanpa
+                      mengisi data pribadi. Namun, untuk mendapatkan akses penuh
+                      (misalnya untuk bergabung dalam komunitas diskusi),
+                      verifikasi tambahan atas informasi terbatas dibutuhkan
+                      dengan persetujuan privasi yang dijaga ketat.
+                    </p>
                   </div>
                   <div>
                     <p className="font-semibold">
-                      3. Bagaimana jika menemukan konten melanggar aturan?
+                      3. Apakah platform ini bisa digunakan secara gratis?
                     </p>
-                    <p>Gunakan fitur laporan di setiap konten.</p>
+                    <p>
+                      Ya. Seluruh layanan dan fitur utama TitikRuang dapat
+                      diakses secara gratis oleh semua pengguna, baik akun umum
+                      maupun terverifikasi. Kami tidak menarik biaya langganan
+                      atau pendaftaran dalam bentuk apa pun. Namun, untuk
+                      layanan konseling profesional, kami memfasilitasi pengguna
+                      agar dapat terhubung langsung dengan psikolog atau tenaga
+                      kesehatan mental yang relevan.
+                    </p>
                   </div>
                   <div>
-                    <p className="font-semibold">4. Apakah data saya aman?</p>
+                    <p className="font-semibold">
+                      4. Apa saja perbedaan antara akun umum dan akun
+                      terverifikasi?
+                    </p>
                     <p>Data dikelola sesuai UU PDP.</p>
                   </div>
                 </div>
