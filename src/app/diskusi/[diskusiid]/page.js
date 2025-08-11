@@ -16,6 +16,7 @@ import { getAuth } from 'firebase/auth';
 import { db } from '../../../lib/firebase';
 import Image from 'next/image';
 import { Smile, Image as ImageIcon, Send, Trash2, Edit3 } from 'lucide-react';
+import { filterMessage, containsBlockedWord } from "../../../lib/filterMessage"; // ✅ Tambahan import
 
 export default function DiskusiDetailPage({ params }) {
   const groupId = params.diskusiid;
@@ -42,7 +43,12 @@ export default function DiskusiDetailPage({ params }) {
     const messagesRef = collection(db, 'groups', groupId, 'messages');
     const q = query(messagesRef, orderBy('createdAt'));
     const unsubscribeMessages = onSnapshot(q, (snapshot) => {
-      const msgs = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const msgs = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+        // ✅ Sensor text sebelum render
+        text: filterMessage(doc.data().text || "")
+      }));
       setMessages(msgs);
       scrollToBottom();
     });
@@ -55,9 +61,12 @@ export default function DiskusiDetailPage({ params }) {
 
   const sendMessage = async () => {
     if (!newMessage.trim() || !members.includes(currentUser.uid)) return;
+
+
+
     const messageRef = collection(db, 'groups', groupId, 'messages');
     await addDoc(messageRef, {
-      text: newMessage,
+      text: filterMessage(newMessage), // ✅ Pastikan tersimpan dalam bentuk yang sudah difilter
       uid: currentUser.uid,
       createdAt: serverTimestamp(),
     });
@@ -69,7 +78,11 @@ export default function DiskusiDetailPage({ params }) {
   };
 
   const updateMessage = async (id, newText) => {
-    await updateDoc(doc(db, 'groups', groupId, 'messages', id), { text: newText });
+    if (containsBlockedWord(newText)) {
+      alert("Pesan mengandung kata terlarang!");
+      return;
+    }
+    await updateDoc(doc(db, 'groups', groupId, 'messages', id), { text: filterMessage(newText) });
   };
 
   return (

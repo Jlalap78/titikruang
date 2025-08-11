@@ -245,7 +245,7 @@ function LandingPage() {
                 { title: 'Konten Edukatif', desc: 'Pelajari bahaya & risikonya', icon: '🎧', href: '/pembelajaran' },
                 { title: 'Simulasi Pinjaman', desc: 'Hitung dulu, baru putuskan', icon: '💰', href: '/simulasipinjaman' },
                 { title: 'Kuis Bintang', desc: 'Tes pengetahuanmu & dapatkan wasan baru', icon: '⭐', href: '/kuisbintang' },
-                { title: 'HelpBot & Hotline', desc: 'Bantuan cepat & AI.', icon: '🚨' },
+                { title: 'LinaLoop', desc: 'Asisten AI yang selalu hadir, menjaga tetap aman dan nyaman.', icon: '🤖' },
               ].map((f, i) => {
                 const iconControls = useAnimationControls();
                 const handleHoverStart = () => {

@@ -319,28 +319,28 @@ export default function PembelajaranPage() {
           <div className="flex overflow-x-auto space-x-4 pb-4 scroll-smooth snap-x snap-mandatory">
             {[
               {
-                title: "ruangbelajar",
-                desc: "Video belajar adaptif dan latihan soal",
+                title: "Ruang Curhat",
+                desc: "curhat bebas & anonim ",
                 color: "from-pink-200 to-pink-100",
               },
               {
-                title: "Brain Academy Online",
-                desc: "Bimbel online interaktif dengan Live Teaching seru",
+                title: "Kuis Bintang",
+                desc: "tes pengetahuan &  dapatkan wawasan baru",
                 color: "from-yellow-200 to-yellow-100",
               },
               {
-                title: "English Academy",
+                title: "Simulasi Pinjaman ",
                 desc: "Kursus Bahasa Inggris berkurikulum Cambridge",
                 color: "from-purple-200 to-purple-100",
               },
               {
-                title: "Roboguru",
-                desc: "Forum tanya jawab dan diskusi soal",
+                title: "Linaloop",
+                desc: "Asisten AI yang selalu hadir, menjaga tetap aman dan nyaman.",
                 color: "from-indigo-200 to-indigo-100",
               },
               {
-                title: "Ruangguru Privat",
-                desc: "Les privat dengan tutor terbaik",
+                title: "Diskusi Komunitas",
+                desc: "Bergabung dengan komunitas dukungan teman senasib",
                 color: "from-green-200 to-green-100",
               },
             ].map((item, i) => (
