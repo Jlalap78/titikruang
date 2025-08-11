@@ -37,7 +37,7 @@ const quizData = {
       feedbackCorrect:
         "Karena dengan pendekatan yang tenang dan terbuka, anak akan lebih nyaman untuk jujur dan terbuka tentang masalahnya",
       feedbackWrong:
-        "Belum tepat — cobalah pendekatan motivasi daripada hukuman.",
+        "Jawaban yang benar ini ya - Karena dengan pendekatan yang tenang dan terbuka, anak akan lebih nyaman untuk jujur dan terbuka tentang masalahnya",
     },
     {
       question:
@@ -50,8 +50,8 @@ const quizData = {
       ],
       answer: "Hapus aplikasinya dan edukasi anak tentang risikonya",
       feedbackCorrect:
-        "Menghapus aplikasi saja tidak cukup karena anak juga perlu paham apa saja bahaya yang bisa timbul agar tidak mengulanginya",
-      feedbackWrong: "",
+        " Menghapus aplikasi saja tidak cukup karena anak juga perlu paham apa saja bahaya yang bisa timbul agar tidak mengulanginya",
+      feedbackWrong: "Jawaban yang benar ini ya - Menghapus aplikasi saja tidak cukup karena anak juga perlu paham apa saja bahaya yang bisa timbul agar tidak mengulanginya",
     },
     {
       question:
@@ -65,7 +65,7 @@ const quizData = {
       answer: "Cari informasi resmi di situs OJK",
       feedbackCorrect:
         "Informasi dari sumber resmi seperti OJK penting agar keputusan yang diambil tidak gegabah dan terhindar dari risiko.",
-      feedbackWrong: "",
+      feedbackWrong: "Jawaban yang benar ini ya - Informasi dari sumber resmi seperti OJK penting agar keputusan yang diambil tidak gegabah dan terhindar dari risiko.",
     },
     {
       question:
@@ -80,7 +80,7 @@ const quizData = {
         "Mengajak anak bicara dari hati ke hati soal masalah keuangan dan risikonya",
       feedbackCorrect:
         "Dengan berdialog secara tenang, anak tidak merasa disalahkan dan lebih mudah diajak mencari solusi bersama",
-      feedbackWrong: "",
+      feedbackWrong: "Jawaban yang benar ini ya - Dengan berdialog secara tenang, anak tidak merasa disalahkan dan lebih mudah diajak mencari solusi bersama",
     },
     {
       question:
@@ -94,7 +94,7 @@ const quizData = {
       answer: "Minta orang terdekat mengajarkanmu tentang dunia digital",
       feedbackCorrect:
         "Belajar dari orang terdekat membuat proses lebih mudah dan membantumu lebih paham bagaimana mendampingi anak di dunia digital",
-      feedbackWrong: "",
+      feedbackWrong: "Jawaban yang benar ini ya - Belajar dari orang terdekat membuat proses lebih mudah dan membantumu lebih paham bagaimana mendampingi anak di dunia digital",
     },
   ],
   mahasiswa: [
@@ -110,7 +110,7 @@ const quizData = {
       answer: "Cek legalitas aplikasi di OJK dan pelajari konsekuensinya",
       feedbackCorrect:
         "Sebelum memutuskan pinjam, penting untuk memastikan aplikasi tersebut legal dan memahami risikonya agar tidak menyesal kemudian",
-      feedbackWrong: "",
+      feedbackWrong: "Jawaban yang benar ini ya - Sebelum memutuskan pinjam, penting untuk memastikan aplikasi tersebut legal dan memahami risikonya agar tidak menyesal kemudian",
     },
     {
       question:
@@ -124,7 +124,7 @@ const quizData = {
       answer: "Tolak dan ajak teman diskusi risikonya",
       feedbackCorrect:
         "Menolak ajakan yang mencurigakan lebih baik dilakukan dengan cara yang persuasif agar teman juga sadar akan risikonya.",
-      feedbackWrong: "",
+      feedbackWrong: "Jawaban yang benar ini ya - Menolak ajakan yang mencurigakan lebih baik dilakukan dengan cara yang persuasif agar teman juga sadar akan risikonya.",
     },
     {
       question:
@@ -138,7 +138,7 @@ const quizData = {
       answer: "Cari informasi bantuan dari kampus terlebih dahulu",
       feedbackCorrect:
         "Mengakses bantuan resmi dari kampus adalah pilihan yang lebih aman daripada mengambil pinjaman yang berisiko",
-      feedbackWrong: "",
+      feedbackWrong: "Jawaban yang benar ini ya - Mengakses bantuan resmi dari kampus adalah pilihan yang lebih aman daripada mengambil pinjaman yang berisiko",
     },
     {
       question:
@@ -153,7 +153,7 @@ const quizData = {
         " Ajak bicara perlahan dan tawarkan bantuan atau arahkan ke konselor kampus",
       feedbackCorrect:
         "Memberi dukungan dan mendorong teman mencari bantuan profesional bisa menjadi langkah penting dalam membantu mereka keluar dari masalah",
-      feedbackWrong: "",
+      feedbackWrong: "Jawaban yang benar ini ya - Memberi dukungan dan mendorong teman mencari bantuan profesional bisa menjadi langkah penting dalam membantu mereka keluar dari masalah",
     },
     {
       question:
@@ -167,7 +167,7 @@ const quizData = {
       answer: "Pikirkan kembali apa yang menjadi kebutuhan dasar dan keinginan",
       feedbackCorrect:
         "Mengenali perbedaan antara kebutuhan dan keinginan bisa membantumu mengambil keputusan finansial yang lebih bijak",
-      feedbackWrong: "",
+      feedbackWrong: "Jawaban yang benar ini ya - Mengenali perbedaan antara kebutuhan dan keinginan bisa membantumu mengambil keputusan finansial yang lebih bijak",
     },
   ],
   pekerja: [
@@ -184,7 +184,7 @@ const quizData = {
         "Cek bunga, tenor, dan legalitas pinjaman di OJK serta pelajari risikonya",
       feedbackCorrect:
         "Memahami syarat dan legalitas pinjaman adalah langkah awal agar tidak terjebak dalam hutang yang bermasalah",
-      feedbackWrong: "",
+      feedbackWrong: "Jawaban yang benar ini ya - Memahami syarat dan legalitas pinjaman adalah langkah awal agar tidak terjebak dalam hutang yang bermasalah",
     },
     {
       question: "Teman kerjamu tiba-tiba menawarkan bisnis sampingan yang ternyata judi online terselubung. Kamu khawatir akan dimusuhi jika menolak. Apa tindakan yang tepat?",
@@ -198,7 +198,7 @@ const quizData = {
       feedbackCorrect:
         "Menolak ajakan secara baik dan menyimpan bukti bisa melindungimu jika terjadi sesuatu di kemudian hari.",
       feedbackWrong:
-        "",
+        "Jawaban yang benar ini ya - Menolak ajakan secara baik dan menyimpan bukti bisa melindungimu jika terjadi sesuatu di kemudian hari.",
     },
     {
       question: "Kamu stres karena pengeluaran bulanan selalu lebih besar dari pemasukan. Kamu mulai berpikir pinjol bisa menjadi solusi. Apa langkah realistis yang bisa kamu lakukan sebelum memutuskan?",
@@ -212,7 +212,7 @@ const quizData = {
       feedbackCorrect:
         "Dengan mencatat pengeluaran, kamu bisa tahu ke mana uangmu pergi dan mencari solusi sebelum memutuskan meminjam.",
       feedbackWrong:
-        "",
+        "Jawaban yang benar ini ya -  Dengan mencatat pengeluaran, kamu bisa tahu ke mana uangmu pergi dan mencari solusi sebelum memutuskan meminjam.",
     },
     {
       question: "Rekan kerja mengajakmu main game taruhan online sebagai hiburan di kantor. Katanya ‘sekadar iseng’. Apa yang kamu lakukan?",
@@ -226,7 +226,7 @@ const quizData = {
       feedbackCorrect:
         "Menyampaikan risiko secara baik bisa membantu rekanmu sadar bahwa hal tersebut tidak layak untuk dicoba.",
       feedbackWrong:
-        "",
+        "Jawaban yang benar ini ya - Menyampaikan risiko secara baik bisa membantu rekanmu sadar bahwa hal tersebut tidak layak untuk dicoba.",
     },
   ],
 };
