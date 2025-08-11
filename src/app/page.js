@@ -209,7 +209,7 @@ function LandingPage() {
                 Platform Aman & Anonim Untuk Pemulihan Psikososial
               </h1>
               <p className="text-lg mb-6">
-                Berbagi cerita, akses edukasi, dan pulih bersama komunitas yang memahami."Dengar, Pulih, Bangkit"
+                Berbagi cerita, akses edukasi, dan pulih bersama komunitas yang memahami."DENGAR PULIH BANGKIT"
               </p>
               <div className="flex gap-4">
                 <a href="#support" className="bg-white text-[#3061F2] px-6 py-3 rounded-xl font-semibold hover:bg-gray-100">
@@ -240,12 +240,12 @@ function LandingPage() {
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                { title: 'Ruang Curhat', desc: 'Curhat bebas & anonim', icon: '🗣️', href: '/ruang' },
+                { title: 'Ruang Curhat', desc: 'Curhat Bebas & Anonim', icon: '🗣️', href: '/ruang' },
                 { title: 'Diskusi Komunitas', desc: 'Dukungan teman senasib', icon: '🤝', href: '/diskusi' },
-                { title: 'Konten Edukatif', desc: 'Pelajari bahaya & risikonya', icon: '🎧', href: '/pembelajaran' },
-                { title: 'Simulasi Pinjaman', desc: 'Hitung dulu, baru putuskan', icon: '💰', href: '/simulasipinjaman' },
-                { title: 'Kuis Bintang', desc: 'Tes pengetahuanmu & dapatkan wasan baru', icon: '⭐', href: '/kuisbintang' },
-                { title: 'LinaLoop', desc: 'Asisten AI yang selalu hadir, menjaga tetap aman dan nyaman.', icon: '🤖' },
+                { title: 'Konten Edukatif', desc: 'Pelajari Bahaya & Risikonya', icon: '🎧', href: '/pembelajaran' },
+                { title: 'Simulasi Pinjaman', desc: 'Hitung Dulu, Baru Putuskan', icon: '💰', href: '/simulasipinjaman' },
+                { title: 'Kuis Bintang', desc: 'Tes Pengetahuanmu & Dapatkan Wawasan Baru', icon: '⭐', href: '/kuisbintang' },
+                { title: 'LinaLoop', desc: 'Asisten AI yang Selalu Hadir, Menjaga Tetap Aman dan Nyaman', icon: '🤖' },
               ].map((f, i) => {
                 const iconControls = useAnimationControls();
                 const handleHoverStart = () => {
