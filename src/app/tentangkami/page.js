@@ -358,12 +358,12 @@ export default function TentangKami() {
               },
               {
                 name: "Zaid Sanjaya",
-                role: "Pengembang Platform",
+                role: "Fullstack Development",
                 img: "/profilezaid.png",
               },
               {
                 name: "Ahmad Robiy'i",
-                role: "UI/UX Designer",
+                role: "UI/UX Designer & Fullstack Development",
                 img: "/profileroby.png",
               },
             ].map((person, i) => (
