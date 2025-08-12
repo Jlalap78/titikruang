@@ -251,7 +251,7 @@ const categoryMessages = {
       {
         min: 3,msg: "Kamu sudah punya bekal dasar. Tinggal asah lagi biar makin paham risiko dunia digital dan keuangan.",
       },
-      { min: 2, msg: "Masih banyak yang perlu dipelajari. Yuk, lebih hati-hati dan terus gali informasi biar nggak salah langkah!" },
+      { min: 1-2, msg: "Masih banyak yang perlu dipelajari. Yuk, lebih hati-hati dan terus gali informasi biar nggak salah langkah!" },
     ],
   },
   mahasiswa: {
@@ -263,7 +263,7 @@ const categoryMessages = {
     final: [
       { min: 4, msg: "Bagus! Kamu cukup peka terhadap risiko. Tetap lanjutkan belajar dan bantu orang sekitarmu juga ya!" },
       { min: 3,msg: "Kamu sudah punya bekal dasar. Tinggal asah lagi biar makin paham risiko dunia digital dan keuangan.",},
-      { min: 2, msg: "Masih banyak yang perlu dipelajari. Yuk, lebih hati-hati dan terus gali informasi biar nggak salah langkah!" },
+      { min: 1-2, msg: "Masih banyak yang perlu dipelajari. Yuk, lebih hati-hati dan terus gali informasi biar nggak salah langkah!" },
     ],
   },
   pekerja: {
@@ -278,7 +278,7 @@ const categoryMessages = {
     final: [
       { min: 4, msg: "Profesional sejati! Keep it up 🎯" },
       { min: 3, msg: "Bagus! Terus asah skill kerja mu 💪" },
-      { min: 2, msg: "Proses panjang — tetap semangat di tempat kerja! 🔥" },
+      { min: 1-2, msg: "Proses panjang — tetap semangat di tempat kerja! 🔥" },
     ],
   },
 };
