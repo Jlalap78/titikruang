@@ -314,19 +314,19 @@ const categories = [
   {
     id: "orangtua",
     title: "Orang Tua",
-    desc: "Parenting & keluarga",
+    desc: "Apa yang harus kamu lakukan sebagai orang tua?",
     icon: <FaUserTie className="text-red-500 text-2xl" />,
   },
   {
     id: "mahasiswa",
     title: "Mahasiswa",
-    desc: "Kehidupan kampus & akademik",
+    desc: "Apa yang harus kamu lakukan jika menghadapi ini?",
     icon: <FaGraduationCap className="text-blue-500 text-2xl" />,
   },
   {
     id: "pekerja",
     title: "Pekerja",
-    desc: "Dunia kerja & karier",
+    desc: "Apa yang harus dilakukan jika saya mengalami ini?",
     icon: <FaBriefcase className="text-yellow-500 text-2xl" />,
   },
 ];
