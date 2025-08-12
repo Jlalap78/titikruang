@@ -338,22 +338,22 @@ export default function TentangKami() {
             {[
               {
                 name: "Fitri Jayitri Iti Saibah",
-                role: "Pimpinan Proyek dan peneliti Strategis",
+                role: "Pimpinan Proyek & Peneliti Strategis",
                 img: "/profilesaibah.png",
               },
               {
-                name: "Kalimah Wasis Lestari,S.IP.,M.SC.",
+                name: "Kalimah Wasis Lestari, S.IP., M.SC.",
                 role: "Pengawas",
                 img: "/profilebukal.png",
               },
               {
                 name: "Ahmad Idris Al-Hammad",
-                role: "Sekretaris dan Peneliti Admin",
+                role: "Sekretaris & Peneliti Admin",
                 img: "/profileidris.png",
               },
               {
                 name: "Aveny Raisa Maarif",
-                role: "Media kreatif dan Penulis Konten",
+                role: "Media Kreatif & Penulis Konten",
                 img: "/profileaveny.png",
               },
               {
@@ -410,7 +410,7 @@ export default function TentangKami() {
                 />
                 <h3 className="text-xl font-bold h-30">TitikRuang</h3>
               </div>
-              <p>DENGAR PULIH BANGKIT</p>
+              <p>DENGAR, PULIH, BANGKIT</p>
             </div>
 
             {/* Kolom 2: Tentang */}
