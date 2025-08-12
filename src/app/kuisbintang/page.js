@@ -472,7 +472,7 @@ export default function Page() {
                     </div>
                   </div>
                   <div className="mt-4">
-                    <button className="px-3 py-2 bg-blue-600 text-white rounded">
+                    <button className="px-3 py-2 bg-blue-500 text-white rounded">
                       Pilih {c.title}
                     </button>
                   </div>
@@ -500,7 +500,7 @@ export default function Page() {
                 {quizData[kategori][currentQ].options.map((opt) => {
                   // tentukan warna tombol tergantung state selected
                   let base = "text-white p-4 rounded-lg shadow transition ";
-                  let colorClass = "bg-blue-500 hover:bg-blue-600";
+                  let colorClass = "bg-blue-500 hover:bg-blue-500";
 
                   if (selected) {
                     const correct = quizData[kategori][currentQ].answer;
