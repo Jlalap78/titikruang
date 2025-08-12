@@ -341,8 +341,8 @@ export default function Page() {
 
     // delay sebelum lanjut soal/selesai supaya user baca feedback
     setTimeout(() => {
-      if (currentQ + 3 < quizData[kategori].length) {
-        setCurrentQ((q) => q + 3);
+      if (currentQ + 1 < quizData[kategori].length) {
+        setCurrentQ((q) => q + 1);
         setSelected(null);
         setLocalFeedback("");
         setCategoryExtra("");
