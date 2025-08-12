@@ -265,7 +265,7 @@ export default function KuisBintang() {
 
       <div className="py-10 px-6">
         <h1 className="text-3xl font-bold text-center mb-8 text-[#F2780C]">
-          Simulasi Pinjaman Harian
+          Simulasi Pinjaman Online 
         </h1>
 
         <div className="max-w-3xl mx-auto space-y-6 bg-white p-6 rounded-xl shadow-xl">
