@@ -253,9 +253,9 @@ export default function KontakKami() {
               Hubungi Kami
             </h2>
             <div className="flex items-start gap-4">
-              <Phone className="text-blue-600 mt-1" />
+              <FaWhatsapp className="text-blue-600 mt-1" />
               <div>
-                <p className="text-gray-600">Telepon</p>
+                <p className="text-gray-600">Whatsapp</p>
                 <p className="font-semibold">021-0930000</p>
               </div>
             </div>
@@ -307,7 +307,7 @@ export default function KontakKami() {
                 />
                 <h3 className="text-xl font-bold h-30">TitikRuang</h3>
               </div>
-              <p>DENGAR PULIH BANGKIT</p>
+              <p>DENGAR, PULIH, BANGKIT</p>
             </div>
 
             {/* Kolom 2: Tentang */}

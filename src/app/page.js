@@ -209,7 +209,7 @@ function LandingPage() {
                 Platform Aman & Anonim Untuk Pemulihan Psikososial
               </h1>
               <p className="text-lg mb-6">
-                Berbagi cerita, akses edukasi, dan pulih bersama komunitas yang memahami."DENGAR PULIH BANGKIT"
+                Berbagi cerita, akses edukasi, dan pulih bersama komunitas yang memahami."DENGAR, PULIH, BANGKIT"
               </p>
               <div className="flex gap-4">
                 <a href="#support" className="bg-white text-[#3061F2] px-6 py-3 rounded-xl font-semibold hover:bg-gray-100">
@@ -361,7 +361,7 @@ function LandingPage() {
                   />
                   <h3 className="text-xl font-bold h-30">TitikRuang</h3>
                 </div>
-                <p>DENGAR PULIH BANGKIT</p>
+                <p>DENGAR, PULIH, BANGKIT</p>
               </div>
 
               {/* Kolom 2: Tentang */}

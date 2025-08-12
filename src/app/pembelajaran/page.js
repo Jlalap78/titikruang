@@ -444,7 +444,7 @@ export default function PembelajaranPage() {
                   />
                   <h3 className="text-xl font-bold h-30">TitikRuang</h3>
                 </div>
-                <p>DENGAR PULIH BANGKIT</p>
+                <p>DENGAR, PULIH, BANGKIT</p>
               </div>
 
               {/* Kolom 2: Tentang */}
