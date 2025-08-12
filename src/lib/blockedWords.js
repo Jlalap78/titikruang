@@ -9,7 +9,7 @@ const baseWords = [
   "jancok","kimak","tai","asu","lonte","coli","sange","ngewe","tetek","pentil",
   "bencong","banci","homo","lesbi","pelacur","bokep","sex","seks","jav",
   "ngocok","bejat","hina","bodoh","kampungan","cabul",
-  "najis","sialan","kafir","munafik","penipu","sundal","pelakor",
+  "najis","sialan","kafir","munafik","penipu","sundal","pelakor",'njing','ngentot',"kon","tol",
 
   // =====================
   // Judol & Pinjol - variasi kata

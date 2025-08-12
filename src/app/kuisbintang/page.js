@@ -51,7 +51,8 @@ const quizData = {
       answer: "Hapus aplikasinya dan edukasi anak tentang risikonya",
       feedbackCorrect:
         " Menghapus aplikasi saja tidak cukup karena anak juga perlu paham apa saja bahaya yang bisa timbul agar tidak mengulanginya",
-      feedbackWrong: "Jawaban yang benar ini ya - Menghapus aplikasi saja tidak cukup karena anak juga perlu paham apa saja bahaya yang bisa timbul agar tidak mengulanginya",
+      feedbackWrong:
+        "Jawaban yang benar ini ya - Menghapus aplikasi saja tidak cukup karena anak juga perlu paham apa saja bahaya yang bisa timbul agar tidak mengulanginya",
     },
     {
       question:
@@ -65,7 +66,8 @@ const quizData = {
       answer: "Cari informasi resmi di situs OJK",
       feedbackCorrect:
         "Informasi dari sumber resmi seperti OJK penting agar keputusan yang diambil tidak gegabah dan terhindar dari risiko.",
-      feedbackWrong: "Jawaban yang benar ini ya - Informasi dari sumber resmi seperti OJK penting agar keputusan yang diambil tidak gegabah dan terhindar dari risiko.",
+      feedbackWrong:
+        "Jawaban yang benar ini ya - Informasi dari sumber resmi seperti OJK penting agar keputusan yang diambil tidak gegabah dan terhindar dari risiko.",
     },
     {
       question:
@@ -80,7 +82,8 @@ const quizData = {
         "Mengajak anak bicara dari hati ke hati soal masalah keuangan dan risikonya",
       feedbackCorrect:
         "Dengan berdialog secara tenang, anak tidak merasa disalahkan dan lebih mudah diajak mencari solusi bersama",
-      feedbackWrong: "Jawaban yang benar ini ya - Dengan berdialog secara tenang, anak tidak merasa disalahkan dan lebih mudah diajak mencari solusi bersama",
+      feedbackWrong:
+        "Jawaban yang benar ini ya - Dengan berdialog secara tenang, anak tidak merasa disalahkan dan lebih mudah diajak mencari solusi bersama",
     },
     {
       question:
@@ -94,7 +97,8 @@ const quizData = {
       answer: "Minta orang terdekat mengajarkanmu tentang dunia digital",
       feedbackCorrect:
         "Belajar dari orang terdekat membuat proses lebih mudah dan membantumu lebih paham bagaimana mendampingi anak di dunia digital",
-      feedbackWrong: "Jawaban yang benar ini ya - Belajar dari orang terdekat membuat proses lebih mudah dan membantumu lebih paham bagaimana mendampingi anak di dunia digital",
+      feedbackWrong:
+        "Jawaban yang benar ini ya - Belajar dari orang terdekat membuat proses lebih mudah dan membantumu lebih paham bagaimana mendampingi anak di dunia digital",
     },
   ],
   mahasiswa: [
@@ -110,7 +114,8 @@ const quizData = {
       answer: "Cek legalitas aplikasi di OJK dan pelajari konsekuensinya",
       feedbackCorrect:
         "Sebelum memutuskan pinjam, penting untuk memastikan aplikasi tersebut legal dan memahami risikonya agar tidak menyesal kemudian",
-      feedbackWrong: "Jawaban yang benar ini ya - Sebelum memutuskan pinjam, penting untuk memastikan aplikasi tersebut legal dan memahami risikonya agar tidak menyesal kemudian",
+      feedbackWrong:
+        "Jawaban yang benar ini ya - Sebelum memutuskan pinjam, penting untuk memastikan aplikasi tersebut legal dan memahami risikonya agar tidak menyesal kemudian",
     },
     {
       question:
@@ -124,7 +129,8 @@ const quizData = {
       answer: "Tolak dan ajak teman diskusi risikonya",
       feedbackCorrect:
         "Menolak ajakan yang mencurigakan lebih baik dilakukan dengan cara yang persuasif agar teman juga sadar akan risikonya.",
-      feedbackWrong: "Jawaban yang benar ini ya - Menolak ajakan yang mencurigakan lebih baik dilakukan dengan cara yang persuasif agar teman juga sadar akan risikonya.",
+      feedbackWrong:
+        "Jawaban yang benar ini ya - Menolak ajakan yang mencurigakan lebih baik dilakukan dengan cara yang persuasif agar teman juga sadar akan risikonya.",
     },
     {
       question:
@@ -138,7 +144,8 @@ const quizData = {
       answer: "Cari informasi bantuan dari kampus terlebih dahulu",
       feedbackCorrect:
         "Mengakses bantuan resmi dari kampus adalah pilihan yang lebih aman daripada mengambil pinjaman yang berisiko",
-      feedbackWrong: "Jawaban yang benar ini ya - Mengakses bantuan resmi dari kampus adalah pilihan yang lebih aman daripada mengambil pinjaman yang berisiko",
+      feedbackWrong:
+        "Jawaban yang benar ini ya - Mengakses bantuan resmi dari kampus adalah pilihan yang lebih aman daripada mengambil pinjaman yang berisiko",
     },
     {
       question:
@@ -153,7 +160,8 @@ const quizData = {
         " Ajak bicara perlahan dan tawarkan bantuan atau arahkan ke konselor kampus",
       feedbackCorrect:
         "Memberi dukungan dan mendorong teman mencari bantuan profesional bisa menjadi langkah penting dalam membantu mereka keluar dari masalah",
-      feedbackWrong: "Jawaban yang benar ini ya - Memberi dukungan dan mendorong teman mencari bantuan profesional bisa menjadi langkah penting dalam membantu mereka keluar dari masalah",
+      feedbackWrong:
+        "Jawaban yang benar ini ya - Memberi dukungan dan mendorong teman mencari bantuan profesional bisa menjadi langkah penting dalam membantu mereka keluar dari masalah",
     },
     {
       question:
@@ -167,7 +175,8 @@ const quizData = {
       answer: "Pikirkan kembali apa yang menjadi kebutuhan dasar dan keinginan",
       feedbackCorrect:
         "Mengenali perbedaan antara kebutuhan dan keinginan bisa membantumu mengambil keputusan finansial yang lebih bijak",
-      feedbackWrong: "Jawaban yang benar ini ya - Mengenali perbedaan antara kebutuhan dan keinginan bisa membantumu mengambil keputusan finansial yang lebih bijak",
+      feedbackWrong:
+        "Jawaban yang benar ini ya - Mengenali perbedaan antara kebutuhan dan keinginan bisa membantumu mengambil keputusan finansial yang lebih bijak",
     },
   ],
   pekerja: [
@@ -184,10 +193,12 @@ const quizData = {
         "Cek bunga, tenor, dan legalitas pinjaman di OJK serta pelajari risikonya",
       feedbackCorrect:
         "Memahami syarat dan legalitas pinjaman adalah langkah awal agar tidak terjebak dalam hutang yang bermasalah",
-      feedbackWrong: "Jawaban yang benar ini ya - Memahami syarat dan legalitas pinjaman adalah langkah awal agar tidak terjebak dalam hutang yang bermasalah",
+      feedbackWrong:
+        "Jawaban yang benar ini ya - Memahami syarat dan legalitas pinjaman adalah langkah awal agar tidak terjebak dalam hutang yang bermasalah",
     },
     {
-      question: "Teman kerjamu tiba-tiba menawarkan bisnis sampingan yang ternyata judi online terselubung. Kamu khawatir akan dimusuhi jika menolak. Apa tindakan yang tepat?",
+      question:
+        "Teman kerjamu tiba-tiba menawarkan bisnis sampingan yang ternyata judi online terselubung. Kamu khawatir akan dimusuhi jika menolak. Apa tindakan yang tepat?",
       options: [
         "Tolak dengan sopan dan simpan bukti tawaran",
         "Ikut saja agar aman di tempat kerja",
@@ -201,7 +212,8 @@ const quizData = {
         "Jawaban yang benar ini ya - Menolak ajakan secara baik dan menyimpan bukti bisa melindungimu jika terjadi sesuatu di kemudian hari.",
     },
     {
-      question: "Kamu stres karena pengeluaran bulanan selalu lebih besar dari pemasukan. Kamu mulai berpikir pinjol bisa menjadi solusi. Apa langkah realistis yang bisa kamu lakukan sebelum memutuskan?",
+      question:
+        "Kamu stres karena pengeluaran bulanan selalu lebih besar dari pemasukan. Kamu mulai berpikir pinjol bisa menjadi solusi. Apa langkah realistis yang bisa kamu lakukan sebelum memutuskan?",
       options: [
         "Buat catatan keuangan dan evaluasi pengeluaran",
         "Ambil pinjol kecil dulu untuk belajar",
@@ -215,7 +227,8 @@ const quizData = {
         "Jawaban yang benar ini ya -  Dengan mencatat pengeluaran, kamu bisa tahu ke mana uangmu pergi dan mencari solusi sebelum memutuskan meminjam.",
     },
     {
-      question: "Rekan kerja mengajakmu main game taruhan online sebagai hiburan di kantor. Katanya ‘sekadar iseng’. Apa yang kamu lakukan?",
+      question:
+        "Rekan kerja mengajakmu main game taruhan online sebagai hiburan di kantor. Katanya ‘sekadar iseng’. Apa yang kamu lakukan?",
       options: [
         "Ikut saja asal tidak ketahuan atasan",
         "Tolak dan beri tahu dengan baik bahwa itu berisiko",
@@ -238,47 +251,60 @@ const quizData = {
  */
 const categoryMessages = {
   orangtua: {
-    correct: [
-      "Keren! ",
-      "Hebat! ",
-    ],
-    wrong: [
-      "Jangan menyerah",
-      "Tetap semangat !",
-    ],
+    correct: ["Keren! ", "Hebat! "],
+    wrong: ["Jangan menyerah", "Tetap semangat !"],
     final: [
-      { min: 4, msg: "Bagus! Kamu cukup peka terhadap risiko. Tetap lanjutkan belajar dan bantu orang sekitarmu juga ya!" },
       {
-        min: 3,msg: "Kamu sudah punya bekal dasar. Tinggal asah lagi biar makin paham risiko dunia digital dan keuangan.",
+        min: 4,
+        msg: "Bagus! Kamu cukup peka terhadap risiko. Tetap lanjutkan belajar dan bantu orang sekitarmu juga ya!",
       },
-      { min: 1-2, msg: "Masih banyak yang perlu dipelajari. Yuk, lebih hati-hati dan terus gali informasi biar nggak salah langkah!" },
+      {
+        min: 3,
+        msg: "Kamu sudah punya bekal dasar. Tinggal asah lagi biar makin paham risiko dunia digital dan keuangan.",
+      },
+      {
+        min: 1 - 2,
+        msg: "Masih banyak yang perlu dipelajari. Yuk, lebih hati-hati dan terus gali informasi biar nggak salah langkah!",
+      },
     ],
   },
   mahasiswa: {
     correct: ["Mantap! ", "Keren! "],
-    wrong: [
-      "Tenang — belajar pelan-pelan tapi pasti 📘",
-      "Keep going! ",
-    ],
+    wrong: ["Tenang — belajar pelan-pelan tapi pasti 📘", "Keep going! "],
     final: [
-      { min: 4, msg: "Bagus! Kamu cukup peka terhadap risiko. Tetap lanjutkan belajar dan bantu orang sekitarmu juga ya!" },
-      { min: 3,msg: "Kamu sudah punya bekal dasar. Tinggal asah lagi biar makin paham risiko dunia digital dan keuangan.",},
-      { min: 1-2, msg: "Masih banyak yang perlu dipelajari. Yuk, lebih hati-hati dan terus gali informasi biar nggak salah langkah!" },
+      {
+        min: 4,
+        msg: "Bagus! Kamu cukup peka terhadap risiko. Tetap lanjutkan belajar dan bantu orang sekitarmu juga ya!",
+      },
+      {
+        min: 3,
+        msg: "Kamu sudah punya bekal dasar. Tinggal asah lagi biar makin paham risiko dunia digital dan keuangan.",
+      },
+      {
+        min: 1 - 2,
+        msg: "Masih banyak yang perlu dipelajari. Yuk, lebih hati-hati dan terus gali informasi biar nggak salah langkah!",
+      },
     ],
   },
   pekerja: {
-    correct: [
-      "Keren! ",
-      "Hebat! ",
-    ],
+    correct: ["Keren! ", "Hebat! "],
     wrong: [
       "Santai — setiap kesalahan jadi pelajaran kerja ⚒️",
       "Terus latihan",
     ],
     final: [
-      { min: 4, msg: "Profesional sejati! Keep it up 🎯" },
-      { min: 3, msg: "Bagus! Terus asah skill kerja mu 💪" },
-      { min: 1-2, msg: "Proses panjang — tetap semangat di tempat kerja! 🔥" },
+      {
+        min: 4,
+        msg: "Bagus! Kamu cukup peka terhadap risiko. Tetap lanjutkan belajar dan bantu orang sekitarmu juga ya!",
+      },
+      {
+        min: 3,
+        msg: "Kamu sudah punya bekal dasar. Tinggal asah lagi biar makin paham risiko dunia digital dan keuangan.",
+      },
+      {
+        min: 1 - 2,
+        msg: "Masih banyak yang perlu dipelajari. Yuk, lebih hati-hati dan terus gali informasi biar nggak salah langkah!",
+      },
     ],
   },
 };
@@ -736,7 +762,7 @@ export default function Page() {
             <div className="mt-1 flex flex-col sm:flex-row items-center justify-between text-sm">
               <div className="mt-1 sm:mt-0 flex items-center gap-2">
                 <span>Dibina oleh</span>
-                <img src="/logofooter.png" className="h-10"/>
+                <img src="/logofooter.png" className="h-10" />
               </div>
             </div>
           </div>
