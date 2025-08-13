@@ -245,14 +245,13 @@ export default function TentangKami() {
             kolektif.
           </p>
         </div>
-        <div className="mt-10">
-          <Image
-            src="/team/UNAIR 1.png"
-            alt="Ilustrasi Hero"
-            width={900}
-            height={500}
-            className="mx-auto"
-          />
+        <div className="mt-5">
+          <img
+              src="/mascot3.gif"
+              alt="Animasi Maskot"
+              className="w-full h-full max-w-[30px] mx-auto "
+              reverse
+            />
         </div>
       </section>
 
