@@ -249,7 +249,7 @@ export default function TentangKami() {
           <img
               src="/mascot3.gif"
               alt="Animasi Maskot"
-              className="w-full h-full max-w-[30px] mx-auto "
+              className="w-full h-full max-w-[400px] mx-auto "
               reverse
             />
         </div>
