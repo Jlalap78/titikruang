@@ -152,7 +152,7 @@ const removeMember = async (uid) => {
               <h2 className="text-lg font-semibold">{group.name}</h2>
             </div>
             <p className="text-gray-500 text-sm mb-2">
-              ID: {group.id.slice(0, 6)}...
+             {group.description || "Belum ada deskripsi."}
             </p>
             <p className="text-gray-600 text-sm mb-4">
               Status: {group.isMember ? "✅ Anggota" : "❌ Bukan anggota"}
@@ -184,16 +184,6 @@ const removeMember = async (uid) => {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* tombol buat grup */}
-      <div className="text-center mt-8">
-        <button
-          onClick={() => setIsOpen(true)}
-          className="bg-blue-600 text-white px-5 py-2 rounded shadow hover:bg-blue-700"
-        >
-          + Buat Grup Baru
-        </button>
       </div>
 
       {/* modal buat grup */}
