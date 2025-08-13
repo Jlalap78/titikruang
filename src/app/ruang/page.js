@@ -117,10 +117,8 @@ export default function DiskusiPage() {
   const handleSend = async (extraData = {}) => {
     if ((!input.trim() && !extraData.imageUrl) || !user) return;
 
-    if (containsBlockedWord(input)) {
-      alert('Pesan mengandung kata yang tidak diperbolehkan.');
-      return;
-    }
+    
+    
 
     if (!profiles[user.uid]) {
       const p = await ensureUserProfile(user.uid);
