@@ -9,7 +9,6 @@ import animationData from "../animations/hero-animation.json";
 import { animateScroll as scroll } from "react-scroll";
 import Link from "next/link";
 
-
 import {
   FaEnvelope,
   FaPhoneAlt,
@@ -167,10 +166,10 @@ function LandingPage() {
             {/* Tombol Masuk Desktop */}
             <div className="hidden md:block">
               <Link href="/login" className="w-full">
-      <button className="w-full bg-[#F25050] text-white py-2 rounded-lg hover:bg-[#F2780C]">
-        Masuk
-      </button>
-    </Link>
+                <button className="w-full bg-[#F25050] text-white py-2 rounded-lg hover:bg-[#F2780C]">
+                  Masuk
+                </button>
+              </Link>
             </div>
 
             {/* Tombol Hamburger */}
@@ -287,10 +286,10 @@ function LandingPage() {
                 </a>
               </div>
             </div>
-            <Lottie
-              animationData={animationData}
-              loop
-              className="w-full h-full max-w-[400px] mx-auto"
+            <img
+              src="/mascot2.gif"
+              alt="Animasi Maskot"
+              className="w-full h-full max-w-[400px] mx-auto "
             />
           </motion.div>
         </section>
