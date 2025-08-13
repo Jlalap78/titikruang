@@ -290,6 +290,7 @@ function LandingPage() {
               src="/mascot3.gif"
               alt="Animasi Maskot"
               className="w-full h-full max-w-[400px] mx-auto "
+              reverse
             />
           </motion.div>
         </section>
