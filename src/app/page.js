@@ -8,7 +8,6 @@ import Lottie from "lottie-react";
 import animationData from "../animations/hero-animation.json";
 import { animateScroll as scroll } from "react-scroll";
 import Link from "next/link";
-
 import {
   FaEnvelope,
   FaPhoneAlt,
@@ -20,6 +19,17 @@ import {
   FaLinkedin,
   FaTiktok,
 } from "react-icons/fa";
+
+// Firebase auth imports (integrasi AuthButton)
+import {
+  getAuth,
+  signInAnonymously,
+  onAuthStateChanged,
+  signOut,
+  signInWithCustomToken,
+  getIdTokenResult,
+} from "firebase/auth";
+import { app } from "../lib/firebase"; // sesuaikan path jika perlu
 
 function LandingPage() {
   const [faqOpen, setFaqOpen] = useState(null);
@@ -39,7 +49,7 @@ function LandingPage() {
   const dropdowns = {
     support: ["🗣️ Ruang Curhat", "🤝 Diskusi Komunitas"],
     learning: ["🎧 Konten Edukatif", "💰 Simulasi Pinjaman"],
-    tools: ["⭐ Kuis Bintang", "🤖 TIKUBOt", "🚨 Emergency Connect"],
+    tools: ["⭐ Kuis Bintang", "🤖 HelpBot", "🚨 Emergency Connect"],
   };
 
   const isMenuOpen = (key) => hoveredMenu === key;
@@ -53,6 +63,150 @@ function LandingPage() {
   const handleMenuToggle = (key) => {
     setHoveredMenu((prev) => (prev === key ? null : key));
   };
+
+  // ------------------ AUTH (integrated AuthButton) ------------------
+  const auth = getAuth(app);
+  const [user, setUser] = useState(null);
+  // isGuest: true jika user anonymous asli Firebase ATAU mode-guest via custom token dengan claim { guest: true }
+  const [isGuest, setIsGuest] = useState(true);
+
+  // Modal / loading states already used in UI
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const ANON_UID_KEY = "ANON_UID";
+
+  /**
+   * Meminta custom token dari server untuk UID tamu tertentu.
+   * Harapkan endpoint Next.js API (server) seperti: /api/auth/guest-token?uid=<uid>
+   * yang di-backend membuat custom token via Admin SDK dengan custom claim { guest: true }.
+   * Response JSON: { token: string }
+   */
+  const fetchGuestToken = async (uid) => {
+    if (!uid) return null;
+    try {
+      const res = await fetch(
+        `/api/auth/guest-token?uid=${encodeURIComponent(uid)}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: { Accept: "application/json" },
+        }
+      );
+      if (!res.ok) return null;
+      const data = await res.json();
+      return data?.token || null;
+    } catch (err) {
+      console.error("Gagal mengambil guest custom token:", err);
+      return null;
+    }
+  };
+
+  // Mencoba sign-in dengan custom token untuk ANON_UID yang tersimpan
+  const signInAsStoredGuest = async () => {
+    try {
+      const storedUid =
+        typeof window !== "undefined"
+          ? localStorage.getItem(ANON_UID_KEY)
+          : null;
+      if (!storedUid) return false;
+      const token = await fetchGuestToken(storedUid);
+      if (!token) return false;
+      await signInWithCustomToken(auth, token);
+      return true;
+    } catch (err) {
+      console.error("signInWithCustomToken gagal:", err);
+      return false;
+    }
+  };
+
+  // Pastikan ada sesi guest aktif. Prioritas: custom token ANON_UID -> fallback anonymous.
+  const ensureGuestSignedIn = async () => {
+    const ok = await signInAsStoredGuest();
+    if (ok) return;
+    try {
+      const cred = await signInAnonymously(auth);
+      const uid = cred?.user?.uid;
+      // Simpan ANON_UID hanya jika belum ada. Sekali terset, tidak diubah walau fallback lain menghasilkan UID baru.
+      if (
+        typeof window !== "undefined" &&
+        uid &&
+        !localStorage.getItem(ANON_UID_KEY)
+      ) {
+        localStorage.setItem(ANON_UID_KEY, uid);
+      }
+    } catch (err) {
+      console.error("Anonymous sign-in failed:", err);
+    }
+  };
+
+  useEffect(() => {
+    let mounted = true;
+
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (!mounted) return;
+
+      if (currentUser) {
+        setUser(currentUser);
+
+        // Tentukan status guest: anonymous native atau custom token dengan claim guest
+        let guest = !!currentUser.isAnonymous;
+        try {
+          const idTokenResult = await getIdTokenResult(currentUser, true);
+          if (
+            idTokenResult?.claims &&
+            typeof idTokenResult.claims.guest !== "undefined"
+          ) {
+            guest = !!idTokenResult.claims.guest;
+          }
+        } catch (err) {
+          // Abaikan error; gunakan isAnonymous saja
+        }
+        setIsGuest(guest);
+
+        // Jika ini anonymous pertama kali dan ANON_UID belum ada, simpan.
+        if (guest && typeof window !== "undefined") {
+          const stored = localStorage.getItem(ANON_UID_KEY);
+          if (!stored) {
+            localStorage.setItem(ANON_UID_KEY, currentUser.uid);
+          }
+        }
+      } else {
+        // Tidak ada user -> pastikan masuk sebagai guest sesuai mekanisme.
+        await ensureGuestSignedIn();
+      }
+    });
+
+    return () => {
+      mounted = false;
+      unsubscribe();
+    };
+  }, [auth]);
+
+  // Logout workflow: sign out lalu coba masuk lagi sebagai guest dg ANON_UID (custom token). Fallback: anonymous.
+  const handleConfirmLogout = async () => {
+    setIsLoggingOut(true);
+    setShowLogoutModal(false);
+
+    try {
+      await signOut(auth);
+    } catch (err) {
+      console.error("Sign-out error:", err);
+      // lanjut ke percobaan sign-in guest meski signOut error
+    }
+
+    try {
+      const ok = await signInAsStoredGuest();
+      if (!ok) {
+        await signInAnonymously(auth);
+      }
+    } catch (err) {
+      console.error("Anonymous re-signin failed:", err);
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
+  // ---------------- end AUTH integration ----------------
 
   return (
     <main>
@@ -163,13 +317,23 @@ function LandingPage() {
               </a>
             </nav>
 
-            {/* Tombol Masuk Desktop */}
+            {/* Tombol Masuk / Keluar Desktop (based on isGuest) */}
             <div className="hidden md:block">
-              <Link href="/login" className="w-full">
-                <button className="w-full bg-[#F25050] text-white py-2 rounded-lg hover:bg-[#F2780C]">
+              {isGuest ? (
+                <Link
+                  href="/login"
+                  className="bg-[#F25050] text-white px-4 py-2 rounded-xl hover:bg-[#F2780C]"
+                >
                   Masuk
+                </Link>
+              ) : (
+                <button
+                  onClick={() => setShowLogoutModal(true)}
+                  className="bg-[#F25050] text-white px-4 py-2 rounded-xl hover:bg-[#F2780C]"
+                >
+                  Keluar
                 </button>
-              </Link>
+              )}
             </div>
 
             {/* Tombol Hamburger */}
@@ -240,13 +404,25 @@ function LandingPage() {
                 Tentang Kami
               </a>
 
-              {/* Tombol Masuk Mobile */}
-              <button
-                onClick={() => router.push("/login")}
-                className="w-full bg-[#F25050] text-white py-2 rounded-lg hover:bg-[#F2780C]"
-              >
-                Registrasi
-              </button>
+              {/* Tombol Masuk / Keluar Mobile */}
+              {isGuest ? (
+                <Link
+                  href="/login"
+                  className="w-full block text-center bg-[#F25050] text-white py-2 rounded-lg hover:bg-[#F2780C]"
+                >
+                  Masuk
+                </Link>
+              ) : (
+                <button
+                  onClick={() => {
+                    setMobileOpen(false);
+                    setShowLogoutModal(true);
+                  }}
+                  className="w-full bg-[#F25050] text-white py-2 rounded-lg hover:bg-[#F2780C]"
+                >
+                  Keluar
+                </button>
+              )}
             </div>
           )}
         </motion.header>
@@ -269,7 +445,7 @@ function LandingPage() {
               </h1>
               <p className="text-lg mb-6">
                 Berbagi cerita, akses edukasi, dan pulih bersama komunitas yang
-                memahami."DENGAR, PULIH, BANGKIT"
+                memahami."Dengar, Pulih, Bangkit"
               </p>
               <div className="flex gap-4">
                 <a
@@ -286,12 +462,14 @@ function LandingPage() {
                 </a>
               </div>
             </div>
-            <img
-              src="/mascot4.gif"
-              alt="Animasi Maskot"
-              className="w-full h-full max-w-[400px] mx-auto "
-              reverse
-            />
+            <div className="mt-5">
+              <img
+                src="/mascot4.gif"
+                alt="Animasi Maskot"
+                className="w-full h-full max-w-[400px] mx-auto "
+                reverse
+              />
+            </div>
           </motion.div>
         </section>
 
@@ -317,38 +495,38 @@ function LandingPage() {
               {[
                 {
                   title: "Ruang Curhat",
-                  desc: "Curhat Bebas & Anonim",
+                  desc: "Curhat bebas dan anonim.",
                   icon: "🗣️",
                   href: "/ruang",
                 },
                 {
                   title: "Diskusi Komunitas",
-                  desc: "Dukungan teman senasib",
+                  desc: "Dukungan teman senasib.",
                   icon: "🤝",
                   href: "/diskusi",
                 },
                 {
                   title: "Konten Edukatif",
-                  desc: "Pelajari Bahaya & Risikonya",
+                  desc: "Suara ahli dan sesi live.",
                   icon: "🎧",
                   href: "/pembelajaran",
                 },
                 {
                   title: "Simulasi Pinjaman",
-                  desc: "Hitung Dulu, Baru Putuskan",
+                  desc: "Perhitungan.",
                   icon: "💰",
                   href: "/simulasipinjaman",
                 },
                 {
                   title: "Kuis Bintang",
-                  desc: "Tes Pengetahuanmu & Dapatkan Wawasan Baru",
+                  desc: "Tes interaktif pemulihan.",
                   icon: "⭐",
                   href: "/kuisbintang",
                 },
                 {
-                  title: "LinaLoop",
-                  desc: "Asisten AI yang Selalu Hadir, Menjaga Tetap Aman dan Nyaman",
-                  icon: "🤖",
+                  title: "HelpBot & Hotline",
+                  desc: "Bantuan cepat & AI.",
+                  icon: "🚨",
                 },
               ].map((f, i) => {
                 const iconControls = useAnimationControls();
@@ -469,20 +647,20 @@ function LandingPage() {
               <div>
                 <div className="flex items-center gap-2 mb-2">
                   <Image
-                    src="/logo3.png"
+                    src="/logo.png"
                     alt="TitikRuang Logo"
-                    width={64}
-                    height={64}
+                    width={32}
+                    height={32}
                     className="transition duration-300 hover:animate-glow"
                   />
-                  <h3 className="text-xl font-bold h-30">TitikRuang</h3>
+                  <h3 className="text-xl font-bold">TitikRuang</h3>
                 </div>
-                <p>DENGAR, PULIH, BANGKIT</p>
+                <p>DENGAR PULIH BANGKIT</p>
               </div>
 
               {/* Kolom 2: Tentang */}
               <div>
-                <h4 className="text-base font-semibold mb-2">Tentang</h4>
+                <h4 className="text;base font-semibold mb-2">Tentang</h4>
                 <ul className="space-y-1">
                   <li>
                     <a href="/tentangkami" className="hover:underline">
@@ -507,22 +685,17 @@ function LandingPage() {
                 <h4 className="text-base font-semibold mb-2">Bantuan</h4>
                 <ul className="space-y-1">
                   <li>
-                    <a href="/policy" className="hover:underline">
-                      Syarat dan Ketentuan
+                    <a href="#" className="hover:underline">
+                      Privasi
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="https://forms.gle/tSPWuMTtUTF3pRHv8"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:underline"
-                    >
+                    <a href="#" className="hover:underline">
                       Laporkan Penyalahgunaan
                     </a>
                   </li>
                   <li>
-                    <a href="/kontakkami" className="hover:underline">
+                    <a href="/Kontakkami" className="hover:underline">
                       Kontak
                     </a>
                   </li>
@@ -536,7 +709,7 @@ function LandingPage() {
                   <div className="flex items-center gap-2">
                     <FaEnvelope />
                     <a
-                      href="mailto:titikruangofficial@gmail.com"
+                      href="mailto:info@ruangguru.com"
                       className="hover:underline"
                     >
                       titikruangofficial@gmail.com
@@ -596,15 +769,62 @@ function LandingPage() {
             <div className="mt-1 flex flex-col sm:flex-row items-center justify-between text-sm">
               <div className="mt-1 sm:mt-0 flex items-center gap-2">
                 <span>Dibina oleh</span>
-                <img src="/logofooter.png" className="h-24" />
+                <img
+                  src="/logo_of_ministry_of_education_and_culture_of_republic_of_indonesia.svg.webp"
+                  className="h-10"
+                />
+                <img src="/logounairbiru.png" className="h-10" />
+                <img
+                  src="/logodiktisaintekberdampak_horizontallogo.png"
+                  className="h-10"
+                />
               </div>
             </div>
           </div>
         </footer>
 
+        {/* Logout Confirmation Modal */}
+        {showLogoutModal && (
+          <div
+            role="dialog"
+            aria-modal="true"
+            className="fixed inset-0 z-[1000] flex items-center justify-center"
+            onClick={() => setShowLogoutModal(false)}
+          >
+            <div className="absolute inset-0 bg-black/40" />
+            <div
+              className="relative bg-white rounded-xl max-w-md w-full p-6 mx-4 shadow-xl z-10"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 className="text-lg font-semibold mb-2 text-[#3061F2]">
+                Konfirmasi Keluar
+              </h3>
+              <p className="text-sm text-gray-700 mb-4">
+                Apakah yakin ingin keluar?
+              </p>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowLogoutModal(false)}
+                  className="px-4 py-2 rounded-lg border hover:bg-gray-100"
+                  disabled={isLoggingOut}
+                >
+                  Tidak
+                </button>
+                <button
+                  onClick={handleConfirmLogout}
+                  className="px-4 py-2 rounded-lg bg-[#F25050] text-white hover:bg-[#F2780C] disabled:opacity-60"
+                  disabled={isLoggingOut}
+                >
+                  {isLoggingOut ? "Keluar..." : "Iya"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <button
           onClick={() => scroll.scrollToTop()}
-          className="fixed bottom-20 right-6 z-[99] bg-[#F2780C] text-white p-3 rounded-full shadow-lg hover:bg-[#F25050] z-50"
+          className="fixed bottom-20 right-6 z-[99] bg-[#F2780C] text-white p-3 rounded-full shadow-lg hover:bg-[#F25050]"
           aria-label="Back to Top"
         >
           ⬆️
