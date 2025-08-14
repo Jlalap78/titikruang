@@ -23,8 +23,8 @@ export default function LandingPage() {
   const [hoverTimeout, setHoverTimeout] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
-  const [openSection, setOpenSection] = useState("ruangguru");
-  const [activeGroup, setActiveGroup] = useState("ruangguru");
+  const [openSection, setOpenSection] = useState("tentang");
+  const [activeGroup, setActiveGroup] = useState("tentang");
   const contentRef = useRef(null);
   const dropdownRef = useRef(null);
 
@@ -1015,20 +1015,21 @@ export default function LandingPage() {
                     <strong>Pasal 5:</strong> Subjek Data Pribadi berhak
                     mendapatkan informasi tentang kejelasan identitas, dasar
                     kepentingan hukum, tujuan permintaan dan penggunaan Data
-                    Pribadi, dan akuntabilitas pihak yang meminta Data Pribadi.
+                    Pribadi, dan akuntabilitas pihak yang meminta Data
+                    Pribadi.
                   </li>
                   <li>
-                    <strong>Pasal 6 ayat (1):</strong> Subjek Data Pribadi
+                    <strong>Pasal 9 :</strong> Subjek Data Pribadi
                     berhak menarik kembali persetujuan pemrosesan Data Pribadi
                     tentang dirinya yang telah diberikan kepada Pengendali Data
                     Pribadi.
                   </li>
                   <li>
-                    <strong>Pasal 6 ayat (2):</strong> Pengendali Data Pribadi
+                    <strong>Pasal 20 ayat (1):</strong> Pengendali Data Pribadi
                     wajib memiliki dasar pemrosesan Data Pribadi yang sah.
                   </li>
                   <li>
-                    <strong>Pasal 6 ayat (3):</strong> Dasar pemrosesan Data
+                    <strong>Pasal 20 ayat (2):</strong> Dasar pemrosesan Data
                     Pribadi sebagaimana dimaksud pada ayat (1) meliputi:
                     <ul className="list-[lower-alpha] ml-6 space-y-1">
                       <li>
@@ -1125,7 +1126,7 @@ export default function LandingPage() {
                     </ul>
                   </li>
                   <li>
-                    <strong>Pasal 35:</strong> Pengendali Data Pribadi wajib
+                    <strong>Pasal 22 ayat (5):</strong> Pengendali Data Pribadi wajib
                     melindungi dan memastikan keamanan Data Pribadi yang
                     diproses.
                   </li>
@@ -1135,7 +1136,7 @@ export default function LandingPage() {
                     bertentangan dengan ketentuan peraturan perundang-undangan.
                   </li>
                   <li>
-                    <strong>Pasal 37 ayat (1):</strong> Subjek Data Pribadi
+                    <strong>Pasal 35:</strong> Subjek Data Pribadi
                     berhak mengajukan keberatan terhadap:
                     <ul className="list-[lower-alpha] ml-6 space-y-1">
                       <li>
@@ -1151,7 +1152,7 @@ export default function LandingPage() {
                     </ul>
                   </li>
                   <li>
-                    <strong>Pasal 42 ayat (1):</strong> Subjek Data Pribadi
+                    <strong>Pasal 43 ayat (1):</strong> Subjek Data Pribadi
                     wajib melakukan penarikan kembali persetujuan pemrosesan
                     Data Pribadi jika:
                     <ul className="list-[lower-alpha] ml-6 space-y-1">
@@ -1165,7 +1166,7 @@ export default function LandingPage() {
                     </ul>
                   </li>
                   <li>
-                    <strong>Pasal 42 ayat (2):</strong> Penghapusan Data Pribadi
+                    <strong>Pasal 43 ayat (2):</strong> Penghapusan Data Pribadi
                     sebagaimana dimaksud pada ayat (1) dilakukan sesuai dengan
                     ketentuan peraturan perundang-undangan.
                   </li>
@@ -1379,30 +1380,128 @@ export default function LandingPage() {
                 <h4 className="font-semibold mt-4 mb-2">
                   5. Fitur layanan apa saja yang tersedia di TitikRuang?
                 </h4>
-                <ul className="list-disc ml-6 space-y-1 text-gray-700">
+                <ul className="list-disc ml-6 space-y-3 text-gray-800">
                   <li>
-                    <strong>Ruang Curhat:</strong> Ruang aman untuk berbagi
-                    cerita dan pengalaman personal secara anonim.
+                    <span className="font-bold">Ruang Curhat:</span>
+                    <div className="ml-2 text-gray-700">
+                      Ruang aman untuk berbagi cerita dan pengalaman personal
+                      secara anonim.
+                    </div>
                   </li>
                   <li>
-                    <strong>Diskusi Komunitas:</strong> Forum tematik yang
-                    mempertemukan pengguna terverifikasi maupun pengguna umum
-                    untuk berdiskusi dan saling menguatkan.
+                    <span className="font-bold">Diskusi Komunitas:</span>
+                    <div className="ml-2 text-gray-700">
+                      Forum tematik yang mempertemukan pengguna terverifikasi
+                      maupun pengguna umum untuk berdiskusi dan saling menguatkan.
+                    </div>
                   </li>
                   <li>
-                    <strong>Konten Edukatif:</strong> Fasilitas
-                    artikel/audio/video/visual seputar literasi keuangan,
-                    manajemen stres, pemulihan trauma, hingga{" "}
-                    <em>support-system</em>.
+                    <span className="font-bold">Konten Edukatif:</span>
+                    <div className="ml-2 text-gray-700">
+                      Fasilitas artikel/audio/video/visual seputar literasi
+                      keuangan, manajemen stres, pemulihan trauma, hingga{" "}
+                      <em>support-system</em>.
+                    </div>
                   </li>
                   <li>
-                    <strong>Kuis Bintang:</strong> Kuis reflektif dengan sistem
-                    poin untuk mengasah pemahaman dan kepekaan diri.
+                    <span className="font-bold">Kuis Bintang:</span>
+                    <div className="ml-2 text-gray-700">
+                      Kuis reflektif dengan sistem poin untuk mengasah pemahaman
+                      dan kepekaan diri.
+                    </div>
                   </li>
                   <li>
-                    <strong>Layanan Simulasi</strong>
+                    <span className="font-bold">Layanan Simulasi:</span>
+                    <div className="ml-2 text-gray-700">
+                      Fitur interaktif untuk menghitung risiko keuangan, beban
+                      pinjaman, atau pemetaan kondisi psikososial.
+                    </div>
+                  </li>
+                  <li>
+                    <span className="font-bold">Layanan Konseling:</span>
+                    <div className="ml-2 text-gray-700">
+                      Direktori psikolog dan tenaga profesional yang dapat
+                      dihubungi langsung oleh pengguna jika memerlukan layanan
+                      klinis lanjutan.
+                    </div>
+                  </li>
+                  <li>
+                    <span className="font-bold">Bantuan Cepat:</span>
+                    <div className="ml-2 text-gray-700">
+                      Akses langsung ke informasi penting, <em>hotline</em> darurat,
+                      atau lembaga pendukung.
+                    </div>
                   </li>
                 </ul>
+
+                <h4 className="font-semibold mt-4 mb-2">
+                  6. Bagaimana cara mengakses platform ini? Apakah harus dengan mengunduh aplikasi?
+                </h4>
+                <p className="text-gray-700 mb-4">
+                  TitikRuang dapat diakses melalui peramban <em>(browser)</em> di perangkat <em>desktop</em>, tablet, maupun ponsel. Anda cukup masuk menggunakan akun terdaftar (tanpa KTP ataupun segala bentuk data sensitif).
+                </p>
+
+                <h4 className="font-semibold mt-4 mb-2">
+                  7. Apakah data Saya di platform ini akan disimpan atau dibagikan kepada pihak lain?
+                </h4>
+                <p className="text-gray-700 mb-4">
+                  TitikRuang tidak membagikan data pribadi pengguna kepada pihak ketiga mana pun. Data yang diproses bersifat terbatas, dan digunakan hanya untuk kebutuhan pengembangan fitur, keperluan penelitian, serta analisis tanpa identifikasi individu.
+                </p>
+
+                <h4 className="font-semibold mt-4 mb-2">
+                  8. Apakah Saya bisa menghapus akun Saya dan seluruh data yang ada?
+                </h4>
+                <p className="text-gray-700 mb-4">
+                  Ya. Anda dapat menghapus akun secara mandiri kapan saja, atau menghubungi tim pengelola untuk permintaan penghapusan data. Sesuai UU Perlindungan Data Pribadi (UU No. 27 Tahun 2022), penghapusan data akan dilakukan maksimal 3×24 jam setelah permintaan diterima.
+                </p>
+
+                <h4 className="font-semibold mt-4 mb-2">
+                  9. Apakah Anak di bawah umur boleh menggunakan platform ini?
+                </h4>
+                <p className="text-gray-700 mb-4">
+                  Tidak. Platform ini hanya dapat diakses oleh pengguna yang berusia 18 tahun ke atas, karena konten-konten di dalamnya mungkin memuat narasi tentang trauma, tekanan emosional, atau pengalaman personal yang bersifat dewasa dan sensitif. Apabila akun pengguna teridentifikasi diakses oleh anak di bawah umur, maka secara otomatis sistem akan menangguhkan/memblokir, baik bersifat sementara/permanen.
+                </p>
+
+                <h4 className="font-semibold mt-4 mb-2">
+                  10. Bagaimana kebijakan platform terhadap konten negatif?
+                </h4>
+                <p className="text-gray-700 mb-2">
+                  Platform ini secara otomatis menyaring dan memblokir konten yang mengandung:
+                </p>
+                <ul className="list-disc ml-6 space-y-2 text-gray-800 mb-4">
+                  <li>
+                    Segala bentuk aktivitas yang mengarah pada ujaran kebencian, ancaman, diskriminasi, provokasi, dan konten SARA (suku, agama, ras, dan antargolongan);
+                  </li>
+                  <li>
+                    Penyebaran <em>hoaks</em> (berita bohong), disinformasi, atau segala bentuk apapun yang mengarah pada informasi palsu yang menyesatkan;
+                  </li>
+                  <li>
+                    Kata-kata kasar, kotor, atau penghinaan verbal, termasuk dalam bentuk singkatan, simbol, maupun bahasa terselubung <em>(coded words)</em>;
+                  </li>
+                  <li>
+                    Konten vulgar atau pornografi dalam bentuk tulisan, gambar, tautan, atau media lainnya;
+                  </li>
+                  <li>
+                    Promosi dan iklan, baik secara eksplisit maupun terselubung, termasuk ajakan berjudi <em>(online/offline)</em>, pinjaman ilegal, investasi bodong, serta produk/jasa apa pun yang tidak relevan dengan visi-misi platform;
+                  </li>
+                  <li>
+                    <em>Spam</em> pesan, <em>phising</em> (penipuan), atau aktivitas berbahaya lainnya.
+                  </li>
+                </ul>
+
+                <h4 className="font-semibold mt-4 mb-2">
+                  11. Bagaimana jika Saya menemukan konten atau komentar yang meresahkan dalam platform ini?
+                </h4>
+                <p className="text-gray-700 mb-4">
+                  Anda dapat menggunakan fitur <em>laporkan konten</em> yang tersedia di setiap postingan atau komentar. Laporan Anda akan dikaji oleh tim moderasi, dan jika terbukti melanggar, konten akan dihapus dan akun pelanggar akan dilakukan penindakan sesuai kebijakan.
+                </p>
+
+                <h4 className="font-semibold mt-4 mb-2">
+                  12. Bagaimana cara saya ikut terlibat dalam komunitas atau membantu pengembangan platform?
+                </h4>
+                <p className="text-gray-700 mb-4">
+                  Anda bisa berkontribusi dengan mengisi survei umpan balik, bergabung sebagai relawan moderator komunitas, atau menyarankan layanan fitur baru melalui formulir aspirasi pengguna. Partisipasi aktif Anda akan membantu TitikRuang tumbuh sebagai ruang pemulihan kolektif yang lebih baik.
+                </p>
               </>
             )}
           </section>
@@ -1562,7 +1661,7 @@ export default function LandingPage() {
       </footer>
 
       <button
-        onClick={() => scroll.scrollToTop()}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         className="fixed bottom-20 right-6 z-[99] bg-[#F2780C] text-white p-3 rounded-full shadow-lg hover:bg-[#F25050] z-50"
         aria-label="Back to Top"
       >
