@@ -287,7 +287,7 @@ function LandingPage() {
               </div>
             </div>
             <img
-              src="/mascot3.gif"
+              src="/mascot4.gif"
               alt="Animasi Maskot"
               className="w-full h-full max-w-[400px] mx-auto "
               reverse
