@@ -1,16 +1,23 @@
-// lib/uploadImage.js
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "./firebase";
 
 export async function uploadImageAndSaveMessage(file, groupId, uid) {
   try {
+    // ✅ Ambil Cloudinary cloud_name dari ENV
+    const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET; // juga dari ENV
+
+    if (!cloudName || !uploadPreset) {
+      throw new Error("Cloudinary config belum diatur di environment variables");
+    }
+
     // 1. Upload ke Cloudinary
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "chat_images"); // Ganti dengan preset name kamu
+    formData.append("upload_preset", uploadPreset);
 
     const cloudinaryRes = await fetch(
-      "https://api.cloudinary.com/v1_1/doaw5ymiw/image/upload",
+      `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
       {
         method: "POST",
         body: formData,

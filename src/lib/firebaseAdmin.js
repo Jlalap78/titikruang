@@ -1,5 +1,6 @@
 import { getApps, initializeApp, applicationDefault, cert } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
+import * as admin from "firebase-admin";
 
 const app = getApps().length
   ? getApps()[0]
@@ -14,3 +15,6 @@ const app = getApps().length
     });
 
 export const adminAuth = getAuth(app);
+
+// ✅ Export default supaya bisa di-import sebagai "admin"
+export default admin;

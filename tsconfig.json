@@ -21,14 +21,17 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "src/app/diskusi/[slug]/page.js", "src/app/diskusi/page.js"  ],
+    "**/*.tsx",
+    "src/app/diskusi/[slug]/page.js",
+    "src/app/diskusi/page.js"
+  ],
   "exclude": [
     "node_modules"
   ]

@@ -1,5 +1,4 @@
-import { initializeApp } from 'firebase/app';
-
+import { initializeApp } from "firebase/app";
 import {
   getFirestore,
   collection,
@@ -15,12 +14,8 @@ import {
   serverTimestamp,
   where,
   onSnapshot,
-} from 'firebase/firestore';
-import {
-  getAuth,
-  signInAnonymously,
-  onAuthStateChanged,
-} from 'firebase/auth';
+} from "firebase/firestore";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
 
 // ✅ Firebase Config
 const firebaseConfig = {
@@ -34,9 +29,9 @@ const firebaseConfig = {
 };
 
 // ✅ Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
+export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export const auth = getAuth(app);
 
 // ✅ Anonymous Auth Init
 export const initAuth = () => {
@@ -56,14 +51,17 @@ export const listenAuth = (callback) => {
 // ✅ Get message query for a channel
 export const getMessagesQuery1 = (channelId) => {
   return query(
-    collection(db, 'channels', channelId, 'messages'),
-    orderBy('timestamp', 'asc')
+    collection(db, "channels", channelId, "messages"),
+    orderBy("timestamp", "asc")
   );
 };
 
 // ✅ Send a message
-export const sendMessage1 = async (channelId, { text, uid, imageUrl = null }) => {
-  return await addDoc(collection(db, 'channels', channelId, 'messages'), {
+export const sendMessage1 = async (
+  channelId,
+  { text, uid, imageUrl = null }
+) => {
+  return await addDoc(collection(db, "channels", channelId, "messages"), {
     text,
     uid,
     imageUrl,
@@ -74,7 +72,7 @@ export const sendMessage1 = async (channelId, { text, uid, imageUrl = null }) =>
 
 // ✅ Toggle reaction (emoji => array of uid)
 export const toggleReaction1 = async (channelId, messageId, emoji, uid) => {
-  const ref = doc(db, 'channels', channelId, 'messages', messageId);
+  const ref = doc(db, "channels", channelId, "messages", messageId);
 
   await runTransaction(db, async (transaction) => {
     const docSnap = await transaction.get(ref);
@@ -114,7 +112,10 @@ export const getGroupsQuery = () =>
   query(collection(db, "groups"), orderBy("createdAt", "desc"));
 
 export const createGroup = async (name, userId) => {
-  const userGroupsQuery = query(collection(db, "groups"), where("createdBy", "==", userId));
+  const userGroupsQuery = query(
+    collection(db, "groups"),
+    where("createdBy", "==", userId)
+  );
   const snapshot = await getDocs(userGroupsQuery);
 
   if (snapshot.size >= 10) {
@@ -177,7 +178,11 @@ export const removeMember = async (groupId, adminId, userIdToRemove) => {
     [`members.${userIdToRemove}`]: deleteField(), // optional if using merged object structure
   });
 
-  await setDoc(doc(db, "groups", groupId, "members", userIdToRemove), {}, { merge: true });
+  await setDoc(
+    doc(db, "groups", groupId, "members", userIdToRemove),
+    {},
+    { merge: true }
+  );
 };
 
 //
@@ -190,7 +195,10 @@ export const getMessagesQuery = (groupId) => {
   );
 };
 
-export const sendMessage = async (groupId, { text, uid, senderName, imageUrl = null }) => {
+export const sendMessage = async (
+  groupId,
+  { text, uid, senderName, imageUrl = null }
+) => {
   if (!uid || !senderName || !text) {
     throw new Error("Missing required fields: uid, senderName, or text");
   }
