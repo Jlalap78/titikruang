@@ -30,8 +30,8 @@ const firebaseConfig = {
 
 // ✅ Initialize Firebase
 export const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-export const auth = getAuth(app);
+const db = getFirestore(app);
+const auth = getAuth(app);
 
 // ✅ Anonymous Auth Init
 export const initAuth = () => {
@@ -48,6 +48,7 @@ export const initAuth = () => {
 export const listenAuth = (callback) => {
   return onAuthStateChanged(auth, callback);
 };
+
 // ✅ Get message query for a channel
 export const getMessagesQuery1 = (channelId) => {
   return query(
@@ -66,7 +67,7 @@ export const sendMessage1 = async (
     uid,
     imageUrl,
     timestamp: serverTimestamp(),
-    reactions: {}, // emoji: [uid, uid]
+    reactions: {},
   });
 };
 
@@ -92,9 +93,7 @@ export const toggleReaction1 = async (channelId, messageId, emoji, uid) => {
   });
 };
 
-//
 // 👤 USERS
-//
 export const createUserIfNotExists = async (uid) => {
   const userRef = doc(db, "users", uid);
   const userSnap = await getDoc(userRef);
@@ -105,9 +104,7 @@ export const createUserIfNotExists = async (uid) => {
   }
 };
 
-//
 // 👥 GROUP MANAGEMENT
-//
 export const getGroupsQuery = () =>
   query(collection(db, "groups"), orderBy("createdAt", "desc"));
 
@@ -128,7 +125,6 @@ export const createGroup = async (name, userId) => {
     createdBy: userId,
   });
 
-  // Tambahkan admin sebagai anggota di subcollection members
   await setDoc(doc(db, "groups", groupRef.id, "members", userId), {
     role: "admin",
     joinedAt: serverTimestamp(),
@@ -175,7 +171,7 @@ export const removeMember = async (groupId, adminId, userIdToRemove) => {
   }
 
   await updateDoc(doc(db, "groups", groupId), {
-    [`members.${userIdToRemove}`]: deleteField(), // optional if using merged object structure
+    [`members.${userIdToRemove}`]: deleteField(),
   });
 
   await setDoc(
@@ -185,9 +181,7 @@ export const removeMember = async (groupId, adminId, userIdToRemove) => {
   );
 };
 
-//
 // 💬 MESSAGES (in groups/{groupId}/messages)
-//
 export const getMessagesQuery = (groupId) => {
   return query(
     collection(db, "groups", groupId, "messages"),
@@ -213,9 +207,7 @@ export const sendMessage = async (
   });
 };
 
-//
 // 😀 REACTIONS (on messages)
-//
 export const toggleReaction = async (groupId, messageId, emoji, uid) => {
   const ref = doc(db, "groups", groupId, "messages", messageId);
 
@@ -237,7 +229,5 @@ export const toggleReaction = async (groupId, messageId, emoji, uid) => {
   });
 };
 
-//
-// 🔄 Exports
-//
+// 🔄 Final Export
 export { db, auth, serverTimestamp };
