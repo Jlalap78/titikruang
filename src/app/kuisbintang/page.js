@@ -684,7 +684,12 @@ export default function Page() {
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="hover:underline">
+                    <a
+                      href="https://forms.gle/tSPWuMTtUTF3pRHv8"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:underline"
+                    >
                       Laporkan Penyalahgunaan
                     </a>
                   </li>

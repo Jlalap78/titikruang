@@ -39,7 +39,7 @@ function LandingPage() {
   const dropdowns = {
     support: ["🗣️ Ruang Curhat", "🤝 Diskusi Komunitas"],
     learning: ["🎧 Konten Edukatif", "💰 Simulasi Pinjaman"],
-    tools: ["⭐ Kuis Bintang", "🤖 HelpBot", "🚨 Emergency Connect"],
+    tools: ["⭐ Kuis Bintang", "🤖 TIKUBOt", "🚨 Emergency Connect"],
   };
 
   const isMenuOpen = (key) => hoveredMenu === key;
@@ -512,7 +512,12 @@ function LandingPage() {
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="hover:underline">
+                    <a
+                      href="https://forms.gle/tSPWuMTtUTF3pRHv8"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:underline"
+                    >
                       Laporkan Penyalahgunaan
                     </a>
                   </li>
