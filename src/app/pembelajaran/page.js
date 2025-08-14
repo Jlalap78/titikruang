@@ -61,7 +61,7 @@ export default function PembelajaranPage() {
   const [scrollY, setScrollY] = useState(0);
 
   const dropdowns = {
-    support: ["🗣️ Ruang Curhat", "🤝 Diskusi Kelompok"],
+    support: ["🗣️ Ruang Curhat", "🤝 Diskusi Komunitas"],
     learning: ["🎧 Konten Edukatif", "💰 Simulasi Pinjaman"],
     tools: ["⭐ Kuis Bintang", "🤖 HelpBot", "🚨 Emergency Connect"],
   };
@@ -89,7 +89,7 @@ export default function PembelajaranPage() {
           transition={{ duration: 0.3 }}
         >
           <div className="max-w-7xl mx-auto flex items-center justify-between p-4 relative">
-            <div className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2 cursor-pointer">
               <Image
                 src="/logo.png"
                 alt="TitikRuang Logo"
@@ -99,8 +99,7 @@ export default function PembelajaranPage() {
               <div className="text-2xl font-bold whitespace-nowrap">
                 TitikRuang
               </div>
-            </div>
-
+            </Link>
             {/* Desktop Navigation */}
             <nav
               className="hidden md:flex gap-6 text-sm relative z-50"
@@ -558,7 +557,7 @@ export default function PembelajaranPage() {
             <div className="mt-1 flex flex-col sm:flex-row items-center justify-between text-sm">
               <div className="mt-1 sm:mt-0 flex items-center gap-2">
                 <span>Dibina oleh</span>
-                <img src="/logofooter.png" className="h-24"/>
+                <img src="/logofooter.png" className="h-24" />
               </div>
             </div>
           </div>

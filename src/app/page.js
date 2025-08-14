@@ -37,7 +37,7 @@ function LandingPage() {
   const { ref: aboutRef, inView: inViewAbout } = useInView({ threshold: 0.3 });
 
   const dropdowns = {
-    support: ["🗣️ Ruang Curhat", "🤝 Diskusi Kelompok"],
+    support: ["🗣️ Ruang Curhat", "🤝 Diskusi Komunitas"],
     learning: ["🎧 Konten Edukatif", "💰 Simulasi Pinjaman"],
     tools: ["⭐ Kuis Bintang", "🤖 HelpBot", "🚨 Emergency Connect"],
   };

@@ -16,6 +16,7 @@ import {
   FaPhoneAlt,
   FaWhatsapp,
 } from "react-icons/fa";
+import Link from "next/link";
 
 export default function TentangKami() {
   const [scrollY, setScrollY] = useState(0);
@@ -25,7 +26,7 @@ export default function TentangKami() {
   const dropdownRef = useRef(null);
 
   const dropdowns = {
-    support: ["🗣️ Ruang Curhat", "🤝 Diskusi Kelompok"],
+    support: ["🗣️ Ruang Curhat", "🤝 Diskusi Komunitas"],
     learning: ["🎧 Konten Edukatif", "💰 Simulasi Pinjaman"],
     tools: ["⭐ Kuis Bintang", "🤖 HelpBot", "🚨 Emergency Connect"],
   };
@@ -56,7 +57,7 @@ export default function TentangKami() {
         transition={{ duration: 0.3 }}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between p-4 relative">
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 cursor-pointer">
             <Image
               src="/logo.png"
               alt="TitikRuang Logo"
@@ -66,7 +67,7 @@ export default function TentangKami() {
             <div className="text-2xl font-bold whitespace-nowrap">
               TitikRuang
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav
@@ -247,11 +248,11 @@ export default function TentangKami() {
         </div>
         <div className="mt-5">
           <img
-              src="/mascot4.gif"
-              alt="Animasi Maskot"
-              className="w-full h-full max-w-[400px] mx-auto "
-              reverse
-            />
+            src="/mascot4.gif"
+            alt="Animasi Maskot"
+            className="w-full h-full max-w-[400px] mx-auto "
+            reverse
+          />
         </div>
       </section>
 
@@ -523,7 +524,7 @@ export default function TentangKami() {
           <div className="mt-1 flex flex-col sm:flex-row items-center justify-between text-sm">
             <div className="mt-1 sm:mt-0 flex items-center gap-2">
               <span>Dibina oleh</span>
-              <img src="/logofooter.png" className="h-24"/>
+              <img src="/logofooter.png" className="h-24" />
             </div>
           </div>
         </div>

@@ -1,11 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  getAuth,
-  signInAnonymously,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
 import {
   collection,
   onSnapshot,
@@ -20,8 +16,16 @@ import {
 } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { Dialog } from "@headlessui/react";
+import { useRouter } from "next/navigation";
+
+function useIsLoggedIn() {
+  if (typeof window === "undefined") return false;
+  return !!localStorage.getItem("userToken");
+}
 
 export default function DiskusiPage() {
+  const router = useRouter();
+  const isLoggedIn = useIsLoggedIn();
   const [user, setUser] = useState(null);
   const [groups, setGroups] = useState([]);
   const [newGroupName, setNewGroupName] = useState("");
@@ -98,32 +102,42 @@ export default function DiskusiPage() {
 
   const addMember = async () => {
     if (!newMemberUid || !selectedGroup) return;
-    await setDoc(
-      doc(db, "groups", selectedGroup.id, "members", newMemberUid),
-      { role: "member" }
-    );
+    await setDoc(doc(db, "groups", selectedGroup.id, "members", newMemberUid), {
+      role: "member",
+    });
     setNewMemberUid("");
   };
 
-const removeMember = async (uid) => {
-  if (!selectedGroup) return;
+  const removeMember = async (uid) => {
+    if (!selectedGroup) return;
 
-  // 1️⃣ Hapus dokumen subcollection members
-  const memberRef = doc(db, "groups", selectedGroup.id, "members", uid);
-  await deleteDoc(memberRef);
+    // 1️⃣ Hapus dokumen subcollection members
+    const memberRef = doc(db, "groups", selectedGroup.id, "members", uid);
+    await deleteDoc(memberRef);
 
-  // 2️⃣ (opsional) kalau kamu menyimpan mapping di group.members
-  // bisa hapus field-nya juga:
-  const groupRef = doc(db, "groups", selectedGroup.id);
-  await updateDoc(groupRef, {
-    [`members.${uid}`]: deleteField(),
-  });
+    // 2️⃣ (opsional) kalau kamu menyimpan mapping di group.members
+    // bisa hapus field-nya juga:
+    const groupRef = doc(db, "groups", selectedGroup.id);
+    await updateDoc(groupRef, {
+      [`members.${uid}`]: deleteField(),
+    });
 
-  console.log(`✅ Member ${uid} dihapus dari grup ${selectedGroup.id}`);
-};
-
+    console.log(`✅ Member ${uid} dihapus dari grup ${selectedGroup.id}`);
+  };
 
   const isAdmin = (group) => group.createdBy === user?.uid;
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      // Redirect ke login jika belum login
+      router.replace("/login");
+    }
+  }, [isLoggedIn, router]);
+
+  if (!isLoggedIn) {
+    // Jangan render apapun sebelum redirect
+    return null;
+  }
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
@@ -152,7 +166,7 @@ const removeMember = async (uid) => {
               <h2 className="text-lg font-semibold">{group.name}</h2>
             </div>
             <p className="text-gray-500 text-sm mb-2">
-             {group.description || "Belum ada deskripsi."}
+              {group.description || "Belum ada deskripsi."}
             </p>
             <p className="text-gray-600 text-sm mb-4">
               Status: {group.isMember ? "✅ Anggota" : "❌ Bukan anggota"}

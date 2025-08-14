@@ -16,6 +16,7 @@ import {
   FaTiktok,
 } from "react-icons/fa";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 /**
  * DATA QUIZ:
@@ -413,17 +414,17 @@ export default function Page() {
         <header className="bg-white text-gray-900 shadow sticky top-0 z-50">
           <div className="max-w-7xl mx-auto flex items-center justify-between p-4 relative">
             {/* Kiri: Logo */}
-            <div className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2 cursor-pointer">
               <Image
                 src="/logo.png"
-                alt="Quiz Pintar Logo"
+                alt="TitikRuang Logo"
                 width={40}
                 height={40}
               />
               <div className="text-2xl font-bold whitespace-nowrap">
-                Titik Ruang
+                TitikRuang
               </div>
-            </div>
+            </Link>
 
             {/* Tengah: Judul dan Subjudul */}
             <div className="hidden md:flex flex-col items-center absolute left-1/2 transform -translate-x-1/2">

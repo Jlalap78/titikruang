@@ -33,7 +33,7 @@ export default function KuisBintang() {
   const dropdownRef = useRef(null);
 
   const dropdowns = {
-    support: ["🗣️ Ruang Curhat", "🤝 Diskusi Kelompok"],
+    support: ["🗣️ Ruang Curhat", "🤝 Diskusi Komunitas"],
     learning: ["🎧 Konten Edukatif", "💰 Simulasi Pinjaman"],
     tools: ["⭐ Kuis Bintang", "🤖 HelpBot", "🚨 Emergency Connect"],
   };
@@ -87,7 +87,7 @@ export default function KuisBintang() {
         transition={{ duration: 0.3 }}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between p-4 relative">
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 cursor-pointer">
             <Image
               src="/logo.png"
               alt="TitikRuang Logo"
@@ -97,7 +97,7 @@ export default function KuisBintang() {
             <div className="text-2xl font-bold whitespace-nowrap">
               TitikRuang
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav
@@ -265,7 +265,7 @@ export default function KuisBintang() {
 
       <div className="py-10 px-6">
         <h1 className="text-3xl font-bold text-center mb-8 text-[#F2780C]">
-          Simulasi Pinjaman Online 
+          Simulasi Pinjaman Online
         </h1>
 
         <div className="max-w-3xl mx-auto space-y-6 bg-white p-6 rounded-xl shadow-xl">
@@ -574,7 +574,7 @@ export default function KuisBintang() {
           <div className="mt-1 flex flex-col sm:flex-row items-center justify-between text-sm">
             <div className="mt-1 sm:mt-0 flex items-center gap-2">
               <span>Dibina oleh</span>
-              <img src="/logofooter.png" className="h-24"/>
+              <img src="/logofooter.png" className="h-24" />
             </div>
           </div>
         </div>
