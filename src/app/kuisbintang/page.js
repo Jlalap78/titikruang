@@ -413,8 +413,8 @@ export default function Page() {
         // Header untuk pemilihan kategori
         <header className="bg-white text-gray-900 shadow sticky top-0 z-50">
           <div className="max-w-7xl mx-auto flex items-center justify-between p-4 relative">
-            {/* Kiri: Logo */}
-            <Link href="/" className="flex items-center gap-2 cursor-pointer">
+            {/* Kiri: Logo statis */}
+            <div className="flex items-center gap-2">
               <Image
                 src="/logo.png"
                 alt="TitikRuang Logo"
@@ -424,7 +424,7 @@ export default function Page() {
               <div className="text-2xl font-bold whitespace-nowrap">
                 TitikRuang
               </div>
-            </Link>
+            </div>
 
             {/* Tengah: Judul dan Subjudul */}
             <div className="hidden md:flex flex-col items-center absolute left-1/2 transform -translate-x-1/2">
@@ -436,14 +436,13 @@ export default function Page() {
               </span>
             </div>
 
-            {/* Kanan: Tombol Beranda */}
+            {/* Kanan: Tombol Beranda aktif */}
             <div className="hidden md:block">
-              <a
-                href="src/app/page.js"
-                className="bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600"
-              >
-                Beranda
-              </a>
+              <Link href="/">
+                <button className="bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600">
+                  Beranda
+                </button>
+              </Link>
             </div>
 
             {/* Hamburger Menu */}
@@ -600,7 +599,7 @@ export default function Page() {
                   onClick={resetAll}
                   className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                 >
-                  Main Lagi
+                  Selesai
                 </button>
                 <button
                   onClick={() => {

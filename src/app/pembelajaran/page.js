@@ -368,7 +368,7 @@ export default function PembelajaranPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {[
               {
-                image: "/univ-world.jpg",
+                image: "/artikel1.png",
                 title: "Pinjol & Judol: Dua Masalah Digital yang Bisa Jadi “Duo Maut” Penghancur  Kehidupan Kita",
                 date: "14 Agustus 2025",
                 time: "13 minutes read",
@@ -384,7 +384,7 @@ export default function PembelajaranPage() {
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-auto object-contain bg-white"
                 />
                 <div className="p-4">
                   <h3 className="font-semibold text-lg text-gray-800">
