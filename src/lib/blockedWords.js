@@ -10,6 +10,7 @@ const baseWords = [
   "bencong","banci","homo","lesbi","pelacur","bokep","sex","seks","jav",
   "ngocok","bejat","hina","bodoh","kampungan","cabul",
   "najis","sialan","kafir","munafik","penipu","sundal","pelakor",'njing','ngentot',"kon","tol",
+  "njir", "cok", "ancok", "dancok", "njing", "jing", "jingan", "sat",  
 
   
   // =====================
