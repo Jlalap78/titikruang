@@ -1,6 +1,8 @@
 "use client";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
 
 const articles = {
   "artikel1": {
@@ -74,14 +76,87 @@ export default function ArtikelDetail() {
   }
 
   return (
-    <main className="min-h-screen bg-white py-10 px-4">
-      <div className="max-w-3xl mx-auto">
-        <Link
-          href="/pembelajaran"
-          className="text-blue-600 underline mb-6 block"
+    <main className="relative min-h-screen py-10 px-4 overflow-x-hidden">
+      {/* Background gambar utama */}
+      <div
+        className="absolute inset-0 w-full h-full z-0"
+        style={{
+          backgroundImage: "url('/bgartikel.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: 1, // FULL opacity, hilangkan putih
+        }}
+      />
+      {/* Background dekorasi samping */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        {/* Gradient kiri */}
+        <div className="absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-[#3061F2]/20 to-transparent" />
+        {/* Gradient kanan */}
+        <div className="absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-[#F2780C]/20 to-transparent" />
+        {/* Ornamen bulat kiri */}
+        <div className="absolute left-4 top-32 w-16 h-16 bg-[#3061F2]/30 rounded-full blur-lg" />
+        {/* Ornamen bulat kanan */}
+        <div className="absolute right-8 bottom-24 w-20 h-20 bg-[#F2780C]/30 rounded-full blur-lg" />
+      </div>
+      {/* Header Artikel sticky di luar konten utama */}
+      <motion.header
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="sticky top-0 z-30 flex items-center justify-between w-full px-6 py-4 shadow rounded-xl"
+        style={{
+          minHeight: "64px",
+          backgroundImage: "url('/bgheaderartikel.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* Kiri: Logo + TitikRuang */}
+        <div className="flex items-center gap-2">
+          <Image
+            src="/logo.png"
+            alt="TitikRuang Logo"
+            width={36}
+            height={36}
+            className="rounded-lg"
+          />
+          <span className="font-bold text-xl text-[#3061F2]">TitikRuang</span>
+        </div>
+        {/* Tengah: Judul/label bebas */}
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="text-center flex-1"
         >
-          ← Kembali 
-        </Link>
+          <span className="font-semibold text-2xl text-gray-700">
+            Artikel Pembelajaran
+          </span>
+        </motion.div>
+        {/* Kanan: Tombol kembali */}
+        <motion.div
+          initial={{ x: 30, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <Link href="/pembelajaran">
+            <button className="bg-[#3061F2] text-white px-6 py-3 rounded-xl hover:bg-[#F2780C] transition font-semibold shadow text-lg">
+              Kembali
+            </button>
+          </Link>
+        </motion.div>
+      </motion.header>
+      {/* Konten utama */}
+      <div className="relative z-10 max-w-3xl mx-auto bg-white/80 rounded-xl p-6 shadow-lg">
+        {/* Gambar di atas judul */}
+        <img
+          src="/artikel1.png"
+          alt="Pinjol & Judol"
+          className="w-full rounded-xl mb-2 object-contain"
+        />
+        <p className="text-xs text-gray-500 mb-6 text-center">
+          Sumber gambar: Ilustrasi oleh Aveny Raisa Maarif 
+        </p>
         <h1 className="text-3xl md:text-4xl font-extrabold text-black mb-2">{article.title}</h1>
         <p className="text-gray-500 mb-6">{article.date}</p>
         <div

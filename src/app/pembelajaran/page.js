@@ -27,30 +27,7 @@ const videos = [
     views: "12K+",
     url: "https://www.youtube.com/embed/Fm8elEvCsvQ",
   },
-  {
-    title: "Webinar: AI and the Future",
-    type: "Webinar",
-    level: "Beginner",
-    duration: "1 hour",
-    views: "9K+",
-    url: "https://www.youtube.com/embed/HqN8baTsmrs",
-  },
-  {
-    title: "Berita: Tech World 2025",
-    type: "Berita",
-    level: "All Levels",
-    duration: "15 min",
-    views: "20K+",
-    url: "https://www.youtube.com/embed/ORdOBIAGpRg",
-  },
-  {
-    title: "Webinar: Startup Launch Guide",
-    type: "Webinar",
-    level: "Intermediate",
-    duration: "90 min",
-    views: "7K+",
-    url: "https://www.youtube.com/embed/Q4j7JkJK9EM",
-  },
+  
 ];
 
 export default function PembelajaranPage() {
