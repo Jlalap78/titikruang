@@ -11,29 +11,6 @@ const baseWords = [
   "ngocok","bejat","hina","bodoh","kampungan","cabul",
   "najis","sialan","kafir","munafik","penipu","sundal","pelakor",'njing','ngentot',"kon","tol",
 
-  // =====================
-  // Judol & Pinjol - variasi kata
-  // =====================
-  "judi","judol","judi online","jud1","jvdi","jvdi0nline","judi slot",
-  "slot","sl0t","sl0tt","slott","sl0ttgacor","slotgacor","slot gacor",
-  "togel","t0gel","t0g3l","tog3l","togel online","togell",
-  "casino","kasino","kas1no","kasyno","kaseno","kas1n0",
-  "poker","p0ker","p0k3r","p0kerr","poker online","pokerr",
-  "taruhan","betting","bet","b3t","bett","b3tting","b3tt",
-  "jackpot","j4ckpot","j4ckp0t","jackp0t","j4ckp0tt","jackpott",
-  "gacor","g4cor","g@cor","gac0r","gacorr","g4c0r","g4corr",
-  "scatter","scatt3r","sc4tter","sc4tt3r","scatt3rr",
-  "spin","sp1n","spinn","sp1nn",
-  
-  // Pinjol
-  "pinjol","p1njol","p1njal","p1nj0l","p1nj0","p1nj0l","p1nj0ll",
-  "pinjaman online","pinjaman","pinjem","pinj4m","pinj4m4n","p1njam",
-  "utang","hutang","u-tang","h-tang","ut4ng","hut4ng",
-  "kredit online","kred1t","kr3dit","kr3d1t","kredit",
-  "paylater","pay later","p4ylater","p4y l4t3r","payl4t3r",
-  "cicilan","c1c1lan","c1cilan","c1c1l4n","cic1lan",
-  "bunga tinggi","bunga mencekik","bunga besar","bung4","bung4 tinggi",
-  "rentenir","renten1r","rent3nir","r3ntenir"
   
   // =====================
   // Inggris - kata kasar umum
