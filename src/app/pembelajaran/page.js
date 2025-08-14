@@ -329,7 +329,7 @@ export default function PembelajaranPage() {
               },
               {
                 title: "Simulasi Pinjaman ",
-                desc: "Kursus Bahasa Inggris berkurikulum Cambridge",
+                desc: "Hitung Dulu, Baru Putuskan",
                 color: "from-purple-200 to-purple-100",
               },
               {
@@ -369,22 +369,17 @@ export default function PembelajaranPage() {
             {[
               {
                 image: "/univ-world.jpg",
-                title:
-                  "100 Universitas Terbaik di Dunia Tahun 2025 versi THE WUR",
-                date: "July 24, 2025",
+                title: "Pinjol & Judol: Dua Masalah Digital yang Bisa Jadi “Duo Maut” Penghancur  Kehidupan Kita",
+                date: "14 Agustus 2025",
                 time: "13 minutes read",
+                slug: "artikel1",
               },
-              {
-                image: "/univ-indonesia.webp",
-                title:
-                  "25 Universitas Terbaik Indonesia Tahun 2025 versi THE WUR",
-                date: "",
-                time: "3 minutes read",
-              },
+              
             ].map((item, i) => (
-              <div
+              <Link
                 key={i}
-                className="bg-white rounded-lg shadow-md overflow-hidden"
+                href={`/pembelajaran/artikel/${item.slug}`}
+                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition block"
               >
                 <img
                   src={item.image}
@@ -400,7 +395,7 @@ export default function PembelajaranPage() {
                     {item.time}
                   </p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </section>
