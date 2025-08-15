@@ -647,7 +647,7 @@ function LandingPage() {
               <div>
                 <div className="flex items-center gap-2 mb-2">
                   <Image
-                    src="/logo.png"
+                    src="/logo3.png"
                     alt="TitikRuang Logo"
                     width={32}
                     height={32}
@@ -774,7 +774,7 @@ function LandingPage() {
             <div className="mt-1 flex flex-col sm:flex-row items-center justify-between text-sm">
               <div className="mt-1 sm:mt-0 flex items-center gap-2">
                 <span>Dibina oleh</span>
-                <img src="/logofooter.png" className="h-24" />
+                <img src="/logofooter.png" className="h-20" />
               </div>
             </div>
           </div>
