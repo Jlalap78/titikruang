@@ -13,6 +13,7 @@ import {
 import { initializeApp, getApps } from "firebase/app";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
+import { FaGoogle } from "react-icons/fa";
 
 // --- Firebase Client Config ---
 const firebaseConfig = {
@@ -186,11 +187,7 @@ export default function Page() {
                     onClick={handleGoogleLogin}
                     className="w-full flex items-center justify-center gap-2 border border-gray-300 bg-white py-2 rounded-lg hover:bg-gray-100 transition"
                   >
-                    <img
-                      src="/google-icon.svg"
-                      alt="Google"
-                      className="w-5 h-5"
-                    />
+                    <FaGoogle className="w-5 h-5" />
                     Login dengan Google
                   </button>
 
