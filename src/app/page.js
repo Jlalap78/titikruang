@@ -649,8 +649,8 @@ function LandingPage() {
                   <Image
                     src="/logo3.png"
                     alt="TitikRuang Logo"
-                    width={32}
-                    height={32}
+                    width={64}
+                    height={64}
                     className="transition duration-300 hover:animate-glow"
                   />
                   <h3 className="text-xl font-bold">TitikRuang</h3>
