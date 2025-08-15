@@ -49,7 +49,7 @@ function LandingPage() {
   const dropdowns = {
     support: ["🗣️ Ruang Curhat", "🤝 Diskusi Komunitas"],
     learning: ["🎧 Konten Edukatif", "💰 Simulasi Pinjaman"],
-    tools: ["⭐ Kuis Bintang", "🤖 HelpBot", "🚨 Emergency Connect"],
+    tools: ["⭐ Kuis Bintang", "🤖 TIKUBOT"],
   };
 
   const isMenuOpen = (key) => hoveredMenu === key;
@@ -445,7 +445,7 @@ function LandingPage() {
               </h1>
               <p className="text-lg mb-6">
                 Berbagi cerita, akses edukasi, dan pulih bersama komunitas yang
-                memahami."Dengar, Pulih, Bangkit"
+                memahami."DENGAR, PULIH, BANGKIT"
               </p>
               <div className="flex gap-4">
                 <a
@@ -495,38 +495,38 @@ function LandingPage() {
               {[
                 {
                   title: "Ruang Curhat",
-                  desc: "Curhat bebas dan anonim.",
+                  desc: "Curhat bebas & anonim",
                   icon: "🗣️",
                   href: "/ruang",
                 },
                 {
                   title: "Diskusi Komunitas",
-                  desc: "Dukungan teman senasib.",
+                  desc: "Dukungan teman senasib",
                   icon: "🤝",
                   href: "/diskusi",
                 },
                 {
                   title: "Konten Edukatif",
-                  desc: "Suara ahli dan sesi live.",
+                  desc: "Pelajari bahaya & risikonya",
                   icon: "🎧",
                   href: "/pembelajaran",
                 },
                 {
                   title: "Simulasi Pinjaman",
-                  desc: "Perhitungan.",
+                  desc: "Hitung dulu, baru putuskan",
                   icon: "💰",
                   href: "/simulasipinjaman",
                 },
                 {
                   title: "Kuis Bintang",
-                  desc: "Tes interaktif pemulihan.",
+                  desc: "Tes pengetahuanmu & dapatkan wawasan baru",
                   icon: "⭐",
                   href: "/kuisbintang",
                 },
                 {
-                  title: "HelpBot & Hotline",
-                  desc: "Bantuan cepat & AI.",
-                  icon: "🚨",
+                  title: "TIKUBOT",
+                  desc: "Asisten AI",
+                  icon: "🤖",
                 },
               ].map((f, i) => {
                 const iconControls = useAnimationControls();
@@ -655,7 +655,7 @@ function LandingPage() {
                   />
                   <h3 className="text-xl font-bold">TitikRuang</h3>
                 </div>
-                <p>DENGAR PULIH BANGKIT</p>
+                <p>DENGAR, PULIH, BANGKIT</p>
               </div>
 
               {/* Kolom 2: Tentang */}
@@ -685,12 +685,17 @@ function LandingPage() {
                 <h4 className="text-base font-semibold mb-2">Bantuan</h4>
                 <ul className="space-y-1">
                   <li>
-                    <a href="#" className="hover:underline">
-                      Privasi
+                    <a href="/policy" className="hover:underline">
+                      Syarat dan Ketentuan
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="hover:underline">
+                    <a
+                      href="https://forms.gle/tSPWuMTtUTF3pRHv8"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:underline"
+                    >
                       Laporkan Penyalahgunaan
                     </a>
                   </li>
@@ -755,7 +760,7 @@ function LandingPage() {
                     <FaYoutube className="hover:text-red-600" />
                   </a>
                   <a
-                    href="http://linkedin.com/in/titik-ruang-860043379"
+                    href="https://www.linkedin.com/company/titikruang/"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -769,10 +774,7 @@ function LandingPage() {
             <div className="mt-1 flex flex-col sm:flex-row items-center justify-between text-sm">
               <div className="mt-1 sm:mt-0 flex items-center gap-2">
                 <span>Dibina oleh</span>
-                <img
-                  src="/logofooter.png"
-                  className="h-24"
-                />
+                <img src="/logofooter.png" className="h-24" />
               </div>
             </div>
           </div>
