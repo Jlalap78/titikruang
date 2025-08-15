@@ -254,11 +254,7 @@ export default function DiskusiPage() {
       return;
     }
 
-    // cek kata terlarang hanya jika ada teks
-    if (input && containsBlockedWord(input)) {
-      alert('Pesan mengandung kata yang tidak diperbolehkan.');
-      return;
-    }
+
 
     if (!profiles[user.uid]) {
       const p = await ensureUserProfile(user.uid);
@@ -564,7 +560,7 @@ export default function DiskusiPage() {
 
               <input
                 type="text"
-                placeholder={isGuest ? `🔒 Login untuk mengirim pesan di #${activeChannel}` : `Message #${activeChannel}`}
+                placeholder={isGuest ? `🔒 Login untuk mengirim pesan ` : `Message #${activeChannel}`}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => {
