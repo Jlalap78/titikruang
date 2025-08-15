@@ -770,13 +770,8 @@ function LandingPage() {
               <div className="mt-1 sm:mt-0 flex items-center gap-2">
                 <span>Dibina oleh</span>
                 <img
-                  src="/logo_of_ministry_of_education_and_culture_of_republic_of_indonesia.svg.webp"
-                  className="h-10"
-                />
-                <img src="/logounairbiru.png" className="h-10" />
-                <img
-                  src="/logodiktisaintekberdampak_horizontallogo.png"
-                  className="h-10"
+                  src="/logofooter.png"
+                  className="h-24"
                 />
               </div>
             </div>
