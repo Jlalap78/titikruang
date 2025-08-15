@@ -400,11 +400,12 @@ export default function DiskusiPage() {
         <div className="flex flex-col h-screen bg-[#EAF0FA] text-black font-sans">
           {/* Header */}
           <div className="flex items-center justify-between px-6 py-4 bg-white/60 backdrop-blur-md border-b border-[#F2BF27] sticky top-0 z-10">
-            <div className="flex items-center gap-3">
-              <button className="flex items-center gap-1 px-3 py-1 rounded-md text-sm font-medium bg-[#3061F2] text-white">
-                <Hash className="w-4 h-4" />
-                general
-              </button>
+            <div className="hidden md:block">
+              <Link href="/">
+                <button className="bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600">
+                  Beranda
+                </button>
+              </Link>
             </div>
 
             <div className="flex items-center gap-3">
