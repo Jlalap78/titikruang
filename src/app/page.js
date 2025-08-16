@@ -431,7 +431,7 @@ function LandingPage() {
         <section
           ref={heroRef}
           id="hero"
-          className="bg-[#3061F2] text-white py-20"
+          className="bg-[#0F377E] text-white py-20"
         >
           <motion.div
             className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 px-4 items-center"
@@ -450,7 +450,7 @@ function LandingPage() {
               <div className="flex gap-4">
                 <a
                   href="#support"
-                  className="bg-white text-[#3061F2] px-6 py-3 rounded-xl font-semibold hover:bg-gray-100"
+                  className="bg-white text-[#0F377E] px-6 py-3 rounded-xl font-semibold hover:bg-gray-100"
                 >
                   Mulai Sekarang
                 </a>
@@ -474,7 +474,7 @@ function LandingPage() {
         </section>
 
         {/* Hero → Support Gradient Transition */}
-        <div className="h-20 bg-gradient-to-b from-[#3061F2] to-white" />
+        <div className="h-20 bg-gradient-to-b from-[#0F377E] to-white" />
 
         {/* Support Section with animated icons */}
         <section
