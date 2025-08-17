@@ -16,9 +16,30 @@ import {
 import { db } from "../../lib/firebase";
 import { Dialog } from "@headlessui/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import {
+  FaUserTie,
+  FaGraduationCap,
+  FaBriefcase,
+  FaEnvelope,
+  FaPhoneAlt,
+  FaWhatsapp,
+  FaInstagram,
+  FaFacebook,
+  FaTwitter,
+  FaYoutube,
+  FaLinkedin,
+  FaTiktok,
+} from "react-icons/fa";
+import Image from "next/image";
 
 // import beberapa ikon
-import { ChatBubbleLeftIcon, UsersIcon, SparklesIcon, HeartIcon } from "@heroicons/react/24/solid";
+import {
+  ChatBubbleLeftIcon,
+  UsersIcon,
+  SparklesIcon,
+  HeartIcon,
+} from "@heroicons/react/24/solid";
 
 export default function DiskusiPage() {
   const router = useRouter();
@@ -33,12 +54,7 @@ export default function DiskusiPage() {
   const [editedDesc, setEditedDesc] = useState("");
 
   // daftar ikon default
-  const defaultIcons = [
-    ChatBubbleLeftIcon,
-    UsersIcon,
-    SparklesIcon,
-    HeartIcon,
-  ];
+  const defaultIcons = [ChatBubbleLeftIcon, UsersIcon, SparklesIcon, HeartIcon];
 
   // Auth listener
   useEffect(() => {
@@ -151,23 +167,51 @@ export default function DiskusiPage() {
     <div className="min-h-screen bg-white">
       <div className="p-6 max-w-6xl mx-auto">
         {/* heading */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-blue-600 mb-2">
-            Diskusi Komunitas
-          </h1>
-          <p className="text-gray-600 text-lg">
-            Jelajahi berbagai topik yang relevan dengan kehidupan sehari-hari.
-            Gabung obrolan dan temukan perspektif baru.
-          </p>
-        </div>
+        <header className="bg-white text-gray-900 shadow sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto flex items-center justify-between p-4 relative">
+            {/* Kiri: Logo statis */}
+            <div className="flex items-center gap-2">
+              <Image
+                src="/logo.png"
+                alt="TitikRuang Logo"
+                width={40}
+                height={40}
+              />
+              <div className="text-2xl font-bold whitespace-nowrap">
+                TitikRuang
+              </div>
+            </div>
+
+            {/* Tengah: Judul dan Subjudul */}
+            <div className="hidden md:flex flex-col items-center text-center mt-12">
+              <h2 className="text-2xl md:text-3xl font-bold text-blue-600">
+                Diskusi Komunitas
+              </h2>
+              <p className="text-gray-500 text-sm md:text-base mt-2 max-w-xl">
+                Jelajahi berbagai topik yang relevan dengan kehidupan
+                sehari-hari. Gabung obrolan dan temukan perspektif baru.
+              </p>
+            </div>
+
+            {/* Kanan: Tombol Beranda aktif */}
+            <div className="hidden md:block">
+              <Link href="/">
+                <button className="bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600">
+                  Beranda
+                </button>
+              </Link>
+            </div>
+          </div>
+        </header>
 
         {/* grid of groups */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {groups.map((group) => {
             const Icon =
               defaultIcons[
-                Math.abs(group.id.split("").reduce((a, c) => a + c.charCodeAt(0), 0)) %
-                  defaultIcons.length
+                Math.abs(
+                  group.id.split("").reduce((a, c) => a + c.charCodeAt(0), 0)
+                ) % defaultIcons.length
               ];
             return (
               <div

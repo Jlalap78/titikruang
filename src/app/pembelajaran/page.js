@@ -19,14 +19,7 @@ import {
 } from "react-icons/fa";
 
 const videos = [
-  {
-    title: "Podcast: Mental Health & Productivity",
-    type: "Podcast",
-    level: "All Levels",
-    duration: "45 min",
-    views: "12K+",
-    url: "https://www.youtube.com/embed/Fm8elEvCsvQ",
-  },
+  
   
 ];
 
