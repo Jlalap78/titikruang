@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signInAnonymously, onAuthStateChanged, getIdTokenResult } from "firebase/auth";
 import {
   collection,
   onSnapshot,
@@ -13,7 +13,7 @@ import {
   serverTimestamp,
   deleteField,
 } from "firebase/firestore";
-import { db } from "../../lib/firebase";
+import { db, app } from "../../lib/firebase";
 import { Dialog } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -56,18 +56,51 @@ export default function DiskusiPage() {
   // daftar ikon default
   const defaultIcons = [ChatBubbleLeftIcon, UsersIcon, SparklesIcon, HeartIcon];
 
+  const COMMUNITY_PALETTE = [
+    "linear-gradient(135deg,#FEF3C7 0%,#FFF7ED 100%)",
+    "linear-gradient(135deg,#E0F2FE 0%,#BAE6FD 100%)",
+    "linear-gradient(135deg,#EEF2FF 0%,#E9D5FF 100%)",
+    "linear-gradient(135deg,#ECFDF5 0%,#D1FAE5 100%)",
+    "linear-gradient(135deg,#FFF1F2 0%,#FFE4E6 100%)",
+    "linear-gradient(135deg,#FFF7ED 0%,#FFF1D6 100%)",
+  ];
+
+  function pickColorById(id) {
+    if (!id) return COMMUNITY_PALETTE[0];
+    let h = 0;
+    for (let i = 0; i < id.length; i++) {
+      h = (h << 5) - h + id.charCodeAt(i);
+      h |= 0;
+    }
+    return COMMUNITY_PALETTE[Math.abs(h) % COMMUNITY_PALETTE.length];
+  }
+
   // Auth listener
   useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        setUser(firebaseUser);
-      } else {
-        await signInAnonymously(auth);
+    const authObj = getAuth(app);
+    const unsub = onAuthStateChanged(authObj, async (u) => {
+      // simpan user ke state agar komponen tidak selalu undefined
+      setUser(u);
+
+      // jika tidak ada user -> redirect ke login
+      if (!u) {
+        router.replace("/login");
+        return;
+      }
+
+      try {
+        const idToken = await getIdTokenResult(u, true);
+        const isGuest = !!u.isAnonymous || !!idToken?.claims?.guest;
+        if (isGuest) {
+          router.replace("/login");
+        }
+      } catch (err) {
+        console.error("cek auth diskusi:", err);
+        router.replace("/login");
       }
     });
-    return () => unsubscribe();
-  }, []);
+    return () => unsub();
+  }, [router]);
 
   // Redirect kalau sudah tahu user tapi belum login
   useEffect(() => {
@@ -116,9 +149,24 @@ export default function DiskusiPage() {
   };
 
   const handleJoin = async (groupId) => {
-    await setDoc(doc(db, "groups", groupId, "members", user.uid), {
-      role: "member",
-    });
+    if (!user) return;
+    // optimistic update — ubah state lokal langsung supaya UI responsif
+    setGroups((prev) =>
+      prev.map((g) => (g.id === groupId ? { ...g, isMember: true } : g))
+    );
+
+    try {
+      await setDoc(doc(db, "groups", groupId, "members", user.uid), {
+        role: "member",
+      });
+      // success: onSnapshot akan mengonfirmasi / melengkapi data
+    } catch (err) {
+      console.error("handleJoin error:", err);
+      // rollback jika gagal
+      setGroups((prev) =>
+        prev.map((g) => (g.id === groupId ? { ...g, isMember: false } : g))
+      );
+    }
   };
 
   const openMemberManager = (group) => {
@@ -164,59 +212,83 @@ export default function DiskusiPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="p-6 max-w-6xl mx-auto">
-        {/* heading */}
-        <header className="bg-white text-gray-900 shadow sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto flex items-center justify-between p-4 relative">
-            {/* Kiri: Logo statis */}
-            <div className="flex items-center gap-2">
-              <Image
-                src="/logo.png"
-                alt="TitikRuang Logo"
-                width={40}
-                height={40}
-              />
-              <div className="text-2xl font-bold whitespace-nowrap">
-                TitikRuang
+    <div className="min-h-screen relative">
+      {/* background image (pastikan file bglamandiskusi.jpg ada di public/) */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/bglamandiskusi.jpg')" }}
+        aria-hidden="true"
+      />
+      {/* optional overlay untuk kontras teks */}
+      <div className="absolute inset-0 bg-white/40 pointer-events-none" aria-hidden="true" />
+      <div className="p-6 max-w-6xl mx-auto relative">
+        {/* heading (lebih kecil + rounded + spacing) */}
+        <header
+          className="relative shadow z-50 py-3 rounded-lg overflow-hidden"
+          style={{
+            backgroundImage: "url('/bgheaderartikel2.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          {/* overlay tipis supaya teks tetap terbaca */}
+          <div className="absolute inset-0 bg-white/30 pointer-events-none" aria-hidden="true" />
+          <div className="max-w-7xl mx-auto px-4 md:px-6 relative">
+            <div className="flex items-center justify-between gap-4 py-2">
+              <div className="flex items-center gap-3">
+                <a href="/" className="flex items-center gap-3">
+                  <img
+                    src="/logo3.png"
+                    alt="TitikRuang"
+                    className="w-10 h-10 object-contain rounded"
+                  />
+                  <span className="sr-only">TitikRuang</span>
+                </a>
+                <div>
+                  <h1 className="text-lg md:text-xl font-semibold text-sky-700">
+                    Diskusi Komunitas
+                  </h1>
+                  <p className="text-xs md:text-sm text-gray-600">
+                    Jelajahi topik relevan untuk sehari-hari — gabung obrolan dan temukan perspektif.
+                  </p>
+                </div>
               </div>
-            </div>
 
-            {/* Tengah: Judul dan Subjudul */}
-            <div className="hidden md:flex flex-col items-center text-center mt-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-blue-600">
-                Diskusi Komunitas
-              </h2>
-              <p className="text-gray-500 text-sm md:text-base mt-2 max-w-xl">
-                Jelajahi berbagai topik yang relevan dengan kehidupan
-                sehari-hari. Gabung obrolan dan temukan perspektif baru.
-              </p>
-            </div>
-
-            {/* Kanan: Tombol Beranda aktif */}
-            <div className="hidden md:block">
-              <Link href="/">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600">
+              <div className="flex items-center gap-3">
+                <a
+                  href="/"
+                  className="inline-block bg-white text-sky-700 border border-sky-200 px-3 py-1 rounded-md shadow-sm hover:shadow-md text-sm"
+                >
                   Beranda
-                </button>
-              </Link>
+                </a>
+              </div>
             </div>
           </div>
         </header>
+        {/* spacer agar konten tidak menempel ke header */}
+        <div className="h-4 md:h-6" />
 
         {/* grid of groups */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {groups.map((group) => {
+          {groups.map((group, i) => {
             const Icon =
               defaultIcons[
                 Math.abs(
                   group.id.split("").reduce((a, c) => a + c.charCodeAt(0), 0)
                 ) % defaultIcons.length
               ];
+            const color = pickColorById(group.id);
             return (
               <div
                 key={group.id}
-                className="bg-white rounded shadow p-4 hover:shadow-md transition"
+                className="community-card enter-up rounded shadow p-4 transition"
+                style={{
+                  background: color,
+                  color: "#0f172a",
+                  animationDelay: `${i * 80}ms`,
+                  borderRadius: 8,
+                }}
               >
                 <div className="flex items-center gap-3 mb-2">
                   <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-200">

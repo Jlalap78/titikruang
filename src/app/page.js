@@ -31,6 +31,9 @@ import {
 } from "firebase/auth";
 import { app } from "../lib/firebase"; // sesuaikan path jika perlu
 
+// tambahkan import ProtectedNavLink
+import ProtectedNavLink from "../components/ProtectedNavLink";
+
 function LandingPage() {
   const [faqOpen, setFaqOpen] = useState(null);
   const [activeMenu, setActiveMenu] = useState(null);
@@ -294,13 +297,23 @@ function LandingPage() {
                         ? "/kuisbintang"
                         : `#${label}`;
                       return (
-                        <a
-                          key={i}
-                          href={href}
-                          className="block py-1 px-2 hover:bg-[#F2BF27]/20 hover:text-[#F2780C] rounded"
-                        >
-                          {item}
-                        </a>
+                        isDiskusi ? (
+                          <ProtectedNavLink
+                            key={i}
+                            href={href}
+                            className="block py-1 px-2 hover:bg-[#F2BF27]/20 hover:text-[#F2780C] rounded"
+                          >
+                            {item}
+                          </ProtectedNavLink>
+                        ) : (
+                          <a
+                            key={i}
+                            href={href}
+                            className="block py-1 px-2 hover:bg-[#F2BF27]/20 hover:text-[#F2780C] rounded"
+                          >
+                            {item}
+                          </a>
+                        )
                       );
                     })}
                   </motion.div>
@@ -383,13 +396,23 @@ function LandingPage() {
                         ? "/kuisbintang"
                         : `#${label}`;
                       return (
-                        <a
-                          key={i}
-                          href={href}
-                          className="block hover:text-[#F2780C] text-black"
-                        >
-                          {item}
-                        </a>
+                        isDiskusi ? (
+                          <ProtectedNavLink
+                            key={i}
+                            href={href}
+                            className="block hover:text-[#F2780C] text-black"
+                          >
+                            {item}
+                          </ProtectedNavLink>
+                        ) : (
+                          <a
+                            key={i}
+                            href={href}
+                            className="block hover:text-[#F2780C] text-black"
+                          >
+                            {item}
+                          </a>
+                        )
                       );
                     })}
                   </div>
@@ -467,7 +490,7 @@ function LandingPage() {
                 src="/mascot4.gif"
                 alt="Animasi Maskot"
                 className="w-full h-full max-w-[400px] mx-auto "
-                reverse
+                
               />
             </div>
           </motion.div>
@@ -569,9 +592,15 @@ function LandingPage() {
                   </motion.div>
                 );
                 return f.href ? (
-                  <Link href={f.href} key={i} className="block">
-                    {card}
-                  </Link>
+                  f.href === "/diskusi" ? (
+                    <ProtectedNavLink key={i} href={f.href} className="block">
+                      {card}
+                    </ProtectedNavLink>
+                  ) : (
+                    <Link href={f.href} key={i} className="block">
+                      {card}
+                    </Link>
+                  )
                 ) : (
                   <div key={i}>{card}</div>
                 );

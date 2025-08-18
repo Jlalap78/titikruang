@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps } from "firebase/app";
 import {
   getFirestore,
   collection,
@@ -14,6 +14,7 @@ import {
   serverTimestamp,
   where,
   onSnapshot,
+  deleteField, // ✅ diperlukan oleh removeMember
 } from "firebase/firestore";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
 
@@ -28,10 +29,11 @@ const firebaseConfig = {
   measurementId: "G-E2HPWW6TC4",
 };
 
-// ✅ Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
+// Inisialisasi hanya jika belum ada app
+export const app =
+  getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+export const db = getFirestore(app);
+export const auth = getAuth(app);
 
 // ✅ Anonymous Auth Init
 export const initAuth = () => {
@@ -57,21 +59,24 @@ export const getMessagesQuery1 = (channelId) => {
   );
 };
 
-// ✅ Send a message
+// ✅ Send a message (TIDAK diubah; tetap seperti aslinya)
 export const sendMessage1 = async (
   channelId,
-  { text, uid, imageUrl = null }
+  { text, uid, imageUrl = null, senderName, avatar, reactions = {}, timestamp }
 ) => {
   return await addDoc(collection(db, "channels", channelId, "messages"), {
     text,
     uid,
     imageUrl,
-    timestamp: serverTimestamp(),
-    reactions: {},
+    senderName, // pastikan selalu diisi!
+    avatar, // pastikan selalu diisi!
+    reactions,
+    timestamp,
+    replyCount: 0,
   });
 };
 
-// ✅ Toggle reaction (emoji => array of uid)
+// ✅ Toggle reaction (emoji => array of uid) untuk pesan utama
 export const toggleReaction1 = async (channelId, messageId, emoji, uid) => {
   const ref = doc(db, "channels", channelId, "messages", messageId);
 
@@ -93,7 +98,101 @@ export const toggleReaction1 = async (channelId, messageId, emoji, uid) => {
   });
 };
 
-// 👤 USERS
+/* -------------------------------------------------
+   💬 REPLIES: 1-level thread (fungsi BARU, suffix "1")
+   Struktur: channels/{channelId}/messages/{messageId}/replies/{replyId}
+--------------------------------------------------*/
+
+// 🔔 Realtime jumlah reply (mengacu ke field replyCount di parent)
+export const listenReplyCount1 = (channelId, messageId, callback) => {
+  const parentRef = doc(db, "channels", channelId, "messages", messageId);
+  return onSnapshot(parentRef, (snap) => {
+    const data = snap.data() || {};
+    callback(typeof data.replyCount === "number" ? data.replyCount : 0);
+  });
+};
+
+// 🔔 Realtime daftar reply (urutan ascending berdasarkan timestamp)
+export const listenReplies1 = (channelId, messageId, callback) => {
+  const q = query(
+    collection(db, "channels", channelId, "messages", messageId, "replies"),
+    orderBy("timestamp", "asc")
+  );
+  return onSnapshot(q, (snapshot) => {
+    const docs = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
+    callback(docs);
+  });
+};
+
+// ➕ Kirim reply (sekalian increment replyCount di parent)
+// Catatan: validasi "hanya user non-anonymous" sebaiknya di UI; di sini fokus data layer.
+export const sendReply1 = async (
+  channelId,
+  messageId,
+  { text, uid, imageUrl = null, senderName, avatar }
+) => {
+  const parentRef = doc(db, "channels", channelId, "messages", messageId);
+
+  const replyRef = await addDoc(collection(parentRef, "replies"), {
+    text,
+    uid,
+    imageUrl,
+    senderName, // pastikan selalu diisi!
+    avatar, // pastikan selalu diisi!
+    timestamp: serverTimestamp(),
+    reactions: {},
+  });
+
+  await runTransaction(db, async (transaction) => {
+    const snap = await transaction.get(parentRef);
+    if (!snap.exists()) return;
+    const curr = snap.data()?.replyCount || 0;
+    transaction.update(parentRef, { replyCount: curr + 1 });
+  });
+
+  return replyRef.id;
+};
+
+// 😀 Toggle reaction pada REPLY (format sama: reactions.{emoji} = [uid...])
+export const toggleReplyReaction1 = async (
+  channelId,
+  messageId,
+  replyId,
+  emoji,
+  uid
+) => {
+  const ref = doc(
+    db,
+    "channels",
+    channelId,
+    "messages",
+    messageId,
+    "replies",
+    replyId
+  );
+
+  await runTransaction(db, async (transaction) => {
+    const docSnap = await transaction.get(ref);
+    if (!docSnap.exists()) return;
+
+    const data = docSnap.data();
+    const current = data.reactions?.[emoji] || [];
+
+    const hasReacted = current.includes(uid);
+    const updated = hasReacted
+      ? current.filter((id) => id !== uid)
+      : [...current, uid];
+
+    transaction.update(ref, {
+      [`reactions.${emoji}`]: updated,
+    });
+  });
+};
+
+/* -------------------------------------------------
+   👤 USERS (tetap)
+--------------------------------------------------*/
+
 export const createUserIfNotExists = async (uid) => {
   const userRef = doc(db, "users", uid);
   const userSnap = await getDoc(userRef);
@@ -104,7 +203,10 @@ export const createUserIfNotExists = async (uid) => {
   }
 };
 
-// 👥 GROUP MANAGEMENT
+/* -------------------------------------------------
+   👥 GROUP MANAGEMENT (tetap)
+--------------------------------------------------*/
+
 export const getGroupsQuery = () =>
   query(collection(db, "groups"), orderBy("createdAt", "desc"));
 
@@ -181,7 +283,10 @@ export const removeMember = async (groupId, adminId, userIdToRemove) => {
   );
 };
 
-// 💬 MESSAGES (in groups/{groupId}/messages)
+/* -------------------------------------------------
+   💬 GROUP MESSAGES (tetap)
+--------------------------------------------------*/
+
 export const getMessagesQuery = (groupId) => {
   return query(
     collection(db, "groups", groupId, "messages"),
@@ -207,7 +312,7 @@ export const sendMessage = async (
   });
 };
 
-// 😀 REACTIONS (on messages)
+// 😀 REACTIONS (on group messages)
 export const toggleReaction = async (groupId, messageId, emoji, uid) => {
   const ref = doc(db, "groups", groupId, "messages", messageId);
 
@@ -229,5 +334,47 @@ export const toggleReaction = async (groupId, messageId, emoji, uid) => {
   });
 };
 
-// 🔄 Final Export
-export { db, auth, serverTimestamp };
+// Tambahan: fungsi untuk mendapatkan profil pengguna (dari msg.senderId)
+export const getUserProfile = async (userId) => {
+  const userSnap = await getDoc(doc(db, "users", userId));
+  if (userSnap.exists()) {
+    const userData = userSnap.data();
+    return {
+      id: userId,
+      funnyName: userData.funnyName || "Anon",
+      avatar: userData.avatar || "🙂",
+    };
+  } else {
+    return null;
+  }
+};
+
+// Contoh penggunaan di komponen pesan
+/*
+const MessageComponent = ({ msg }) => {
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const userProfile = await getUserProfile(msg.senderId);
+      setProfile(userProfile);
+    };
+
+    fetchProfile();
+  }, [msg.senderId]);
+
+  return (
+    <div>
+      {profile ? (
+        <>
+          <img src={profile.avatar} alt={profile.funnyName} />
+          <span>{profile.funnyName}</span>
+        </>
+      ) : (
+        "Loading..."
+      )}
+      <p>{msg.text}</p>
+    </div>
+  );
+};
+*/

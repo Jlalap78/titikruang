@@ -9,6 +9,7 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { initializeApp, getApps } from "firebase/app";
 import { useRouter } from "next/navigation";
@@ -37,6 +38,38 @@ export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const emailInputRef = useRef(null);
+  const passwordInputRef = useRef(null);
+
+  // inline error states (hindari ReferenceError)
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [formError, setFormError] = useState("");
+
+  // lupa password states
+  const [showReset, setShowReset] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetLoading, setResetLoading] = useState(false);
+  const [resetMessage, setResetMessage] = useState(null);
+  // helper to send reset email
+  const handlePasswordReset = async (e) => {
+    e?.preventDefault?.();
+    const mail = (resetEmail || email || "").trim();
+    if (!mail) {
+      setResetMessage("Masukkan email terlebih dahulu.");
+      return;
+    }
+    setResetLoading(true);
+    setResetMessage(null);
+    try {
+      await sendPasswordResetEmail(auth, mail);
+      setResetMessage("Link reset password telah dikirim ke email Anda.");
+    } catch (err) {
+      console.error("reset error", err);
+      setResetMessage("Gagal mengirim link: " + (err?.message || err));
+    } finally {
+      setResetLoading(false);
+    }
+  };
 
   // ✅ Auto-focus input email saat di halaman login
   useEffect(() => {
@@ -49,19 +82,63 @@ export default function Page() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setEmailError("");
+    setPasswordError("");
+    setFormError("");
+
+    // simple client-side validation
+    if (!email) {
+      setEmailError("Masukkan email");
+      setLoading(false);
+      return;
+    }
+    if (!password) {
+      setPasswordError("Masukkan password");
+      setLoading(false);
+      return;
+    }
+
     try {
+      // gunakan try/catch tunggal — jangan chain .catch pada await
       const userCred = await signInWithEmailAndPassword(auth, email, password);
+
       const idToken = await userCred.user.getIdToken();
-      await fetch("/api/session/login", {
+      const res = await fetch("/api/session/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idToken }),
       });
-      router.push("/"); // ✅ redirect ke halaman utama
+
+      if (!res.ok) {
+        setFormError("Gagal membuat session. Coba lagi.");
+        return;
+      }
+
+      router.push("/");
     } catch (err) {
-      alert("Login gagal: " + err.message);
+      const code = err?.code || "";
+      // prioritaskan pesan spesifik
+      if (code.includes("auth/user-not-found")) {
+        setEmailError("Email tidak terdaftar");
+        emailInputRef.current?.focus?.();
+      } else if (code.includes("auth/wrong-password")) {
+        setPasswordError("Password salah");
+        passwordInputRef.current?.focus?.();
+      } else if (code.includes("auth/invalid-email")) {
+        setEmailError("Format email tidak valid");
+        emailInputRef.current?.focus?.();
+      } else if (code.includes("auth/invalid-credential") || code.includes("auth/invalid-assertion")) {
+        // Banyak server / provider mengembalikan 'invalid-credential' untuk kredensial salah:
+        setPasswordError("Email atau password salah");
+        passwordInputRef.current?.focus?.();
+      } else {
+        // fallback ramah
+        setFormError("Email atau password salah");
+      }
+      console.error("Login error handled:", err);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   // --- Handle Register ---
@@ -69,32 +146,48 @@ export default function Page() {
     e.preventDefault();
     if (!agree) return;
     setLoading(true);
+    setFormError("");
     try {
-      const userCred = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCred = await createUserWithEmailAndPassword(auth, email, password);
       const idToken = await userCred.user.getIdToken();
       await fetch("/api/session/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idToken }),
       });
-      router.push("/"); // ✅ redirect ke halaman utama
+      router.push("/");
     } catch (err) {
-      alert("Registrasi gagal: " + err.message);
+      console.error("Register error:", err);
+      const code = err?.code || "";
+      if (code.includes("auth/email-already-in-use")) {
+        setEmailError("Email sudah terdaftar");
+      } else if (code.includes("auth/weak-password")) {
+        setPasswordError("Password terlalu lemah");
+      } else {
+        setFormError(err?.message || "Registrasi gagal");
+      }
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   // --- Handle Google Login ---
   const handleGoogleLogin = async () => {
+    setFormError("");
+    setLoading(true);
     try {
       await signInWithPopup(auth, googleProvider);
-      router.push("/"); // ✅ redirect ke halaman utama
+      router.push("/");
     } catch (err) {
-      alert("Login Google gagal: " + err.message);
+      console.error("Google login error:", err);
+      const code = err?.code || "";
+      if (code.includes("auth/popup-closed-by-user")) {
+        setFormError("Proses masuk dibatalkan");
+      } else {
+        setFormError(err?.message || "Login Google gagal");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -156,21 +249,35 @@ export default function Page() {
               >
                 <h2 className="text-xl font-semibold text-center mb-4">Login</h2>
                 <form className="space-y-4" onSubmit={handleLogin}>
-                  <input
-                    ref={emailInputRef}
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  />
+                  <div>
+                    <input
+                      ref={emailInputRef}
+                      type="email"
+                      placeholder="Email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${
+                        emailError
+                          ? "border-red-500 focus:ring-red-300"
+                          : "focus:ring-2 focus:ring-blue-400"
+                      }`}
+                    />
+                    {emailError && (
+                      <p className="mt-1 text-xs text-red-600">{emailError}</p>
+                    )}
+                  </div>
                   <div className="relative">
                     <input
+                      ref={passwordInputRef}
                       type={showPassword ? "text" : "password"}
                       placeholder="Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${
+                        passwordError
+                          ? "border-red-500 focus:ring-red-300"
+                          : "focus:ring-2 focus:ring-blue-400"
+                      }`}
                     />
                     <button
                       type="button"
@@ -179,7 +286,13 @@ export default function Page() {
                     >
                       {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                     </button>
+                    {passwordError && (
+                      <p className="mt-1 text-xs text-red-600">{passwordError}</p>
+                    )}
                   </div>
+                  {formError && (
+                    <p className="text-center text-sm text-red-600">{formError}</p>
+                  )}
 
                   {/* Tombol Login Google */}
                   <button
@@ -190,6 +303,20 @@ export default function Page() {
                     <FaGoogle className="w-5 h-5" />
                     Login dengan Google
                   </button>
+
+                  {/* lupa password link */}
+                  <div className="text-right mt-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowReset(true);
+                        setResetEmail(email);
+                      }}
+                      className="text-sm text-blue-600 hover:underline"
+                    >
+                      Lupa password?
+                    </button>
+                  </div>
 
                   <button
                     type="submit"
@@ -292,6 +419,44 @@ export default function Page() {
               </motion.div>
             )}
           </AnimatePresence>
+
+          {/* reset password panel (tampil bila user klik 'Lupa password?') */}
+          {showReset && (
+            <div className="mt-4 p-4 bg-white/90 rounded-lg shadow-inner border">
+              <h3 className="font-semibold text-sm mb-1">Reset Password</h3>
+              <p className="text-xs text-gray-600 mb-2">
+                Masukkan email yang terdaftar, kami akan mengirimkan link untuk merubah password.
+              </p>
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  placeholder="Email untuk reset"
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  className="flex-1 px-3 py-2 border rounded-md"
+                />
+                <button
+                  onClick={handlePasswordReset}
+                  disabled={resetLoading}
+                  className="px-3 py-2 bg-blue-600 text-white rounded-md"
+                >
+                  {resetLoading ? "Mengirim..." : "Kirim"}
+                </button>
+                <button
+                  onClick={() => {
+                    setShowReset(false);
+                    setResetMessage(null);
+                  }}
+                  className="px-3 py-2 text-sm text-gray-600"
+                >
+                  Batal
+                </button>
+              </div>
+              {resetMessage && (
+                <p className="mt-2 text-sm text-gray-700">{resetMessage}</p>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
