@@ -700,7 +700,7 @@ function LandingPage() {
                     </a>
                   </li>
                   <li>
-                    <a href="/Kontakkami" className="hover:underline">
+                    <a href="/kontakkami" className="hover:underline">
                       Kontak
                     </a>
                   </li>
