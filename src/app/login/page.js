@@ -176,15 +176,35 @@ export default function Page() {
     setFormError("");
     setLoading(true);
     try {
-      await signInWithPopup(auth, googleProvider);
+      // sign in with popup
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      // get ID token and create server session (same flow as email login)
+      const idToken = await user.getIdToken();
+      const res = await fetch("/api/session/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idToken }),
+      });
+
+      if (!res.ok) {
+        console.error("session API response", res.status, await res.text());
+        throw new Error("Gagal membuat session. Coba lagi.");
+      }
+
       router.push("/");
     } catch (err) {
       console.error("Google login error:", err);
       const code = err?.code || "";
       if (code.includes("auth/popup-closed-by-user")) {
-        setFormError("Proses masuk dibatalkan");
+        setFormError("Proses masuk dibatalkan.");
+      } else if (code.includes("auth/cancelled-popup-request") || code.includes("auth/popup-blocked")) {
+        setFormError("Popup diblokir. Izinkan popup pada browser atau coba lagi.");
+      } else if (code.includes("auth/unauthorized-domain")) {
+        setFormError("Domain tidak diizinkan di Firebase Auth. Tambahkan domain ke Authorized domains di Firebase Console.");
       } else {
-        setFormError(err?.message || "Login Google gagal");
+        setFormError(err?.message || "Login Google gagal. Periksa console untuk detail.");
       }
     } finally {
       setLoading(false);
