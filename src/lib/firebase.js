@@ -1,5 +1,5 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInAnonymously, onAuthStateChanged, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
@@ -33,6 +33,7 @@ if (typeof window !== "undefined") {
 
 // ✅ Anonymous Auth Init
 export const initAuth = () => {
+  const auth = getAuth(app);
   onAuthStateChanged(auth, (user) => {
     if (!user) {
       signInAnonymously(auth).catch((error) => {
