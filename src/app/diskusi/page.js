@@ -15,7 +15,7 @@ import {
 } from "firebase/firestore";
 import { db, app } from "../../lib/firebase";
 import { Dialog } from "@headlessui/react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import {
   FaUserTie,
@@ -41,8 +41,9 @@ import {
   HeartIcon,
 } from "@heroicons/react/24/solid";
 
-export default function DiskusiPage() {
+export default function DiskusiPage(props) {
   const router = useRouter();
+  const pathname = usePathname();
   const [user, setUser] = useState(undefined);
   const [groups, setGroups] = useState([]);
   const [newGroupName, setNewGroupName] = useState("");
@@ -206,6 +207,18 @@ export default function DiskusiPage() {
   };
 
   const isAdmin = (group) => group.createdBy === user?.uid;
+
+  useEffect(() => {
+    // cek cookie sederhana; sesuaikan nama cookie/token sesuai implementasi Anda
+    const hasToken = document.cookie
+      .split(";")
+      .some((c) => c.trim().startsWith("token=") || c.trim().startsWith("session="));
+
+    if (!hasToken) {
+      // arahkan ke halaman login dan sertakan target kembali
+      router.push(`/login?next=${encodeURIComponent(pathname)}`);
+    }
+  }, [router, pathname]);
 
   if (user === undefined) {
     return null;

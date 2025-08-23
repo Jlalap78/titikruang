@@ -484,7 +484,7 @@ export default function DiskusiDetailPage() {
                     </div>
 
                     <div className="flex gap-3 mt-3 text-xs items-center">
-                      {["👍", "🥲", "❤️"].map((emoji) => {
+                      {['👍', '❤', '😥'].map((emoji) => {
                         const arr = Array.isArray(msg.reactions?.[emoji])
                           ? msg.reactions[emoji]
                           : [];
@@ -577,7 +577,7 @@ export default function DiskusiDetailPage() {
                                   )}
 
                                   <div className="flex items-center gap-2 pt-1">
-                                    {["👍", "🥲", "❤️"].map((emoji) => {
+                                    {['👍', '❤', '😥'].map((emoji) => {
                                       const arr = rReactions?.[emoji] || [];
                                       const actor = currentUser?.uid || anonUid;
                                       const has = arr.includes(actor);

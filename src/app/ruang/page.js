@@ -651,13 +651,13 @@ export default function DiskusiPage() {
                       {/* Tombol lihat lebih lanjut jika reply lebih dari 2 */}
                       {replies.length > 2 && (
                         <div>
-                          <Link
+                          <a
                             href={`/ruang/reply/${msg.id}`}
-                            className="text-xs text-[#3061F2] hover:underline"
-                            title="Lihat semua balasan"
+                            className="text-sm text-[#3061F2] hover:underline"
+                            title="Lihat thread reply"
                           >
-                            Lihat lebih lanjut →
-                          </Link>
+                            lihat lebih banyak →
+                          </a>
                         </div>
                       )}
                     </div>

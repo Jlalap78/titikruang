@@ -21,6 +21,21 @@ import { doc, getDoc, onSnapshot, serverTimestamp } from 'firebase/firestore';
 import { filterMessage } from '../../../../lib/filterMessage';
 import styles from './page.module.css';
 
+// helper untuk UID anonymous yang disimpan di localStorage
+function getOrCreateAnonUid() {
+  try {
+    if (typeof window === 'undefined') return 'anon_offline';
+    let id = localStorage.getItem('anonUid');
+    if (!id) {
+      id = 'anon_' + Math.random().toString(36).slice(2, 9);
+      localStorage.setItem('anonUid', id);
+    }
+    return id;
+  } catch {
+    return 'anon_offline';
+  }
+}
+
 async function ensureUserProfile(uid) {
   try {
     const ref = doc(db, 'userProfiles', uid);
@@ -47,13 +62,13 @@ export default function ReplyPage() {
   const [profiles, setProfiles] = useState({});
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [input, setInput] = useState('');
-  const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [sending, setSending] = useState(false);
   const [showAllReplies, setShowAllReplies] = useState(false);
   const endRef = useRef(null);
 
   const channelId = 'general';
-  const isGuest = !user || user.isAnonymous;
+  // tidak lagi memaksa login untuk melihat / berinteraksi
+  const isGuest = false;
 
   // auth
   useEffect(() => {
@@ -109,18 +124,8 @@ export default function ReplyPage() {
     endRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [replies.length]);
 
-  // Setelah user state didapat
-  useEffect(() => {
-    if (user && user.isAnonymous) {
-      setShowLoginPopup(true);
-    } else {
-      setShowLoginPopup(false);
-    }
-  }, [user]);
-
   const handleSendReply = async () => {
-    if (isGuest || sending) {
-      alert('Hanya user login non-anonymous yang bisa reply');
+    if (sending) {
       return;
     }
     const text = input.trim();
@@ -128,12 +133,18 @@ export default function ReplyPage() {
 
     setSending(true); // Mulai loading
 
-    const userProfile = profiles[user.uid] || { funnyName: user.displayName || 'Anon', avatar: '🙂' };
+    const actorUid = user?.uid || getOrCreateAnonUid();
+    const userProfile = profiles[actorUid] || { funnyName: user?.displayName || actorUid.slice(0,6), avatar: '🙂' };
+
+    // ensure anon profile stored locally for display
+    if (!profiles[actorUid]) {
+      setProfiles(prev => ({ ...prev, [actorUid]: userProfile }));
+    }
 
     try {
       await sendReply1(channelId, id, {
         text: filterMessage(text),
-        uid: user.uid,
+        uid: actorUid,
         senderName: userProfile.funnyName,
         avatar: userProfile.avatar,
         imageUrl: null,
@@ -149,7 +160,7 @@ export default function ReplyPage() {
 
   const handleReplyReaction = async (replyId, emoji) => {
     try {
-      const actor = user?.uid;
+      const actor = user?.uid || getOrCreateAnonUid();
       await toggleReplyReaction1(channelId, id, replyId, emoji, actor);
     } catch (e) {
       console.error(e);
@@ -178,32 +189,8 @@ export default function ReplyPage() {
 
   return (
     <main>
-      {/* Overlay dan popup jika anonymous */}
-      {showLoginPopup && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl shadow-2xl p-8 flex flex-col items-center gap-4 animate-fade-in">
-            <div className="text-5xl">🔒</div>
-            <div className="text-xl font-semibold text-gray-800 mb-2">Harap Login untuk Comment</div>
-            <div className="text-sm text-gray-500 mb-4 text-center">
-              Untuk berkomentar dan membalas thread, silakan login terlebih dahulu.<br />
-              Fitur ini hanya tersedia untuk user yang sudah login.
-            </div>
-            <Link href="/login">
-              <button className="bg-[#3061F2] hover:bg-[#27A4F2] text-white px-6 py-2 rounded-xl font-bold shadow transition">
-                Login Sekarang
-              </button>
-            </Link>
-            <Link href="/ruang">
-              <button className="mt-2 text-[#3061F2] hover:underline bg-transparent px-6 py-2 rounded-xl font-bold transition shadow-none">
-                Kembali
-              </button>
-            </Link>
-          </div>
-        </div>
-      )}
-
-      {/* Konten utama tetap ada, tapi diblokir interaksi jika popup muncul */}
-      <div className={showLoginPopup ? 'pointer-events-none blur-sm select-none' : ''}>
+      {/* Konten utama (popup login dihapus) */}
+      <div>
         <div className="min-h-screen bg-[#EAF0FA]">
           <div className="max-w-2xl mx-auto p-4">
             <div className="flex items-center justify-between mb-4">
@@ -259,15 +246,15 @@ export default function ReplyPage() {
 
                         {/* reactions */}
                         <div className="flex items-center gap-2 pt-1">
-                          {['👍', '😂', '🔥'].map((emoji) => {
-                            const actor = user?.uid || anonUid || getOrCreateAnonUid();
+                          {['👍', '❤', '😥'].map((emoji) => {
+                            const actor = user?.uid || getOrCreateAnonUid();
                             const arr = rep.reactions?.[emoji] || [];
                             const hasReacted = arr.includes(actor);
                             const count = arr.length;
                             return (
                               <button
                                 key={emoji}
-                                onClick={() => handleReplyReaction(reply.id, emoji)}
+                                onClick={() => handleReplyReaction(rep.id, emoji)}
                                 className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded-full border transition ${hasReacted
                                   ? 'bg-[#3061F2] text-white border-[#3061F2]'
                                   : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
@@ -305,7 +292,6 @@ export default function ReplyPage() {
                   className="text-[#3061F2] hover:text-[#F2780C] transition"
                   onClick={() => setShowEmojiPicker(prev => !prev)}
                   title="Pilih emoji"
-                  disabled={isGuest}
                 >
                   <Smile className="w-5 h-5" />
                 </button>
@@ -322,9 +308,8 @@ export default function ReplyPage() {
                   type="text"
                   value={input}
                   onChange={e => setInput(e.target.value)}
-                  placeholder={isGuest ? '🔒 Login untuk membalas' : 'Tulis balasan...'}
-                  readOnly={isGuest}
-                  className={`flex-1 px-4 py-3 text-sm rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#27A4F2] ${isGuest ? 'opacity-60 cursor-not-allowed' : ''}`}
+                  placeholder={'Tulis balasan...'}
+                  className={`flex-1 px-4 py-3 text-sm rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#27A4F2]`}
                   style={{ minWidth: 0, width: '100%' }} // agar responsif dan panjang
                   onKeyDown={e => {
                     if (e.key === 'Enter') handleSendReply();
@@ -332,9 +317,9 @@ export default function ReplyPage() {
                 />
                 <button
                   onClick={handleSendReply}
-                  disabled={isGuest || sending}
-                  className={`bg-[#3061F2] hover:bg-[#27A4F2] text-white px-4 py-3 rounded-lg transition flex items-center justify-center ${isGuest || sending ? 'opacity-60 cursor-not-allowed' : ''}`}
-                  title={isGuest ? '🔒 Login untuk membalas' : (sending ? 'Mengirim...' : 'Kirim balasan')}
+                  disabled={sending}
+                  className={`bg-[#3061F2] hover:bg-[#27A4F2] text-white px-4 py-3 rounded-lg transition flex items-center justify-center ${sending ? 'opacity-60 cursor-not-allowed' : ''}`}
+                  title={sending ? 'Mengirim...' : 'Kirim balasan'}
                 >
                   {sending ? (
                     <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">

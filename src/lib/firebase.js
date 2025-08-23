@@ -1,39 +1,35 @@
-import { initializeApp, getApps } from "firebase/app";
-import {
-  getFirestore,
-  collection,
-  query,
-  orderBy,
-  addDoc,
-  getDocs,
-  getDoc,
-  setDoc,
-  updateDoc,
-  doc,
-  runTransaction,
-  serverTimestamp,
-  where,
-  onSnapshot,
-  deleteField, // ✅ diperlukan oleh removeMember
-} from "firebase/firestore";
-import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
-// ✅ Firebase Config
 const firebaseConfig = {
-  apiKey: "AIzaSyApCy23siP1bGcpM0sHnF9f91TqQ2Re0HY",
-  authDomain: "anonymouschatforum.firebaseapp.com",
-  projectId: "anonymouschatforum",
-  storageBucket: "anonymouschatforum.appspot.com",
-  messagingSenderId: "230830743478",
-  appId: "1:230830743478:web:548ad86e945d53b982eb17",
-  measurementId: "G-E2HPWW6TC4",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  // ...tambahkan jika ada
 };
 
-// Inisialisasi hanya jika belum ada app
-export const app =
-  getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-export const db = getFirestore(app);
+// inisialisasi aman untuk HMR / multiple imports
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+
 export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
+export const googleProvider = new GoogleAuthProvider();
+
+// debug singkat (hapus di produksi)
+if (typeof window !== "undefined") {
+  console.debug("firebase exports:", {
+    app: !!app,
+    auth: !!auth,
+    db: !!db,
+    googleProvider: !!googleProvider,
+  });
+}
 
 // ✅ Anonymous Auth Init
 export const initAuth = () => {
