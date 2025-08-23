@@ -1,0 +1,186 @@
+/* container */
+.container {
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+/* outer card wrapper to keep background gradient + padding */
+.cardWrapper {
+  width: 100%;
+  max-width: 920px;
+  border-radius: 16px;
+  padding: 10px;
+}
+
+/* background panel (uses bg image + blur) */
+.cardBg {
+  border-radius: 12px;
+  padding: 6px;
+  background-image: url('/bgdiskusi.png');
+  background-size: cover;
+  background-position: center;  
+}
+
+/* inner white card similar to main chat */
+.card {
+  width: 100%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.98));
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(16,24,40,0.08);
+}
+
+/* keep back/title spacing */
+.back {
+  display: inline-block;
+  color: #1f6feb;
+  padding: 12px 16px;
+  font-size: 14px;
+  text-decoration: none;
+}
+.title {
+  margin: 4px 16px;
+  font-size: 20px;
+  color: #07143a;
+  font-weight: 600;
+}
+
+/* original message (top) — match card style with left accent */
+.message {
+  padding: 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  margin-bottom: 12px;
+  position: relative;
+  border: 1px solid rgba(15,23,42,0.04);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+}
+.message::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 12px;
+  bottom: 12px;
+  width: 8px;
+  border-radius: 6px;
+  background: linear-gradient(180deg,#ff7a45,#ff3d00);
+}
+
+/* replies scroll area */
+.replies {
+  max-height: 56vh;
+  overflow-y: auto;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* each reply wrapper aligns left or right */
+.reply {
+  display: flex;
+  width: 100%;
+}
+.reply.theirs {
+  justify-content: flex-start;
+}
+.reply.mine {
+  justify-content: flex-end;
+}
+
+/* bubble look — white bubble that floats with small accent */
+.replyBubble {
+  max-width: 78%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid rgba(15,23,42,0.04);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+  position: relative;
+}
+.replyBubble::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 14px;
+  bottom: 14px;
+  width: 6px;
+  border-radius: 6px;
+  background: linear-gradient(180deg,#ff7a45,#ff3d00);
+}
+
+/* mine (right) style: green like WhatsApp, no left accent */
+.mine .replyBubble {
+  background: linear-gradient(180deg,#dcf8c6,#d7f6b8);
+  border: 1px solid rgba(0,0,0,0.03);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.03);
+}
+.mine .replyBubble::before { display: none; }
+
+/* meta inside bubble */
+.replyMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: #4b5563;
+}
+.replyName {
+  font-weight: 700;
+  color: #0f172a;
+}
+.replyTime {
+  color: #6b7280;
+  font-size: 11px;
+}
+
+/* text */
+.replyText {
+  font-size: 15px;
+  color: #0f172a;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* input row like main chat (emoji left, input center, send button right) */
+.inputRow {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  align-items: center;
+  border-top: 1px solid rgba(0,0,0,0.04);
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.03));
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  margin-top: 12px;
+}
+.input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 24px;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: #ffffff;
+  outline: none;
+  font-size: 15px;
+}
+.send {
+  background: linear-gradient(180deg, #2196f3, #0b74d1);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 14px;
+  cursor: pointer;
+  min-width: 72px;
+  font-weight: 600;
+}
+
+/* small tweaks for scrollbar */
+.replies::-webkit-scrollbar {
+  width: 10px;
+}
+.replies::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.12);
+  border-radius: 6px;
+}

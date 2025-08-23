@@ -1,0 +1,112 @@
+'use client';
+
+import { useState } from 'react';
+
+const channels = ['general', 'random', 'help'];
+const emojis = ['👍', '😂', '🔥'];
+
+export default function DiskusiPage() {
+  const [selectedChannel, setSelectedChannel] = useState('general');
+  const [channelMessages, setChannelMessages] = useState({
+    general: [],
+    random: [],
+    help: [],
+  });
+  const [input, setInput] = useState('');
+
+  const handleSend = () => {
+    if (!input.trim()) return;
+    const newMessage = {
+      id: Date.now(),
+      text: input,
+      sender: 'Anon',
+      reactions: {}, // emoji: { count, reactedByUser }
+    };
+    setChannelMessages((prev) => ({
+      ...prev,
+      [selectedChannel]: [...prev[selectedChannel], newMessage],
+    }));
+    setInput('');
+  };
+
+  const toggleReaction = (msgId, emoji) => {
+    setChannelMessages((prev) => {
+      const updatedMessages = prev[selectedChannel].map((msg) => {
+        if (msg.id !== msgId) return msg;
+        const current = msg.reactions?.[emoji] || { count: 0, reactedByUser: false };
+        const newReactions = {
+          ...msg.reactions,
+          [emoji]: current.reactedByUser
+            ? { count: current.count - 1, reactedByUser: false }
+            : { count: current.count + 1, reactedByUser: true },
+        };
+        return { ...msg, reactions: newReactions };
+      });
+
+      return { ...prev, [selectedChannel]: updatedMessages };
+    });
+  };
+
+  return (
+    <main className="min-h-screen bg-[#F2F2F2] p-6">
+      {/* Channel Switcher */}
+      <div className="flex gap-4 mb-6">
+        {channels.map((channel) => (
+          <button
+            key={channel}
+            className={`px-4 py-2 rounded-full font-medium transition ${
+              selectedChannel === channel
+                ? 'bg-[#3061F2] text-white'
+                : 'bg-white text-gray-800 border'
+            }`}
+            onClick={() => setSelectedChannel(channel)}
+          >
+            #{channel}
+          </button>
+        ))}
+      </div>
+
+      {/* Messages */}
+      <div className="space-y-4">
+        {channelMessages[selectedChannel].map((msg) => (
+          <div key={msg.id} className="bg-white p-4 rounded shadow">
+            <div className="font-bold text-[#3061F2]">{msg.sender}</div>
+            <p className="text-gray-800">{msg.text}</p>
+            <div className="flex gap-2 mt-2">
+              {emojis.map((emoji) => {
+                const data = msg.reactions?.[emoji] || { count: 0, reactedByUser: false };
+                return (
+                  <button
+                    key={emoji}
+                    onClick={() => toggleReaction(msg.id, emoji)}
+                    className={`text-xl px-2 py-1 rounded-full transition ${
+                      data.reactedByUser ? 'bg-[#27A4F2]/20' : 'hover:bg-gray-200'
+                    }`}
+                  >
+                    {emoji} {data.count > 0 ? data.count : ''}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Input */}
+      <div className="mt-6 flex gap-2">
+        <input
+          className="flex-1 border rounded px-4 py-2"
+          placeholder={`Message #${selectedChannel}`}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <button
+          className="bg-[#27A4F2] text-white px-6 py-2 rounded"
+          onClick={handleSend}
+        >
+          Send
+        </button>
+      </div>
+    </main>
+  );
+}

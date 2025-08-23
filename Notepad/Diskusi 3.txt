@@ -1,0 +1,88 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import {
+  db,
+  channelMessagesCol,
+  serverTimestamp,
+} from "../../lib/firebase";
+import {
+  onSnapshot,
+  addDoc,
+  query,
+  orderBy,
+  limit,
+} from "firebase/firestore";
+import {
+  Smile,
+  Image as ImageIcon,
+  Send,
+  Hash,
+} from "lucide-react";
+
+export default function DiskusiPage() {
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+
+  // Fetch messages in real time
+  useEffect(() => {
+    const q = query(channelMessagesCol("general"), orderBy("createdAt"), limit(50));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setMessages(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Send message
+  const handleSendMessage = async () => {
+    if (newMessage.trim() === "") return;
+
+    await addDoc(channelMessagesCol("general"), {
+      text: newMessage.trim(),
+      createdAt: serverTimestamp(),
+    });
+
+    setNewMessage("");
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
+      <header className="bg-gray-800 px-4 py-3 text-lg font-bold flex items-center gap-2">
+        <Hash size={20} /> #general
+      </header>
+
+      <main className="flex-1 p-4 overflow-y-auto space-y-4">
+        {messages.map((msg) => (
+          <div key={msg.id} className="bg-gray-800 p-3 rounded-md">
+            <p className="text-sm text-gray-300">{msg.text}</p>
+            <span className="text-xs text-gray-500">
+              {msg.createdAt?.seconds
+                ? new Date(msg.createdAt.seconds * 1000).toLocaleTimeString()
+                : "Sending..."}
+            </span>
+          </div>
+        ))}
+      </main>
+
+      <footer className="bg-gray-800 p-4 flex gap-2 items-center">
+        <button className="text-gray-400 hover:text-white">
+          <Smile size={20} />
+        </button>
+        <button className="text-gray-400 hover:text-white">
+          <ImageIcon size={20} />
+        </button>
+        <input
+          className="flex-1 bg-gray-700 text-white px-3 py-2 rounded-md outline-none"
+          placeholder="Type your message..."
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+        />
+        <button onClick={handleSendMessage} className="text-blue-500 hover:text-blue-400">
+          <Send size={20} />
+        </button>
+      </footer>
+    </div>
+  );
+}
