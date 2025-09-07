@@ -10,15 +10,22 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   sendPasswordResetEmail,
+<<<<<<< HEAD
   updateProfile,
 } from "firebase/auth";
 import { initializeApp, getApps } from "firebase/app";
 import { setDoc, doc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
+=======
+  signInWithRedirect, // <-- added
+} from "firebase/auth";
+import { auth, googleProvider } from "../../lib/firebase";
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { FaGoogle } from "react-icons/fa";
 
+<<<<<<< HEAD
 // --- Firebase Client Config ---
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -32,6 +39,9 @@ const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
 export default function LoginPage() {
+=======
+export default function Page() {
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
   const [isLogin, setIsLogin] = useState(true);
   const [agree, setAgree] = useState(false);
   const [email, setEmail] = useState("");
@@ -39,6 +49,10 @@ export default function LoginPage() {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+<<<<<<< HEAD
+=======
+  const [isProcessing, setIsProcessing] = useState(false);
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
   const router = useRouter();
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
@@ -152,6 +166,7 @@ export default function LoginPage() {
     setFormError("");
     try {
       const userCred = await createUserWithEmailAndPassword(auth, email, password);
+<<<<<<< HEAD
   // Set displayName to the name entered during registration
   await updateProfile(userCred.user, { displayName: name });
       // Save name to Firestore user profile
@@ -159,6 +174,8 @@ export default function LoginPage() {
         name: name,
         createdAt: new Date()
       }, { merge: true });
+=======
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
       const idToken = await userCred.user.getIdToken();
       await fetch("/api/session/login", {
         method: "POST",
@@ -170,7 +187,11 @@ export default function LoginPage() {
       console.error("Register error:", err);
       const code = err?.code || "";
       if (code.includes("auth/email-already-in-use")) {
+<<<<<<< HEAD
         setEmailError("Email sudah terdaftar, silakan login.");
+=======
+        setEmailError("Email sudah terdaftar");
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
       } else if (code.includes("auth/weak-password")) {
         setPasswordError("Password terlalu lemah");
       } else {
@@ -183,12 +204,31 @@ export default function LoginPage() {
 
   // --- Handle Google Login ---
   const handleGoogleLogin = async () => {
+<<<<<<< HEAD
     setFormError("");
     setLoading(true);
+=======
+    if (isProcessing) return;
+    setIsProcessing(true);
+    setFormError("");
+
+    // debug quick-check (lihat console)
+    console.debug("DEBUG auth / googleProvider:", { auth, googleProvider });
+
+    // guard: pastikan kedua instance tersedia
+    if (!auth || !googleProvider) {
+      console.error("auth or googleProvider is undefined", { auth, googleProvider });
+      setFormError("Internal error: auth/provider tidak tersedia. Cek konfigurasi Firebase.");
+      setIsProcessing(false);
+      return;
+    }
+
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
     try {
       // sign in with popup
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
+<<<<<<< HEAD
 
       // get ID token and create server session (same flow as email login)
       const idToken = await user.getIdToken();
@@ -204,6 +244,20 @@ export default function LoginPage() {
       }
 
       router.push("/");
+=======
+      const idToken = await user.getIdToken();
+
+      // kirim ke server untuk buat session cookie
+      await fetch("/api/sessionLogin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ idToken }),
+      });
+
+      // sekarang cookie session sudah diset oleh server, redirect ke /diskusi
+      window.location.href = "/diskusi";
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
     } catch (err) {
       console.error("Google login error:", err);
       const code = err?.code || "";
@@ -216,8 +270,22 @@ export default function LoginPage() {
       } else {
         setFormError(err?.message || "Login Google gagal. Periksa console untuk detail.");
       }
+<<<<<<< HEAD
     } finally {
       setLoading(false);
+=======
+
+      // fallback ke redirect bila popup bermasalah
+      if (code === "auth/cancelled-popup-request" || code === "auth/popup-blocked") {
+        try {
+          await signInWithRedirect(auth, googleProvider);
+        } catch (redirectErr) {
+          console.error("Redirect fallback failed", redirectErr);
+        }
+      }
+    } finally {
+      setIsProcessing(false);
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
     }
   };
 
@@ -328,10 +396,18 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={handleGoogleLogin}
+<<<<<<< HEAD
                     className="w-full flex items-center justify-center gap-2 border border-gray-300 bg-white py-2 rounded-lg hover:bg-gray-100 transition"
                   >
                     <FaGoogle className="w-5 h-5" />
                     Login dengan Google
+=======
+                    disabled={isProcessing}
+                    className="w-full flex items-center justify-center gap-2 border border-gray-300 bg-white py-2 rounded-lg hover:bg-gray-100 transition"
+                  >
+                    <FaGoogle className="w-5 h-5" />
+                    {isProcessing ? "Memproses..." : "Login dengan Google"}
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                   </button>
 
                   {/* lupa password link */}

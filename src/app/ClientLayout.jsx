@@ -9,4 +9,8 @@ export default function ClientLayout({ children }) {
   }, []);
 
   return <>{children}</>;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034

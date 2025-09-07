@@ -1,12 +1,15 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+<<<<<<< HEAD
 
 // Fungsi format rupiah
 function formatRupiah(num) {
   if (!num) return "";
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
+=======
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -26,6 +29,7 @@ import {
 
 export default function KuisBintang() {
   const [harga, setHarga] = useState(10000000);
+<<<<<<< HEAD
   const [hargaLocked, setHargaLocked] = useState(false);
   const [tenor, setTenor] = useState(6);
   const [tenorLocked, setTenorLocked] = useState(false);
@@ -33,6 +37,11 @@ export default function KuisBintang() {
   const [bungaLocked, setBungaLocked] = useState(false);
   const [danaPribadi, setDanaPribadi] = useState(5000000);
   const [danaLocked, setDanaLocked] = useState(false);
+=======
+  const [tenor, setTenor] = useState(6);
+  const [bunga, setBunga] = useState(0.4); // persen per hari
+  const [danaPribadi, setDanaPribadi] = useState(5000000);
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
   const [pengeluaranList, setPengeluaranList] = useState([
     { nama: "", jumlah: 0 },
   ]);
@@ -43,7 +52,11 @@ export default function KuisBintang() {
   const dropdownRef = useRef(null);
 
   const dropdowns = {
+<<<<<<< HEAD
     support: ["🗣 Ruang Curhat", "🤝 Diskusi Komunitas"],
+=======
+    support: ["🗣️ Ruang Curhat", "🤝 Diskusi Komunitas"],
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
     learning: ["🎧 Konten Edukatif", "💰 Simulasi Pinjaman"],
     tools: ["⭐ Kuis Bintang", "🤖 HelpBot", "🚨 Emergency Connect"],
   };
@@ -88,6 +101,7 @@ export default function KuisBintang() {
   const evaluasiSisa = sisaDana - pembayaranPerBulan;
 
   return (
+<<<<<<< HEAD
   <div className="min-h-screen bg-gradient-to-br from-[#3061F2] via-white to-[#F2BF27]/10 text-gray-800">
       {/* Main wrapper for all content */}
       <div>
@@ -100,6 +114,18 @@ export default function KuisBintang() {
         >
           <div className="max-w-7xl mx-auto flex items-center justify-between p-4 relative">
             <Link href="/" className="flex items-center gap-2 cursor-pointer">
+=======
+    <div className="min-h-screen bg-gradient-to-br from-[#3061F2] via-white to-[#F2BF27]/10 text-gray-800">
+      {/* Header */}
+      <motion.header
+        className="bg-white text-gray-900 shadow sticky top-0 z-50"
+        initial={{ y: 0 }}
+        animate={{ y: scrollY > 100 ? -100 : 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="max-w-7xl mx-auto flex items-center justify-between p-4 relative">
+          <Link href="/" className="flex items-center gap-2 cursor-pointer">
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
             <Image
               src="/logo.png"
               alt="TitikRuang Logo"
@@ -281,6 +307,7 @@ export default function KuisBintang() {
         </h1>
 
         <div className="max-w-3xl mx-auto space-y-6 bg-white p-6 rounded-xl shadow-xl">
+<<<<<<< HEAD
           <div className="mb-6">
             <label className="block text-lg font-bold mb-2 text-gray-800 tracking-wide">
               Jumlah Pinjaman (Rp)
@@ -405,6 +432,76 @@ export default function KuisBintang() {
             </p>
             <p className="text-base text-gray-400 mt-1 italic">*Gaji tiap Bulan</p>
             {!danaLocked && <p className="text-sm text-red-500 font-semibold mt-1">Klik Input untuk konfirmasi</p>}
+=======
+          <div>
+            <label className="block font-semibold mb-2">
+              Jumlah Pinjaman (Rp)
+            </label>
+            <input
+              type="range"
+              min={1000000}
+              max={100000000}
+              step={1000000}
+              value={harga}
+              onChange={(e) => setHarga(Number(e.target.value))}
+              className="w-full"
+            />
+            <p className="mt-1 text-blue-600 font-semibold">
+              Rp {harga.toLocaleString()}
+            </p>
+          </div>
+
+          <div>
+            <label className="block font-semibold mb-2">Tenor (bulan)</label>
+            <input
+              type="range"
+              min={1}
+              max={24}
+              value={tenor}
+              onChange={(e) => setTenor(Number(e.target.value))}
+              className="w-full"
+            />
+            <p className="mt-1 text-blue-600 font-semibold">
+              {tenor} bulan ({hari} hari)
+            </p>
+          </div>
+
+          <div>
+            <label className="block font-semibold mb-2">
+              Bunga per Hari (%)
+            </label>
+            <input
+              type="range"
+              min={0.1}
+              max={1}
+              step={0.1}
+              value={bunga}
+              onChange={(e) => setBunga(Number(e.target.value))}
+              className="w-full"
+            />
+            <p className="mt-1 text-blue-600 font-semibold">
+              {bunga.toFixed(1)}% per hari
+            </p>
+          </div>
+
+          <div>
+            <label className="block font-semibold mb-2">
+              Dana Pribadi (Rp)
+            </label>
+            <input
+              type="range"
+              min={0}
+              max={100000000}
+              step={500000}
+              value={danaPribadi}
+              onChange={(e) => setDanaPribadi(Number(e.target.value))}
+              className="w-full"
+            />
+            <p className="mt-1 text-blue-600 font-semibold">
+              Rp {danaPribadi.toLocaleString()}
+            </p>
+            <p className="text-sm text-gray-500 mt-1">*Gaji tiap Bulan</p>
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
           </div>
 
           <div>
@@ -412,10 +509,14 @@ export default function KuisBintang() {
               Rincian Pengeluaran Pribadi
             </label>
             {pengeluaranList.map((item, index) => (
+<<<<<<< HEAD
               <div
                 key={index}
                 className="flex gap-4 mb-4 items-center bg-white rounded-2xl shadow-md border border-gray-200 transition-all duration-300 hover:shadow-lg px-4 py-3"
               >
+=======
+              <div key={index} className="flex gap-2 mb-2">
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                 <input
                   type="text"
                   placeholder="Nama Pengeluaran"
@@ -423,6 +524,7 @@ export default function KuisBintang() {
                   onChange={(e) =>
                     handlePengeluaranChange(index, "nama", e.target.value)
                   }
+<<<<<<< HEAD
                   className="flex-1 bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-base focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all duration-200 shadow-sm placeholder-gray-400"
                 />
                 <input
@@ -438,12 +540,28 @@ export default function KuisBintang() {
                     handlePengeluaranChange(index, "jumlah", val);
                   }}
                   className="w-44 bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-base focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all duration-200 shadow-sm placeholder-gray-400 text-right"
+=======
+                  className="flex-1 border p-2 rounded"
+                />
+                <input
+                  type="number"
+                  placeholder="Jumlah (Rp)"
+                  value={item.jumlah}
+                  onChange={(e) =>
+                    handlePengeluaranChange(index, "jumlah", e.target.value)
+                  }
+                  className="w-40 border p-2 rounded"
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                 />
                 {index > 0 && (
                   <button
                     onClick={() => removePengeluaran(index)}
+<<<<<<< HEAD
                     className="text-red-500 font-bold px-3 py-2 rounded-full bg-red-50 hover:bg-red-100 transition-all duration-200 shadow-sm"
                     aria-label="Hapus Pengeluaran"
+=======
+                    className="text-red-600 font-bold px-2"
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                   >
                     −
                   </button>
@@ -466,6 +584,7 @@ export default function KuisBintang() {
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <h2 className="text-lg font-bold text-blue-700">Hasil Simulasi</h2>
+<<<<<<< HEAD
             {harga > 0 && tenor > 0 && bunga > 0 && danaPribadi > 0 &&
               pengeluaranList.every(item => item.nama.trim() !== "" && Number(item.jumlah) > 0) ? (
                 <>
@@ -495,12 +614,35 @@ export default function KuisBintang() {
                   Silakan isi semua data pinjaman, tenor, bunga, dana pribadi, dan rincian pengeluaran terlebih dahulu untuk melihat hasil simulasi.
                 </p>
               )}
+=======
+            <p className="mt-2">
+              Jumlah Pinjaman: <strong>Rp {pinjaman.toLocaleString()}</strong>
+            </p>
+            <p>
+              Total Bunga ({hari} hari):{" "}
+              <strong>Rp {Math.round(bungaTotal).toLocaleString()}</strong>
+            </p>
+            <p>
+              Total yang Harus Dibayar:{" "}
+              <strong className="text-red-600 text-xl">
+                Rp {Math.round(totalPembayaran).toLocaleString()}
+              </strong>
+            </p>
+            <p>
+              Pembayaran Per Bulan:{" "}
+              <strong className="text-blue-600 text-xl">
+                {" "}
+                Rp {Math.round(pembayaranPerBulan).toLocaleString()}
+              </strong>
+            </p>
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
           </div>
 
           <div className="mt-4 p-4 bg-white border rounded-lg">
             <h3 className="font-semibold text-gray-800 mb-2">
               Evaluasi Kemampuan Dana Pribadi
             </h3>
+<<<<<<< HEAD
             {harga > 0 && tenor > 0 && bunga > 0 && danaPribadi > 0 &&
               pengeluaranList.every(item => item.nama.trim() !== "" && Number(item.jumlah) > 0) ? (
                 evaluasiSisa >= 0 ? (
@@ -522,6 +664,22 @@ export default function KuisBintang() {
                   Silakan isi semua data pinjaman, tenor, bunga, dana pribadi, dan rincian pengeluaran terlebih dahulu untuk melihat rekomendasi.
                 </p>
               )}
+=======
+            {evaluasiSisa >= 0 ? (
+              <p className="text-green-600 font-semibold">
+                ✅ Dana kamu cukup untuk membayar tiap bulan. Sisa bulanan: Rp{" "}
+                {Math.round(evaluasiSisa).toLocaleString()} Apa Kamu yakin Masih
+                ingin Meminjam?. Coba kamu Pertimbangkan lagi
+              </p>
+            ) : (
+              <p className="text-red-600 font-semibold">
+                ❌ Dana kamu tidak memenuhi untuk melakukan pembayaran tiap
+                bulannya. uang yang masih kamu perlu bayarkan: Rp{" "}
+                {Math.abs(Math.round(evaluasiSisa)).toLocaleString()} apa kamu
+                yakin masih ingin meminjam?
+              </p>
+            )}
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
           </div>
         </div>
       </div>
@@ -621,7 +779,11 @@ export default function KuisBintang() {
                 <div className="flex items-center gap-2">
                   <FaWhatsapp />
                   <a
+<<<<<<< HEAD
                     href="https://wa.me/6281959730664"
+=======
+                    href="https://wa.me/10000"
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:underline"
@@ -643,9 +805,21 @@ export default function KuisBintang() {
                 >
                   <FaInstagram className="hover:text-pink-500" />
                 </a>
+<<<<<<< HEAD
                 
                 <a
                   href="https://youtube.com/@officialtitikruang?si=Go4uHC14HTPqusI8"
+=======
+                <a
+                  href="https://www.facebook.com/akunmu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaFacebook className="hover:text-blue-600" />
+                </a>
+                <a
+                  href="https://www.youtube.com/@TitikRuangOfficial"
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -677,9 +851,17 @@ export default function KuisBintang() {
         className="fixed bottom-20 right-6 z-[99] bg-[#F2780C] text-white p-3 rounded-full shadow-lg hover:bg-[#F25050] z-50"
         aria-label="Back to Top"
       >
+<<<<<<< HEAD
         ⬆
       </button>
       </div>
     </div>
   );
 }
+=======
+        ⬆️
+      </button>
+    </div>
+  );
+}
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034

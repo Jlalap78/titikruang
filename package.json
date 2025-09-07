@@ -15,7 +15,10 @@
     "@tensorflow/tfjs": "^4.22.0",
     "autoprefixer": "^10.4.0",
     "bad-words": "^4.0.0",
+<<<<<<< HEAD
     "buffer": "^6.0.3",
+=======
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
     "cloudinary": "^2.7.0",
     "date-fns": "^4.1.0",
     "emoji-mart": "^5.6.0",
@@ -25,6 +28,7 @@
     "framer-motion": "^10.18.0",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.525.0",
+<<<<<<< HEAD
     "next": "^15.5.0",
     "nsfwjs": "^4.2.1",
     "openai": "^5.10.2",
@@ -35,6 +39,17 @@
     "react-intersection-observer": "^9.16.0",
     "react-scroll": "^1.9.3",
     "recharts": "^3.1.2",
+=======
+    "next": "latest",
+    "nsfwjs": "^4.2.1",
+    "openai": "^5.10.2",
+    "postcss": "^8.4.0",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-icons": "^5.5.0",
+    "react-intersection-observer": "^9.16.0",
+    "react-scroll": "^1.9.3",
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
     "swiper": "^11.2.10",
     "tailwindcss": "^3.3.0",
     "uuid": "^11.1.0"

@@ -113,6 +113,7 @@ const COMMUNITY_PALETTE = [
 ];
 
 function pickColorById(id) {
+<<<<<<< HEAD
   // Use gradients from ruang/page.js
   const gradients = [
     'from-[#3061F2] to-[#F2780C]',
@@ -127,11 +128,15 @@ function pickColorById(id) {
     'from-[#F25050] to-[#27A4F2]',
   ];
   if (!id) return gradients[0];
+=======
+  if (!id) return COMMUNITY_PALETTE[0];
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
   let h = 0;
   for (let i = 0; i < id.length; i++) {
     h = (h << 5) - h + id.charCodeAt(i);
     h |= 0;
   }
+<<<<<<< HEAD
   return gradients[Math.abs(h) % gradients.length];
 }
 
@@ -144,6 +149,12 @@ export default function DiskusiDetailPage() {
   // Reply edit state (for threaded replies - kept as is)
   const [editingReply, setEditingReply] = useState(null); // { msgId, replyId } | null
   const [replyEditText, setReplyEditText] = useState('');
+=======
+  return COMMUNITY_PALETTE[Math.abs(h) % COMMUNITY_PALETTE.length];
+}
+
+export default function DiskusiDetailPage() {
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
   const params = useParams();
   const groupId = params.diskusiid;
   const auth = getAuth();
@@ -168,12 +179,15 @@ export default function DiskusiDetailPage() {
 
   const messagesEndRef = useRef(null);
 
+<<<<<<< HEAD
   // input ref to focus when replying
   const inputRef = useRef(null);
 
   // reply-as-WhatsApp state (the quoted message above input)
   const [replyingTo, setReplyingTo] = useState(null); // { id, text, name, avatar, uid } | null
 
+=======
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
   // set anon UID sekali saja
   useEffect(() => {
     setAnonUid(getOrCreateAnonUid());
@@ -286,13 +300,18 @@ export default function DiskusiDetailPage() {
       profiles[currentUser.uid] || (await ensureUserProfile(currentUser.uid));
 
     const messageRef = collection(db, "groups", groupId, "messages");
+<<<<<<< HEAD
     const payload = {
+=======
+    await addDoc(messageRef, {
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
       text: filterMessage(newMessage.trim()),
       uid: currentUser.uid,
       name: senderProfile.funnyName,
       avatar: senderProfile.avatar,
       reactions: {},
       createdAt: serverTimestamp(),
+<<<<<<< HEAD
     };
 
     // jika ada reply (WhatsApp style), simpan subfield replyTo di message
@@ -309,6 +328,10 @@ export default function DiskusiDetailPage() {
     await addDoc(messageRef, payload);
     setNewMessage("");
     setReplyingTo(null);
+=======
+    });
+    setNewMessage("");
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
   };
 
   const toggleReaction = async (msgId, emoji) => {
@@ -391,6 +414,7 @@ export default function DiskusiDetailPage() {
     }
   };
 
+<<<<<<< HEAD
   // Fix: Add handleDelete function inside the component
   async function handleDelete() {
     try {
@@ -405,6 +429,8 @@ export default function DiskusiDetailPage() {
     setDeleteConfirm({ show: false, msgId: null });
   }
 
+=======
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
   // selama cek auth, tampilkan pesan singkat (atau loading)
   if (checkingAuth) {
     return (
@@ -415,6 +441,7 @@ export default function DiskusiDetailPage() {
   // jika sudah diarahkan ke /login, komponen ini biasanya tidak akan dirender lagi,
   // tapi tetap aman untuk melanjutkan render ketika user sudah login.
   return (
+<<<<<<< HEAD
     <main>
       {/* Modern 2025-style popup for delete confirmation, always rendered at top level */}
       {deleteConfirm.show && (
@@ -595,10 +622,143 @@ export default function DiskusiDetailPage() {
                         const actor = currentUser?.uid || anonUid;
                         const count = msg.reactions?.[emoji]?.length || 0;
                         const hasReacted = msg.reactions?.[emoji]?.includes(actor);
+=======
+    <div
+      className="min-h-screen w-full flex justify-center items-start"
+      style={{
+        // halaman: gradasi biru laut
+        background:
+          "linear-gradient(180deg, #e6f5ff 0%, #cfeeff 40%, #b6e0ff 100%)",
+        padding: "48px 24px",
+      }}
+    >
+      {/* central column with soft blue gradient border */}
+      <div
+        className="w-full max-w-3xl rounded-2xl p-1"
+        style={{
+          background:
+            "linear-gradient(90deg, rgba(173,216,230,0.55), rgba(240,248,255,0.15))",
+        }}
+      >
+        {/* inner white card (content area) */}
+        <div
+          className="rounded-2xl shadow-2xl"
+          style={{
+            // gunakan bgartikel.jpg sebagai background utama untuk area group chat
+            backgroundImage: "url('/bgdiskusi.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backdropFilter: "saturate(120%) blur(6px)",
+          }}
+        >
+          {/* sticky header inside the centered card */}
+          <header
+            className="sticky top-4 z-40 w-full flex items-center justify-between px-7 py-4 border-b border-gray-100"
+            style={{
+              backgroundImage: "url('/bgheaderdiskusi1.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundBlendMode: "overlay",
+              // overlay agar teks tombol/label tetap kontras
+              backgroundColor: "rgba(255, 255, 255, 0)",
+              backdropFilter: "blur(6px) saturate(120%)",
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <Image
+                src="/logo2.jpg"
+                alt="TitikRuang"
+                width={40}
+                height={40}
+                className="w-10 h-10 rounded-full object-cover"
+              />
+              <div className="text-lg font-semibold">Group Chat</div>
+            </div>
+
+            <button
+              onClick={() => router.push("/diskusi")}
+              className="ml-auto bg-[#3061F2] text-white px-4 py-2 rounded-md shadow hover:brightness-95 transition"
+              aria-label="Kembali"
+            >
+              Kembali
+            </button>
+          </header>
+
+          {/* body: messages list + input area */}
+          <div
+            className="px-6 py-6"
+            style={{
+              // pastikan area pesan bisa tampil di atas background artikel
+              background: "transparent",
+            }}
+          >
+            {/* optional subheader / meta */}
+            <div className="mb-4 text-sm text-gray-600">
+              {/* ... you can show group name / member count here ... */}
+            </div>
+
+            {/* messages container: keep same mapping logic you already have */}
+            <div className="space-y-4">
+              {messages.map((msg) => {
+                const profile = profiles[msg.uid] || {
+                  funnyName: msg.name || "AnonUser",
+                  avatar: msg.avatar || "🙂",
+                };
+                const replies = repliesMap[msg.id] || [];
+                const replyCount = replies.length;
+                return (
+                  <div
+                    key={msg.id}
+                    className={`relative p-4 rounded-xl max-w-[85%] flex flex-col shadow-md bg-white ${
+                      msg.uid === currentUser?.uid ? "ml-auto" : "mr-auto"
+                    }`}
+                    style={{
+                      backgroundColor: "rgba(255,255,255,1)",
+                      border: "1px solid rgba(0,0,0,0.04)",
+                    }}
+                  >
+                    {/* decorative left gradient stripe */}
+                    <span
+                      className="absolute -left-2 top-6 w-1.5 h-14 rounded-r-full"
+                      style={{
+                        background:
+                          "linear-gradient(180deg,#CDE7FF,#E8F1FF 40%, #F2BF27)",
+                      }}
+                      aria-hidden
+                    />
+
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="text-xl">{profile.avatar}</div>
+                      <div className="flex flex-col">
+                        <span className="font-semibold text-sm">
+                          {profile.funnyName}
+                        </span>
+                        <span className="text-xs text-gray-400">
+                          {msg.createdAt?.toDate?.().toLocaleString?.() ||
+                            "Sending..."}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="text-sm whitespace-pre-wrap text-gray-800">
+                      {msg.text}
+                    </div>
+
+                    <div className="flex gap-3 mt-3 text-xs items-center">
+                      {['👍', '❤', '😥'].map((emoji) => {
+                        const arr = Array.isArray(msg.reactions?.[emoji])
+                          ? msg.reactions[emoji]
+                          : [];
+                        const actor = currentUser?.uid || anonUid;
+                        const hasReacted = arr.includes(actor);
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                         return (
                           <button
                             key={emoji}
                             onClick={() => toggleReaction(msg.id, emoji)}
+<<<<<<< HEAD
                             className={`flex items-center gap-1 text-sm px-2 py-1 rounded-full border transition active:scale-95 ${hasReacted
                               ? 'bg-[#3061F2] text-white border-[#3061F2]'
                               : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
@@ -739,6 +899,161 @@ export default function DiskusiDetailPage() {
                             </a>
                           </div>
                         )}
+=======
+                            className={`hover:scale-110 transition ${
+                              hasReacted ? "font-bold text-blue-600" : ""
+                            }`}
+                          >
+                            {emoji} {arr.length > 0 ? arr.length : ""}
+                          </button>
+                        );
+                      })}
+
+                      {/* Reply toggle + count */}
+                      <button
+                        onClick={() => toggleThread(msg.id)}
+                        className="ml-2 text-sm px-2 py-1 rounded-full border bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        title="Balas pesan ini"
+                      >
+                        💬 {replyCount}
+                      </button>
+                    </div>
+
+                    {msg.uid === currentUser?.uid && (
+                      <div className="flex gap-1 mt-2 text-xs">
+                        <button
+                          onClick={() => deleteMessage(msg.id, msg.uid)}
+                          className="text-red-500 hover:underline"
+                        >
+                          Hapus
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Expanded thread preview */}
+                    {expanded[msg.id] && (
+                      <div className="pl-4 pt-3 space-y-3">
+                        {replies.length === 0 && (
+                          <div className="text-sm text-gray-500">
+                            Belum ada balasan.
+                          </div>
+                        )}
+
+                        {replies
+                          .slice()
+                          .sort((a, b) => {
+                            const aCount = Object.values(
+                              a.reactions || {}
+                            ).reduce((sum, arr) => sum + (arr?.length || 0), 0);
+                            const bCount = Object.values(
+                              b.reactions || {}
+                            ).reduce((sum, arr) => sum + (arr?.length || 0), 0);
+                            return bCount - aCount;
+                          })
+                          .slice(0, 2)
+                          .map((rep) => {
+                            const rprof = profiles[rep.uid] || {
+                              funnyName:
+                                rep.name ||
+                                (rep.uid ? rep.uid.slice(0, 6) : "Anon"),
+                              avatar: rep.avatar || "🙂",
+                            };
+                            const rReactions = rep.reactions || {};
+                            return (
+                              <div
+                                key={rep.id}
+                                className="flex items-start gap-3"
+                              >
+                                <div className="w-8 h-8 rounded-full bg-[#F2BF27]/60 flex items-center justify-center text-base">
+                                  {rprof.avatar}
+                                </div>
+                                <div className="flex-1">
+                                  <p className="text-xs text-gray-500">
+                                    <span className="font-semibold text-black">
+                                      {rprof.funnyName}
+                                    </span>{" "}
+                                    {rep.timestamp
+                                      ?.toDate?.()
+                                      .toLocaleString?.() ?? "..."}
+                                  </p>
+                                  {rep.text && (
+                                    <p className="text-sm text-gray-800">
+                                      {filterMessage(rep.text)}
+                                    </p>
+                                  )}
+
+                                  <div className="flex items-center gap-2 pt-1">
+                                    {['👍', '❤', '😥'].map((emoji) => {
+                                      const arr = rReactions?.[emoji] || [];
+                                      const actor = currentUser?.uid || anonUid;
+                                      const has = arr.includes(actor);
+                                      return (
+                                        <button
+                                          key={emoji}
+                                          onClick={() =>
+                                            handleReplyReaction(
+                                              msg.id,
+                                              rep.id,
+                                              emoji
+                                            )
+                                          }
+                                          className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded-full border transition ${
+                                            has
+                                              ? "bg-[#3061F2] text-white border-[#3061F2]"
+                                              : "bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200"
+                                          }`}
+                                        >
+                                          {emoji}
+                                          {arr.length > 0 && (
+                                            <span>{arr.length}</span>
+                                          )}
+                                        </button>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+
+                        {/* show "lihat lebih banyak" jika ada lebih dari 2 balasan */}
+                        {replies.length > 2 && (
+                          <div className="pt-2">
+                            <a
+                              href={`/diskusi/reply/${msg.id}?groupId=${groupId}`}
+                              className="text-sm text-[#3061F2] hover:underline"
+                            >
+                              lihat lebih banyak →
+                            </a>
+                          </div>
+                        )}
+
+                        {/* reply input */}
+                        <div className="flex gap-2 items-center pt-2">
+                          <input
+                            type="text"
+                            placeholder="Tulis balasan..."
+                            value={replyInputs[msg.id] || ""}
+                            onChange={(e) =>
+                              setReplyInputs((prev) => ({
+                                ...prev,
+                                [msg.id]: e.target.value,
+                              }))
+                            }
+                            className="flex-1 px-3 py-2 border rounded-md"
+                          />
+                          <button
+                            onClick={() => handleSendReply(msg.id)}
+                            className="px-3 py-2 bg-[#3061F2] text-white rounded-md"
+                            disabled={
+                              !currentUser ||
+                              !members.includes(currentUser?.uid)
+                            }
+                          >
+                            Balas
+                          </button>
+                        </div>
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                       </div>
                     )}
                   </div>
@@ -747,6 +1062,7 @@ export default function DiskusiDetailPage() {
               <div ref={messagesEndRef} />
             </div>
 
+<<<<<<< HEAD
             {/* Input bar */}
             <div className="bg-white/80 backdrop-blur-xl px-4 sm:px-6 py-4 border-t border-[#F2BF27]/60">
               {/* Emoji picker */}
@@ -790,31 +1106,79 @@ export default function DiskusiDetailPage() {
                   className={`text-[#3061F2] hover:text-[#F2780C] transition`}
                   onClick={() => setShowEmoji((s) => !s)}
                   title={'Pilih emoji'}
+=======
+            {/* message input row */}
+            <div className="mt-6 pt-4">
+              {/* buat container relatif supaya picker absolute berada tepat di atas input */}
+              <div className="relative flex items-center gap-3">
+                <button
+                  onClick={() => setShowEmoji((s) => !s)}
+                  className="p-2 rounded-md z-30 bg-white/70 hover:bg-white transition"
+                  aria-label="Toggle Emoji"
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                 >
                   😊
                 </button>
 
                 <input
+<<<<<<< HEAD
                   ref={inputRef}
+=======
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                   type="text"
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   placeholder="Tulis pesan..."
+<<<<<<< HEAD
                   className="flex-1 px-3 sm:px-4 py-2 text-sm rounded-xl border border-gray-200 bg-white/90 focus:outline-none focus:ring-2 focus:ring-[#27A4F2]"
+=======
+                  className="flex-1 border border-gray-200 p-3 rounded-lg"
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                   onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                 />
 
                 <button
                   onClick={sendMessage}
+<<<<<<< HEAD
                   className="bg-[#3061F2] hover:bg-[#27A4F2] text-white p-2 rounded-xl shadow-sm hover:shadow-md transition"
                 >
                   Kirim
                 </button>
+=======
+                  className="bg-[#3061F2] text-white px-4 py-2 rounded-md"
+                >
+                  Kirim
+                </button>
+
+                {/* Emoji picker: absolute, z-index tinggi, tidak akan terpotong karena kita hapus overflow-hidden */}
+                {showEmoji && (
+                  <div
+                    className="absolute left-0 bottom-full mb-3 z-50"
+                    style={{ transform: "translateY(-8px)" }}
+                  >
+                    <div className="bg-white rounded-lg shadow p-1">
+                      <Picker
+                        data={data}
+                        onEmojiSelect={(emoji) => {
+                          // emoji.native contains the actual character
+                          setNewMessage((v) => v + (emoji?.native || ""));
+                          setShowEmoji(false);
+                        }}
+                        theme="light"
+                      />
+                    </div>
+                  </div>
+                )}
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
               </div>
             </div>
           </div>
         </div>
       </div>
+<<<<<<< HEAD
     </main>
+=======
+    </div>
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
   );
 }

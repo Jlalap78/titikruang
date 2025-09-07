@@ -19,8 +19,11 @@ import {
   FaLinkedin,
   FaTiktok,
 } from "react-icons/fa";
+<<<<<<< HEAD
 import { Shield } from "lucide-react";
 import { useRouter } from "next/navigation";
+=======
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
 
 // Firebase auth imports (integrasi AuthButton)
 import {
@@ -36,8 +39,12 @@ import { app } from "../lib/firebase"; // sesuaikan path jika perlu
 // tambahkan import ProtectedNavLink
 import ProtectedNavLink from "../components/ProtectedNavLink";
 
+<<<<<<< HEAD
 export default function LandingPage() {
   const router = useRouter();
+=======
+function LandingPage() {
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
   const [faqOpen, setFaqOpen] = useState(null);
   const [activeMenu, setActiveMenu] = useState(null);
   const [hoveredMenu, setHoveredMenu] = useState(null);
@@ -333,7 +340,11 @@ export default function LandingPage() {
               </a>
             </nav>
 
+<<<<<<< HEAD
             {/* Profile icon or login button */}
+=======
+            {/* Tombol Masuk / Keluar Desktop (based on isGuest) */}
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
             <div className="hidden md:block">
               {isGuest ? (
                 <Link
@@ -343,6 +354,7 @@ export default function LandingPage() {
                   Masuk
                 </Link>
               ) : (
+<<<<<<< HEAD
                 <Link href="/profile">
                   <button
                     className="w-10 h-10 rounded-full bg-gradient-to-br from-[#3061F2] to-[#F2BF27] flex items-center justify-center text-2xl shadow ring-2 ring-offset-2 ring-[#3061F2]/30"
@@ -352,6 +364,14 @@ export default function LandingPage() {
                     <span role="img" aria-label="profile">👤</span>
                   </button>
                 </Link>
+=======
+                <button
+                  onClick={() => setShowLogoutModal(true)}
+                  className="bg-[#F25050] text-white px-4 py-2 rounded-xl hover:bg-[#F2780C]"
+                >
+                  Keluar
+                </button>
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
               )}
             </div>
 
@@ -861,6 +881,7 @@ export default function LandingPage() {
         >
           ⬆️
         </button>
+<<<<<<< HEAD
 
         {/* Modern Admin button for specific emails, fixed bottom left */}
         {user?.email === "zaidsanjaya78@gmail.com" && (
@@ -872,7 +893,14 @@ export default function LandingPage() {
             Admin Page
           </button>
         )}
+=======
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
       </div>
     </main>
   );
 }
+<<<<<<< HEAD
+=======
+
+export default LandingPage;
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034

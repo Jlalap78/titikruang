@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { initializeApp, getApps } from "firebase/app";
 import {
   getFirestore,
@@ -38,6 +39,44 @@ export const auth = getAuth(app);
 
 // ✅ Anonymous Auth Init
 export const initAuth = () => {
+=======
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getAuth, signInAnonymously, onAuthStateChanged, GoogleAuthProvider } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
+
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  // ...tambahkan jika ada
+};
+
+// inisialisasi aman untuk HMR / multiple imports
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
+export const googleProvider = new GoogleAuthProvider();
+
+// debug singkat (hapus di produksi)
+if (typeof window !== "undefined") {
+  console.debug("firebase exports:", {
+    app: !!app,
+    auth: !!auth,
+    db: !!db,
+    googleProvider: !!googleProvider,
+  });
+}
+
+// ✅ Anonymous Auth Init
+export const initAuth = () => {
+  const auth = getAuth(app);
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
   onAuthStateChanged(auth, (user) => {
     if (!user) {
       signInAnonymously(auth).catch((error) => {
@@ -99,6 +138,7 @@ export const toggleReaction1 = async (channelId, messageId, emoji, uid) => {
   });
 };
 
+<<<<<<< HEAD
 // ✏️ Update (edit) pesan utama milik user (hanya teks) – menambahkan editedAt
 export const updateMessage1 = async (channelId, messageId, { text }) => {
   if (typeof text !== "string") return;
@@ -126,6 +166,8 @@ export const deleteMessage1 = async (channelId, messageId) => {
   await deleteDoc(msgRef);
 };
 
+=======
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
 /* -------------------------------------------------
    💬 REPLIES: 1-level thread (fungsi BARU, suffix "1")
    Struktur: channels/{channelId}/messages/{messageId}/replies/{replyId}
@@ -217,6 +259,7 @@ export const toggleReplyReaction1 = async (
   });
 };
 
+<<<<<<< HEAD
 // ✏️ Update (edit) reply milik user (hanya teks) – menambahkan editedAt
 export const updateReply1 = async (channelId, messageId, replyId, { text }) => {
   if (typeof text !== "string") return;
@@ -233,6 +276,8 @@ export const deleteReply1 = async (channelId, messageId, replyId) => {
   await deleteDoc(ref);
 };
 
+=======
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
 /* -------------------------------------------------
    👤 USERS (tetap)
 --------------------------------------------------*/

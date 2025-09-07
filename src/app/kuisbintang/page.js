@@ -290,7 +290,11 @@ const categoryMessages = {
   pekerja: {
     correct: ["Keren! ", "Hebat! "],
     wrong: [
+<<<<<<< HEAD
       "Santai — setiap kesalahan jadi pelajaran kerja ⚒",
+=======
+      "Santai — setiap kesalahan jadi pelajaran kerja ⚒️",
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
       "Terus latihan",
     ],
     final: [
@@ -327,7 +331,11 @@ const categories = [
   {
     id: "pekerja",
     title: "Pekerja",
+<<<<<<< HEAD
     desc: "Apa yang harus dilakukan jika saya mengalami ini?",
+=======
+    desc: "Apa yang harus dilakukan jika saya mengalami ini?",
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
     icon: <FaBriefcase className="text-yellow-500 text-2xl" />,
   },
 ];
@@ -362,7 +370,11 @@ export default function Page() {
       : catMsgs.wrong[Math.floor(Math.random() * catMsgs.wrong.length)];
 
     // gabungkan (tampil perSoal dulu, lalu extra)
+<<<<<<< HEAD
   setLocalFeedback(`${perSoal} • ${extra}`);
+=======
+    setLocalFeedback(`${perSoal} • ${extra}`);
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
 
     if (isCorrect) setScore((s) => s + 1);
 
@@ -405,14 +417,23 @@ export default function Page() {
   return (
     <div
       className={`min-h-screen flex flex-col ${
+<<<<<<< HEAD
         !kategori ? "bg-gradient-to-b from-[#3061F2] from-0% via-[#B4D2FF] via-40% to-white to-60%" : "bg-white"
       }`}
       style={{ backdropFilter: !kategori ? "blur(2px)" : "none" }}
+=======
+        !kategori ? "bg-blue-50" : "bg-white"
+      }`}
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
     >
       {/* HEADER */}
       {!kategori ? (
         // Header untuk pemilihan kategori
+<<<<<<< HEAD
   <header className="bg-white/80 text-gray-900 shadow-lg sticky top-0 z-50 rounded-b-2xl border-b border-blue-100 backdrop-blur-md">
+=======
+        <header className="bg-white text-gray-900 shadow sticky top-0 z-50">
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
           <div className="max-w-7xl mx-auto flex items-center justify-between p-4 relative">
             {/* Kiri: Logo statis */}
             <div className="flex items-center gap-2">
@@ -422,17 +443,28 @@ export default function Page() {
                 width={40}
                 height={40}
               />
+<<<<<<< HEAD
               <div className="text-2xl font-bold whitespace-nowrap tracking-wide text-[#3061F2] drop-shadow-lg">
+=======
+              <div className="text-2xl font-bold whitespace-nowrap">
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                 TitikRuang
               </div>
             </div>
 
             {/* Tengah: Judul dan Subjudul */}
             <div className="hidden md:flex flex-col items-center absolute left-1/2 transform -translate-x-1/2">
+<<<<<<< HEAD
               <span className="text-[#F59E0B] font-bold text-2xl tracking-wide drop-shadow-lg">
                 Kuis Bintang
               </span>
               <span className="text-blue-500 text-base font-medium mt-1">
+=======
+              <span className="text-red-500 font-bold text-lg">
+                Kuis Bintang
+              </span>
+              <span className="text-gray-500 text-sm">
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                 Tes pengetahuanmu & dapatkan wawasan baru
               </span>
             </div>
@@ -440,7 +472,11 @@ export default function Page() {
             {/* Kanan: Tombol Beranda aktif */}
             <div className="hidden md:block">
               <Link href="/">
+<<<<<<< HEAD
                 <button className="bg-gradient-to-r from-[#3061F2] to-[#F2780C] text-white px-6 py-2 rounded-xl font-semibold shadow hover:scale-105 transition-all duration-200">
+=======
+                <button className="bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600">
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                   Beranda
                 </button>
               </Link>
@@ -477,6 +513,7 @@ export default function Page() {
       )}
 
       {/* MAIN */}
+<<<<<<< HEAD
   <main className="flex-1 max-w-5xl mx-auto px-4 py-10 w-full">
         {/* Pilih Kategori */}
         {!kategori && (
@@ -485,21 +522,44 @@ export default function Page() {
               Pilih Kategori Kuis
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+=======
+      <main className="flex-1 max-w-5xl mx-auto px-4 py-10 w-full">
+        {/* Pilih Kategori */}
+        {!kategori && (
+          <>
+            <h2 className="text-center text-xl font-semibold mb-6">
+              Pilih Kategori Kuis
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
               {categories.map((c) => (
                 <div
                   key={c.id}
                   onClick={() => setKategori(c.id)}
+<<<<<<< HEAD
                   className="cursor-pointer bg-white/80 p-8 rounded-2xl shadow-xl border border-blue-100 hover:scale-105 hover:shadow-2xl transition-all duration-200 backdrop-blur-md"
+=======
+                  className="cursor-pointer bg-white p-6 rounded-xl shadow hover:shadow-lg border border-gray-200 transition"
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                 >
                   <div className="flex items-center gap-3 mb-3">
                     {c.icon}
                     <div>
+<<<<<<< HEAD
                       <h3 className="text-xl font-bold text-[#3061F2]">{c.title}</h3>
                       <p className="text-base text-gray-600 font-medium">{c.desc}</p>
                     </div>
                   </div>
                   <div className="mt-6">
                     <button className="px-4 py-2 bg-blue-600 text-white rounded-xl font-semibold shadow hover:bg-blue-700 transition-all duration-200">
+=======
+                      <h3 className="text-lg font-semibold">{c.title}</h3>
+                      <p className="text-sm text-gray-600">{c.desc}</p>
+                    </div>
+                  </div>
+                  <div className="mt-4">
+                    <button className="px-3 py-2 bg-blue-500 text-white rounded">
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                       Pilih {c.title}
                     </button>
                   </div>
@@ -512,13 +572,20 @@ export default function Page() {
         {/* Saat Mengerjakan Kuis */}
         {kategori && !finished && (
           <div className="max-w-3xl mx-auto">
+<<<<<<< HEAD
             <div className="bg-white/90 p-10 rounded-3xl shadow-2xl border border-blue-100 backdrop-blur-md">
               <div className="mb-4 text-center">
                 <h3 className="text-[#F2780C] font-bold text-xl tracking-wide drop-shadow-lg">
+=======
+            <div className="bg-white p-8 rounded-2xl shadow-lg">
+              <div className="mb-4 text-center">
+                <h3 className="text-orange-500 font-semibold">
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                   Soal {currentQ + 1} dari {quizData[kategori].length}
                 </h3>
               </div>
 
+<<<<<<< HEAD
               <h2 className="text-xl font-semibold text-gray-800 mb-8 text-center tracking-wide">
                 {quizData[kategori][currentQ].question}
               </h2>
@@ -534,13 +601,34 @@ export default function Page() {
                     if (opt === correct) colorClass = "bg-green-500 text-white border-2 border-green-300";
                     else if (opt === selected) colorClass = "bg-red-500 text-white border-2 border-red-300";
                     else colorClass = "bg-gray-200 text-gray-700 border border-gray-300";
+=======
+              <h2 className="text-lg font-medium text-gray-800 mb-6 text-center">
+                {quizData[kategori][currentQ].question}
+              </h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {quizData[kategori][currentQ].options.map((opt) => {
+                  // tentukan warna tombol tergantung state selected
+                  let base = "text-white p-4 rounded-lg shadow transition ";
+                  let colorClass = "bg-blue-500 hover:bg-blue-500";
+
+                  if (selected) {
+                    const correct = quizData[kategori][currentQ].answer;
+                    if (opt === correct) colorClass = "bg-green-600";
+                    else if (opt === selected) colorClass = "bg-red-600";
+                    else colorClass = "bg-gray-300 text-gray-700";
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                   }
 
                   return (
                     <button
                       key={opt}
                       onClick={() => handleAnswer(opt)}
+<<<<<<< HEAD
                       className={`${base} ${colorClass} px-6 py-4 focus:ring-2 focus:ring-[#3061F2]`}
+=======
+                      className={`${base} ${colorClass}`}
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                       disabled={!!selected}
                     >
                       {opt}
@@ -551,8 +639,13 @@ export default function Page() {
 
               {/* feedback per soal (unik) */}
               {localFeedback && (
+<<<<<<< HEAD
                 <div className="mt-8 text-center">
                   <p className="inline-block bg-gradient-to-r from-blue-100 to-orange-100 px-6 py-3 rounded-xl text-gray-800 shadow-lg font-medium tracking-wide border border-blue-200">
+=======
+                <div className="mt-5 text-center">
+                  <p className="inline-block bg-gray-100 px-4 py-2 rounded-lg text-gray-800 shadow-sm">
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                     {localFeedback}
                   </p>
                 </div>
@@ -560,16 +653,27 @@ export default function Page() {
             </div>
 
             {/* small controls / progress */}
+<<<<<<< HEAD
             <div className="mt-8 flex justify-between items-center">
               <div className="text-base text-blue-700 font-semibold">
                 Skor sementara: <span className="font-bold text-[#F2780C]">{score}</span>
+=======
+            <div className="mt-6 flex justify-between items-center">
+              <div className="text-sm text-gray-600">
+                Skor sementara:{" "}
+                <span className="font-semibold text-gray-800">{score}</span>
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
               </div>
               <div>
                 <button
                   onClick={() => {
                     /* back to category */ resetAll();
                   }}
+<<<<<<< HEAD
                   className="text-sm px-4 py-2 bg-gradient-to-r from-[#3061F2] to-[#F2780C] text-white rounded-xl font-semibold shadow hover:scale-105 transition-all duration-200"
+=======
+                  className="text-sm px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                 >
                   Keluar & Pilih Ulang
                 </button>
@@ -581,6 +685,7 @@ export default function Page() {
         {/* Halaman Hasil */}
         {kategori && finished && (
           <div className="max-w-xl mx-auto text-center">
+<<<<<<< HEAD
             <div className="bg-white/90 p-10 rounded-3xl shadow-2xl border border-blue-100 backdrop-blur-md">
               <h2 className="text-3xl font-bold mb-6 text-[#3061F2] drop-shadow-lg">Kuis Selesai!</h2>
               <p className="mb-4 text-lg">
@@ -595,6 +700,25 @@ export default function Page() {
                 <button
                   onClick={resetAll}
                   className="px-5 py-3 bg-gradient-to-r from-[#3061F2] to-[#F2780C] text-white rounded-xl font-semibold shadow hover:scale-105 transition-all duration-200"
+=======
+            <div className="bg-white p-8 rounded-2xl shadow-lg">
+              <h2 className="text-2xl font-bold mb-3">Kuis Selesai!</h2>
+              <p className="mb-4">
+                Kategori: <span className="font-semibold">{kategori}</span>
+              </p>
+              <p className="mb-4">
+                Skor kamu:{" "}
+                <span className="font-semibold">
+                  {score} / {quizData[kategori].length}
+                </span>
+              </p>
+              <p className="mb-6 text-lg">{getFinalMessage()}</p>
+
+              <div className="flex justify-center gap-3">
+                <button
+                  onClick={resetAll}
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                 >
                   Selesai
                 </button>
@@ -606,7 +730,11 @@ export default function Page() {
                     setSelected(null);
                     setLocalFeedback("");
                   }}
+<<<<<<< HEAD
                   className="px-5 py-3 bg-green-100 text-green-800 rounded-xl font-semibold shadow hover:bg-green-200"
+=======
+                  className="px-4 py-2 bg-green-100 text-green-800 rounded hover:bg-green-200"
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                 >
                   Ulangi Kategori Ini
                 </button>
@@ -626,11 +754,18 @@ export default function Page() {
             preserveAspectRatio="none"
             xmlns="http://www.w3.org/2000/svg"
           >
+<<<<<<< HEAD
 <path
   fill="#ffffffff"
   d="M0,64 C480,160 960,0 1440,96 L1440,0 L0,0 Z"
 />
 
+=======
+            <path
+              fill="#ffffff"
+              d="M0,64 C480,160 960,0 1440,96 L1440,0 L0,0 Z"
+            />
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
           </svg>
           <div className="max-w-7xl mx-auto px-4 pb-6 text-white text-sm">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2 border-b border-white/30 pb-4">
@@ -714,7 +849,11 @@ export default function Page() {
                   <div className="flex items-center gap-2">
                     <FaWhatsapp />
                     <a
+<<<<<<< HEAD
                       href="https://wa.me/6281959730664"
+=======
+                      href="https://wa.me/10000"
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:underline"
@@ -781,4 +920,8 @@ export default function Page() {
       )}
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034

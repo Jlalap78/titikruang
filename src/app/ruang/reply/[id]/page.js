@@ -4,7 +4,11 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+<<<<<<< HEAD
 import { Send, Smile, Pencil, Trash2 } from 'lucide-react';
+=======
+import { Send, Smile } from 'lucide-react';
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
 import Picker from '@emoji-mart/react';
 import data from '@emoji-mart/data';
 
@@ -14,8 +18,11 @@ import {
   toggleReplyReaction1,
   listenReplies1,
   sendReply1,
+<<<<<<< HEAD
   updateReply1,
   deleteReply1,
+=======
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
 } from '../../../../lib/firebase';
 
 import { db } from '../../../../lib/firebase';
@@ -23,6 +30,24 @@ import { doc, getDoc, onSnapshot, serverTimestamp } from 'firebase/firestore';
 import { filterMessage } from '../../../../lib/filterMessage';
 import styles from './page.module.css';
 
+<<<<<<< HEAD
+=======
+// helper untuk UID anonymous yang disimpan di localStorage
+function getOrCreateAnonUid() {
+  try {
+    if (typeof window === 'undefined') return 'anon_offline';
+    let id = localStorage.getItem('anonUid');
+    if (!id) {
+      id = 'anon_' + Math.random().toString(36).slice(2, 9);
+      localStorage.setItem('anonUid', id);
+    }
+    return id;
+  } catch {
+    return 'anon_offline';
+  }
+}
+
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
 async function ensureUserProfile(uid) {
   try {
     const ref = doc(db, 'userProfiles', uid);
@@ -49,6 +74,7 @@ export default function ReplyPage() {
   const [profiles, setProfiles] = useState({});
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [input, setInput] = useState('');
+<<<<<<< HEAD
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [sending, setSending] = useState(false);
   const [showAllReplies, setShowAllReplies] = useState(false);
@@ -58,6 +84,15 @@ export default function ReplyPage() {
 
   const channelId = 'general';
   const isGuest = !user || user.isAnonymous;
+=======
+  const [sending, setSending] = useState(false);
+  const [showAllReplies, setShowAllReplies] = useState(false);
+  const endRef = useRef(null);
+
+  const channelId = 'general';
+  // tidak lagi memaksa login untuk melihat / berinteraksi
+  const isGuest = false;
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
 
   // auth
   useEffect(() => {
@@ -113,6 +148,7 @@ export default function ReplyPage() {
     endRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [replies.length]);
 
+<<<<<<< HEAD
   // Setelah user state didapat
   useEffect(() => {
     if (user && user.isAnonymous) {
@@ -125,6 +161,10 @@ export default function ReplyPage() {
   const handleSendReply = async () => {
     if (isGuest || sending) {
       alert('Hanya user login non-anonymous yang bisa reply');
+=======
+  const handleSendReply = async () => {
+    if (sending) {
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
       return;
     }
     const text = input.trim();
@@ -132,12 +172,26 @@ export default function ReplyPage() {
 
     setSending(true); // Mulai loading
 
+<<<<<<< HEAD
     const userProfile = profiles[user.uid] || { funnyName: user.displayName || 'Anon', avatar: '🙂' };
+=======
+    const actorUid = user?.uid || getOrCreateAnonUid();
+    const userProfile = profiles[actorUid] || { funnyName: user?.displayName || actorUid.slice(0,6), avatar: '🙂' };
+
+    // ensure anon profile stored locally for display
+    if (!profiles[actorUid]) {
+      setProfiles(prev => ({ ...prev, [actorUid]: userProfile }));
+    }
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
 
     try {
       await sendReply1(channelId, id, {
         text: filterMessage(text),
+<<<<<<< HEAD
         uid: user.uid,
+=======
+        uid: actorUid,
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
         senderName: userProfile.funnyName,
         avatar: userProfile.avatar,
         imageUrl: null,
@@ -153,7 +207,11 @@ export default function ReplyPage() {
 
   const handleReplyReaction = async (replyId, emoji) => {
     try {
+<<<<<<< HEAD
       const actor = user?.uid;
+=======
+      const actor = user?.uid || getOrCreateAnonUid();
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
       await toggleReplyReaction1(channelId, id, replyId, emoji, actor);
     } catch (e) {
       console.error(e);
@@ -182,6 +240,7 @@ export default function ReplyPage() {
 
   return (
     <main>
+<<<<<<< HEAD
       {/* Overlay dan popup jika anonymous */}
       {showLoginPopup && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
@@ -208,6 +267,10 @@ export default function ReplyPage() {
 
       {/* Konten utama */}
       <div className={showLoginPopup ? 'pointer-events-none blur-sm select-none' : ''}>
+=======
+      {/* Konten utama (popup login dihapus) */}
+      <div>
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
         <div className="min-h-screen bg-[#EAF0FA]">
           <div className="max-w-2xl mx-auto p-4">
             <div className="flex items-center justify-between mb-4">
@@ -249,6 +312,7 @@ export default function ReplyPage() {
                 const p = rep.uid ? (profiles[rep.uid] || { funnyName: 'Anon', avatar: '🙂' }) : { funnyName: 'Anon', avatar: '🙂' };
                 const rReactions = rep.reactions || {};
                 return (
+<<<<<<< HEAD
                   <div
                     key={rep.id}
                     className="group p-3 rounded-xl bg-white flex flex-col shadow hover:shadow-md transition"
@@ -301,6 +365,24 @@ export default function ReplyPage() {
                         <div className="flex items-center gap-2 pt-2">
                           {['👍', '😂', '🔥'].map((emoji) => {
                             const actor = user?.uid;
+=======
+                  <div key={rep.id} className="p-3 rounded-xl bg-gray-100 flex flex-col shadow">
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-full bg-[#F2BF27]/60 flex items-center justify-center text-base">
+                        {p.avatar}
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs text-gray-500">
+                          <span className="font-semibold text-black">{p.funnyName}</span>{' '}
+                          {rep.timestamp?.toDate?.().toLocaleString?.() ?? '...'}
+                        </p>
+                        {rep.text && <p className="text-sm text-gray-800">{filterMessage(rep.text)}</p>}
+
+                        {/* reactions */}
+                        <div className="flex items-center gap-2 pt-1">
+                          {['👍', '❤', '😥'].map((emoji) => {
+                            const actor = user?.uid || getOrCreateAnonUid();
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                             const arr = rep.reactions?.[emoji] || [];
                             const hasReacted = arr.includes(actor);
                             const count = arr.length;
@@ -310,7 +392,11 @@ export default function ReplyPage() {
                                 onClick={() => handleReplyReaction(rep.id, emoji)}
                                 className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded-full border transition ${hasReacted
                                   ? 'bg-[#3061F2] text-white border-[#3061F2]'
+<<<<<<< HEAD
                                   : 'bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100'
+=======
+                                  : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                                   }`}
                                 title="Reaksi balasan"
                               >
@@ -320,6 +406,7 @@ export default function ReplyPage() {
                             );
                           })}
                         </div>
+<<<<<<< HEAD
 
                         {/* actions (edit/delete) */}
                         {!editingReplyId && user && !user.isAnonymous && rep.uid === user.uid && (
@@ -341,6 +428,8 @@ export default function ReplyPage() {
                             </button>
                           </div>
                         )}
+=======
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                       </div>
                     </div>
                   </div>
@@ -366,7 +455,10 @@ export default function ReplyPage() {
                   className="text-[#3061F2] hover:text-[#F2780C] transition"
                   onClick={() => setShowEmojiPicker(prev => !prev)}
                   title="Pilih emoji"
+<<<<<<< HEAD
                   disabled={isGuest}
+=======
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                 >
                   <Smile className="w-5 h-5" />
                 </button>
@@ -383,19 +475,31 @@ export default function ReplyPage() {
                   type="text"
                   value={input}
                   onChange={e => setInput(e.target.value)}
+<<<<<<< HEAD
                   placeholder={isGuest ? '🔒 Login untuk membalas' : 'Tulis balasan...'}
                   readOnly={isGuest}
                   className={`flex-1 px-4 py-3 text-sm rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#27A4F2] ${isGuest ? 'opacity-60 cursor-not-allowed' : ''}`}
                   style={{ minWidth: 0, width: '100%' }}
+=======
+                  placeholder={'Tulis balasan...'}
+                  className={`flex-1 px-4 py-3 text-sm rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#27A4F2]`}
+                  style={{ minWidth: 0, width: '100%' }} // agar responsif dan panjang
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                   onKeyDown={e => {
                     if (e.key === 'Enter') handleSendReply();
                   }}
                 />
                 <button
                   onClick={handleSendReply}
+<<<<<<< HEAD
                   disabled={isGuest || sending}
                   className={`bg-[#3061F2] hover:bg-[#27A4F2] text-white px-4 py-3 rounded-lg transition flex items-center justify-center ${isGuest || sending ? 'opacity-60 cursor-not-allowed' : ''}`}
                   title={isGuest ? '🔒 Login untuk membalas' : (sending ? 'Mengirim...' : 'Kirim balasan')}
+=======
+                  disabled={sending}
+                  className={`bg-[#3061F2] hover:bg-[#27A4F2] text-white px-4 py-3 rounded-lg transition flex items-center justify-center ${sending ? 'opacity-60 cursor-not-allowed' : ''}`}
+                  title={sending ? 'Mengirim...' : 'Kirim balasan'}
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
                 >
                   {sending ? (
                     <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
@@ -414,3 +518,8 @@ export default function ReplyPage() {
     </main>
   );
 }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 2bd6121dc2e1eb7e350515c27c240d2799bc5034
