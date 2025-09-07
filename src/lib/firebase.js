@@ -10,6 +10,7 @@ import {
   setDoc,
   updateDoc,
   doc,
+  deleteDoc,
   runTransaction,
   serverTimestamp,
   where,
@@ -96,6 +97,33 @@ export const toggleReaction1 = async (channelId, messageId, emoji, uid) => {
       [`reactions.${emoji}`]: updated,
     });
   });
+};
+
+// ✏️ Update (edit) pesan utama milik user (hanya teks) – menambahkan editedAt
+export const updateMessage1 = async (channelId, messageId, { text }) => {
+  if (typeof text !== "string") return;
+  const ref = doc(db, "channels", channelId, "messages", messageId);
+  await updateDoc(ref, {
+    text,
+    editedAt: serverTimestamp(),
+  });
+};
+
+// 🗑️ Hapus pesan utama + seluruh replies-nya (manual recursive delete client-side)
+// Catatan: Untuk skala besar sebaiknya gunakan Cloud Function recursive delete.
+export const deleteMessage1 = async (channelId, messageId) => {
+  const msgRef = doc(db, "channels", channelId, "messages", messageId);
+  // hapus subcollection replies terlebih dahulu agar tidak orphan
+  try {
+    const repliesCol = collection(db, "channels", channelId, "messages", messageId, "replies");
+    const snaps = await getDocs(repliesCol);
+    for (const d of snaps.docs) {
+      await deleteDoc(d.ref);
+    }
+  } catch (e) {
+    console.warn("Gagal menghapus sebagian replies:", e);
+  }
+  await deleteDoc(msgRef);
 };
 
 /* -------------------------------------------------
@@ -187,6 +215,22 @@ export const toggleReplyReaction1 = async (
       [`reactions.${emoji}`]: updated,
     });
   });
+};
+
+// ✏️ Update (edit) reply milik user (hanya teks) – menambahkan editedAt
+export const updateReply1 = async (channelId, messageId, replyId, { text }) => {
+  if (typeof text !== "string") return;
+  const ref = doc(db, "channels", channelId, "messages", messageId, "replies", replyId);
+  await updateDoc(ref, {
+    text,
+    editedAt: serverTimestamp(),
+  });
+};
+
+// 🗑️ Hapus reply
+export const deleteReply1 = async (channelId, messageId, replyId) => {
+  const ref = doc(db, "channels", channelId, "messages", messageId, "replies", replyId);
+  await deleteDoc(ref);
 };
 
 /* -------------------------------------------------

@@ -19,6 +19,8 @@ import {
   FaLinkedin,
   FaTiktok,
 } from "react-icons/fa";
+import { Shield } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // Firebase auth imports (integrasi AuthButton)
 import {
@@ -34,7 +36,8 @@ import { app } from "../lib/firebase"; // sesuaikan path jika perlu
 // tambahkan import ProtectedNavLink
 import ProtectedNavLink from "../components/ProtectedNavLink";
 
-function LandingPage() {
+export default function LandingPage() {
+  const router = useRouter();
   const [faqOpen, setFaqOpen] = useState(null);
   const [activeMenu, setActiveMenu] = useState(null);
   const [hoveredMenu, setHoveredMenu] = useState(null);
@@ -330,7 +333,7 @@ function LandingPage() {
               </a>
             </nav>
 
-            {/* Tombol Masuk / Keluar Desktop (based on isGuest) */}
+            {/* Profile icon or login button */}
             <div className="hidden md:block">
               {isGuest ? (
                 <Link
@@ -340,12 +343,15 @@ function LandingPage() {
                   Masuk
                 </Link>
               ) : (
-                <button
-                  onClick={() => setShowLogoutModal(true)}
-                  className="bg-[#F25050] text-white px-4 py-2 rounded-xl hover:bg-[#F2780C]"
-                >
-                  Keluar
-                </button>
+                <Link href="/profile">
+                  <button
+                    className="w-10 h-10 rounded-full bg-gradient-to-br from-[#3061F2] to-[#F2BF27] flex items-center justify-center text-2xl shadow ring-2 ring-offset-2 ring-[#3061F2]/30"
+                    title="Profil Saya"
+                  >
+                    {/* Always show anonymous avatar for all users */}
+                    <span role="img" aria-label="profile">👤</span>
+                  </button>
+                </Link>
               )}
             </div>
 
@@ -855,9 +861,18 @@ function LandingPage() {
         >
           ⬆️
         </button>
+
+        {/* Modern Admin button for specific emails, fixed bottom left */}
+        {user?.email === "zaidsanjaya78@gmail.com" && (
+          <button
+            className="fixed bottom-6 left-6 flex items-center gap-2 px-5 py-2.5 bg-white/70 backdrop-blur-xl border border-[#3061F2]/30 shadow-lg rounded-2xl text-[#3061F2] font-semibold hover:bg-gradient-to-r hover:from-[#3061F2] hover:to-[#F2BF27] hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#3061F2] z-50"
+            onClick={() => router.push("/admin")}
+          >
+            <Shield className="w-5 h-5" />
+            Admin Page
+          </button>
+        )}
       </div>
     </main>
   );
 }
-
-export default LandingPage;

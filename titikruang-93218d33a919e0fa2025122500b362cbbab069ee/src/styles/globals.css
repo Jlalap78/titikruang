@@ -1,0 +1,14 @@
+/* ...existing global styles... */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px) scale(0.995); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.community-card {
+  will-change: transform, opacity;
+  transition: box-shadow .18s ease, transform .18s ease;
+}
+.community-card.enter-up {
+  animation: fadeUp .45s cubic-bezier(.2,.9,.28,1) both;
+}

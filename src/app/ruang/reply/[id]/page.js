@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Send, Smile } from 'lucide-react';
+import { Send, Smile, Pencil, Trash2 } from 'lucide-react';
 import Picker from '@emoji-mart/react';
 import data from '@emoji-mart/data';
 
@@ -14,6 +14,8 @@ import {
   toggleReplyReaction1,
   listenReplies1,
   sendReply1,
+  updateReply1,
+  deleteReply1,
 } from '../../../../lib/firebase';
 
 import { db } from '../../../../lib/firebase';
@@ -50,6 +52,8 @@ export default function ReplyPage() {
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [sending, setSending] = useState(false);
   const [showAllReplies, setShowAllReplies] = useState(false);
+  const [editingReplyId, setEditingReplyId] = useState(null);
+  const [replyEditText, setReplyEditText] = useState('');
   const endRef = useRef(null);
 
   const channelId = 'general';
@@ -202,7 +206,7 @@ export default function ReplyPage() {
         </div>
       )}
 
-      {/* Konten utama tetap ada, tapi diblokir interaksi jika popup muncul */}
+      {/* Konten utama */}
       <div className={showLoginPopup ? 'pointer-events-none blur-sm select-none' : ''}>
         <div className="min-h-screen bg-[#EAF0FA]">
           <div className="max-w-2xl mx-auto p-4">
@@ -245,32 +249,68 @@ export default function ReplyPage() {
                 const p = rep.uid ? (profiles[rep.uid] || { funnyName: 'Anon', avatar: '🙂' }) : { funnyName: 'Anon', avatar: '🙂' };
                 const rReactions = rep.reactions || {};
                 return (
-                  <div key={rep.id} className="p-3 rounded-xl bg-gray-100 flex flex-col shadow">
+                  <div
+                    key={rep.id}
+                    className="group p-3 rounded-xl bg-white flex flex-col shadow hover:shadow-md transition"
+                  >
                     <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-[#F2BF27]/60 flex items-center justify-center text-base">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-base ring-2 ring-offset-2 ring-yellow-300/40">
                         {p.avatar}
                       </div>
                       <div className="flex-1">
-                        <p className="text-xs text-gray-500">
-                          <span className="font-semibold text-black">{p.funnyName}</span>{' '}
-                          {rep.timestamp?.toDate?.().toLocaleString?.() ?? '...'}
+                        <p className="text-xs text-gray-500 flex items-center gap-2">
+                          <span className="font-semibold text-black">{p.funnyName}</span>
+                          <span>{rep.timestamp?.toDate?.().toLocaleString?.() ?? '...'}</span>
+                          {rep.editedAt && (
+                            <span className="text-[10px] italic text-gray-400">(edited)</span>
+                          )}
                         </p>
-                        {rep.text && <p className="text-sm text-gray-800">{filterMessage(rep.text)}</p>}
+
+                        {editingReplyId === rep.id ? (
+                          <div className="space-y-2 mt-1">
+                            <textarea
+                              className="w-full border rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                              value={replyEditText}
+                              onChange={(e) => setReplyEditText(e.target.value)}
+                              rows={2}
+                            />
+                            <div className="flex gap-2 text-xs">
+                              <button
+                                onClick={async () => {
+                                  if (!replyEditText.trim()) return;
+                                  await updateReply1(channelId, id, rep.id, {
+                                    text: filterMessage(replyEditText.trim()),
+                                    editedAt: serverTimestamp(),
+                                  });
+                                  setEditingReplyId(null);
+                                  setReplyEditText('');
+                                }}
+                                className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                              >Save</button>
+                              <button
+                                onClick={() => { setEditingReplyId(null); setReplyEditText(''); }}
+                                className="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300"
+                              >Cancel</button>
+                            </div>
+                          </div>
+                        ) : (
+                          <p className="text-sm text-gray-800 mt-1">{filterMessage(rep.text)}</p>
+                        )}
 
                         {/* reactions */}
-                        <div className="flex items-center gap-2 pt-1">
+                        <div className="flex items-center gap-2 pt-2">
                           {['👍', '😂', '🔥'].map((emoji) => {
-                            const actor = user?.uid || anonUid || getOrCreateAnonUid();
+                            const actor = user?.uid;
                             const arr = rep.reactions?.[emoji] || [];
                             const hasReacted = arr.includes(actor);
                             const count = arr.length;
                             return (
                               <button
                                 key={emoji}
-                                onClick={() => handleReplyReaction(reply.id, emoji)}
+                                onClick={() => handleReplyReaction(rep.id, emoji)}
                                 className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded-full border transition ${hasReacted
                                   ? 'bg-[#3061F2] text-white border-[#3061F2]'
-                                  : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
+                                  : 'bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100'
                                   }`}
                                 title="Reaksi balasan"
                               >
@@ -280,6 +320,27 @@ export default function ReplyPage() {
                             );
                           })}
                         </div>
+
+                        {/* actions (edit/delete) */}
+                        {!editingReplyId && user && !user.isAnonymous && rep.uid === user.uid && (
+                          <div className="opacity-0 group-hover:opacity-100 flex gap-2 mt-2 text-xs transition">
+                            <button
+                              onClick={() => { setEditingReplyId(rep.id); setReplyEditText(rep.text || ''); }}
+                              className="flex items-center gap-1 text-blue-500 hover:underline"
+                            >
+                              <Pencil className="w-3 h-3" /> Edit
+                            </button>
+                            <button
+                              onClick={async () => {
+                                if (!confirm('Hapus balasan ini?')) return;
+                                await deleteReply1(channelId, id, rep.id);
+                              }}
+                              className="flex items-center gap-1 text-red-500 hover:underline"
+                            >
+                              <Trash2 className="w-3 h-3" /> Delete
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -325,7 +386,7 @@ export default function ReplyPage() {
                   placeholder={isGuest ? '🔒 Login untuk membalas' : 'Tulis balasan...'}
                   readOnly={isGuest}
                   className={`flex-1 px-4 py-3 text-sm rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#27A4F2] ${isGuest ? 'opacity-60 cursor-not-allowed' : ''}`}
-                  style={{ minWidth: 0, width: '100%' }} // agar responsif dan panjang
+                  style={{ minWidth: 0, width: '100%' }}
                   onKeyDown={e => {
                     if (e.key === 'Enter') handleSendReply();
                   }}
@@ -353,5 +414,3 @@ export default function ReplyPage() {
     </main>
   );
 }
-
-
