@@ -52,6 +52,7 @@ export default function DiskusiPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [isEditDesc, setIsEditDesc] = useState(false);
   const [editedDesc, setEditedDesc] = useState("");
+  const [loading, setLoading] = useState(true);
 
   // daftar ikon default
   const defaultIcons = [ChatBubbleLeftIcon, UsersIcon, SparklesIcon, HeartIcon];
@@ -113,6 +114,7 @@ export default function DiskusiPage() {
   // Realtime groups
   useEffect(() => {
     if (!user) return;
+    setLoading(true);
     const unsub = onSnapshot(collection(db, "groups"), async (snapshot) => {
       const updatedGroups = [];
       for (const docSnap of snapshot.docs) {
@@ -127,6 +129,7 @@ export default function DiskusiPage() {
         });
       }
       setGroups(updatedGroups);
+      setLoading(false);
     });
     return () => unsub();
   }, [user]);
@@ -213,27 +216,20 @@ export default function DiskusiPage() {
 
   return (
     <div className="min-h-screen relative">
-      {/* background image (pastikan file bglamandiskusi.jpg ada di public/) */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/bglamandiskusi.jpg')" }}
-        aria-hidden="true"
-      />
-      {/* optional overlay untuk kontras teks */}
-      <div className="absolute inset-0 bg-white/40 pointer-events-none" aria-hidden="true" />
+      {/* Modern lightweight gradient background, no image */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#3061F2] via-[#EEF2FF] to-[#F2BF27]/30" aria-hidden="true" />
+      {/* glassmorphism overlay for modern look */}
+      <div className="absolute inset-0 bg-white/30 backdrop-blur-xl pointer-events-none" aria-hidden="true" />
       <div className="p-6 max-w-6xl mx-auto relative">
-        {/* heading (lebih kecil + rounded + spacing) */}
+        {/* heading (modern glassmorphism) */}
         <header
-          className="relative shadow z-50 py-3 rounded-lg overflow-hidden"
+          className="relative shadow-lg z-50 py-3 rounded-2xl overflow-hidden border border-[#3061F2]/20 bg-white/60 backdrop-blur-xl"
           style={{
-            backgroundImage: "url('/bgheaderartikel2.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
+            // Remove backgroundImage, use only glassmorphism and gradients
+            background: 'rgba(255,255,255,0.6)',
           }}
         >
-          {/* overlay tipis supaya teks tetap terbaca */}
-          <div className="absolute inset-0 bg-white/30 pointer-events-none" aria-hidden="true" />
+          <div className="absolute inset-0 bg-white/20 backdrop-blur-sm pointer-events-none" aria-hidden="true" />
           <div className="max-w-7xl mx-auto px-4 md:px-6 relative">
             <div className="flex items-center justify-between gap-4 py-2">
               <div className="flex items-center gap-3">
@@ -241,24 +237,19 @@ export default function DiskusiPage() {
                   <img
                     src="/logo3.png"
                     alt="TitikRuang"
-                    className="w-10 h-10 object-contain rounded"
+                    className="w-10 h-10 object-contain rounded-xl shadow-lg border border-[#3061F2]/30"
                   />
                   <span className="sr-only">TitikRuang</span>
                 </a>
                 <div>
-                  <h1 className="text-lg md:text-xl font-semibold text-sky-700">
-                    Diskusi Komunitas
-                  </h1>
-                  <p className="text-xs md:text-sm text-gray-600">
-                    Jelajahi topik relevan untuk sehari-hari — gabung obrolan dan temukan perspektif.
-                  </p>
+                  <h1 className="text-lg md:text-xl font-semibold text-[#3061F2] drop-shadow">Diskusi Komunitas</h1>
+                  <p className="text-xs md:text-sm text-gray-600">Jelajahi topik relevan untuk sehari-hari — gabung obrolan dan temukan perspektif.</p>
                 </div>
               </div>
-
               <div className="flex items-center gap-3">
                 <a
                   href="/"
-                  className="inline-block bg-white text-sky-700 border border-sky-200 px-3 py-1 rounded-md shadow-sm hover:shadow-md text-sm"
+                  className="inline-block bg-gradient-to-r from-[#3061F2] to-[#F2BF27] text-white border border-[#3061F2]/30 px-4 py-2 rounded-xl shadow hover:scale-105 hover:shadow-xl transition-all text-sm font-semibold"
                 >
                   Beranda
                 </a>
@@ -266,100 +257,100 @@ export default function DiskusiPage() {
             </div>
           </div>
         </header>
-        {/* spacer agar konten tidak menempel ke header */}
         <div className="h-4 md:h-6" />
-
-        {/* grid of groups */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {groups.map((group, i) => {
-            const Icon =
-              defaultIcons[
-                Math.abs(
-                  group.id.split("").reduce((a, c) => a + c.charCodeAt(0), 0)
-                ) % defaultIcons.length
+        {/* Loading animation while groups are loading */}
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-16">
+            <div className="w-16 h-16 border-4 border-[#3061F2] border-t-[#F2BF27] rounded-full animate-spin mb-4" />
+            <div className="text-lg font-semibold text-[#3061F2]">Memuat komunitas...</div>
+          </div>
+        )}
+        {/* grid of groups (modern card style) */}
+        {!loading && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {groups.map((group, i) => {
+              const Icon = defaultIcons[Math.abs(group.id.split("").reduce((a, c) => a + c.charCodeAt(0), 0)) % defaultIcons.length];
+              // Assign a different color for each box from the palette
+              const palette = [
+                'bg-gradient-to-br from-[#F2BF27]/60 to-[#3061F2]/10',
+                'bg-gradient-to-br from-[#27A4F2]/30 to-[#F25050]/10',
+                'bg-gradient-to-br from-[#F2780C]/30 to-[#EEF2FF]/10',
+                'bg-gradient-to-br from-[#3061F2]/20 to-[#F2BF27]/10',
+                'bg-gradient-to-br from-[#F25050]/20 to-[#F28907]/10',
+                'bg-gradient-to-br from-[#6D9BFF]/20 to-[#F2BF27]/10',
+                'bg-gradient-to-br from-[#F2BF27]/30 to-[#3061F2]/10',
               ];
-            const color = pickColorById(group.id);
-            return (
-              <div
-                key={group.id}
-                className="community-card enter-up rounded shadow p-4 transition"
-                style={{
-                  background: color,
-                  color: "#0f172a",
-                  animationDelay: `${i * 80}ms`,
-                  borderRadius: 8,
-                }}
-              >
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-200">
-                    {group.imageUrl ? (
-                      <img
-                        src={group.imageUrl}
-                        alt="Group"
-                        className="w-full h-full object-cover rounded-full"
-                      />
+              const colorClass = palette[i % palette.length];
+              return (
+                <div
+                  key={group.id}
+                  className={`community-card enter-up rounded-2xl shadow-xl p-5 transition-all border border-[#3061F2]/10 bg-white/70 backdrop-blur-lg hover:scale-[1.03] hover:shadow-2xl hover:border-[#3061F2]/30 ${colorClass}`}
+                  style={{
+                    color: "#0f172a",
+                    animationDelay: `${i * 80}ms`,
+                    borderRadius: 16,
+                  }}
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-br from-[#3061F2]/20 to-[#F2BF27]/20 shadow ring-2 ring-[#3061F2]/10">
+                      {group.imageUrl ? (
+                        <img
+                          src={group.imageUrl}
+                          alt="Group"
+                          className="w-full h-full object-cover rounded-full"
+                        />
+                      ) : (
+                        <Icon className="w-7 h-7 text-[#3061F2]" />
+                      )}
+                    </div>
+                    <h2 className="text-lg font-bold text-[#3061F2] drop-shadow">{group.name}</h2>
+                  </div>
+                  <p className="text-gray-600 text-sm mb-2 font-medium">{group.description || "Belum ada deskripsi."}</p>
+                  <p className="text-gray-500 text-xs mb-4">Status: {group.isMember ? "✅ Anggota" : "❌ Bukan anggota"}</p>
+                  <div className="flex justify-between items-center mt-2">
+                    {group.isMember ? (
+                      <a
+                        href={`/diskusi/${group.id}`}
+                        className="bg-gradient-to-r from-[#3061F2] to-[#F2BF27] text-white px-4 py-2 rounded-xl shadow hover:scale-105 hover:shadow-xl transition-all text-sm font-semibold"
+                      >
+                        Masuk
+                      </a>
                     ) : (
-                      <Icon className="w-6 h-6 text-gray-600" />
+                      <button
+                        onClick={() => handleJoin(group.id)}
+                        className="bg-gradient-to-r from-[#F2BF27] to-[#3061F2] text-white px-4 py-2 rounded-xl shadow hover:scale-105 hover:shadow-xl transition-all text-sm font-semibold"
+                      >
+                        Gabung
+                      </button>
+                    )}
+                    {isAdmin(group) && (
+                      <button
+                        onClick={() => openMemberManager(group)}
+                        className="text-[#3061F2] text-sm underline font-semibold hover:text-[#F2BF27] transition-all"
+                      >
+                        Kelola
+                      </button>
                     )}
                   </div>
-                  <h2 className="text-lg font-semibold">{group.name}</h2>
                 </div>
-                <p className="text-gray-500 text-sm mb-2">
-                  {group.description || "Belum ada deskripsi."}
-                </p>
-                <p className="text-gray-600 text-sm mb-4">
-                  Status: {group.isMember ? "✅ Anggota" : "❌ Bukan anggota"}
-                </p>
-                <div className="flex justify-between">
-                  {group.isMember ? (
-                    <a
-                      href={`/diskusi/${group.id}`}
-                      className="bg-green-600 text-white px-3 py-1 rounded text-sm"
-                    >
-                      Masuk
-                    </a>
-                  ) : (
-                    <button
-                      onClick={() => handleJoin(group.id)}
-                      className="bg-yellow-500 text-white px-3 py-1 rounded text-sm"
-                    >
-                      Gabung
-                    </button>
-                  )}
-                  {isAdmin(group) && (
-                    <button
-                      onClick={() => openMemberManager(group)}
-                      className="text-gray-600 text-sm underline"
-                    >
-                      Kelola
-                    </button>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* modal buat grup */}
-        <Dialog
-          open={isOpen}
-          onClose={() => setIsOpen(false)}
-          className="relative z-10"
-        >
-          <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+              );
+            })}
+          </div>
+        )}
+        {/* modal buat grup (modern style) */}
+        <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="relative z-10">
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" aria-hidden="true" />
           <div className="fixed inset-0 flex items-center justify-center p-4">
-            <Dialog.Panel className="w-full max-w-sm bg-white p-6 rounded shadow">
-              <Dialog.Title className="text-lg font-bold mb-2">
-                Buat Grup Baru
-              </Dialog.Title>
+            <Dialog.Panel className="w-full max-w-sm bg-white/80 backdrop-blur-xl p-7 rounded-2xl shadow-2xl border border-[#3061F2]/20">
+              <Dialog.Title className="text-xl font-bold mb-3 text-[#3061F2]">Buat Grup Baru</Dialog.Title>
               <input
-                className="w-full border px-3 py-2 rounded mb-3"
+                className="w-full border border-[#3061F2]/20 px-4 py-2 rounded-xl mb-3 focus:outline-none focus:ring-2 focus:ring-[#3061F2] bg-white/90"
                 value={newGroupName}
                 onChange={(e) => setNewGroupName(e.target.value)}
                 placeholder="Nama Grup"
               />
               <textarea
-                className="w-full border px-3 py-2 rounded mb-3"
+                className="w-full border border-[#3061F2]/20 px-4 py-2 rounded-xl mb-3 focus:outline-none focus:ring-2 focus:ring-[#3061F2] bg-white/90"
                 value={newGroupDesc}
                 onChange={(e) => setNewGroupDesc(e.target.value)}
                 placeholder="Deskripsi Grup"
@@ -367,13 +358,13 @@ export default function DiskusiPage() {
               <div className="flex justify-end gap-2">
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="text-gray-500"
+                  className="text-gray-500 px-4 py-2 rounded-xl hover:bg-gray-100 transition-all"
                 >
                   Batal
                 </button>
                 <button
                   onClick={handleCreateGroup}
-                  className="bg-blue-600 text-white px-4 py-2 rounded"
+                  className="bg-gradient-to-r from-[#3061F2] to-[#F2BF27] text-white px-5 py-2 rounded-xl shadow hover:scale-105 hover:shadow-xl transition-all font-semibold"
                 >
                   Buat
                 </button>
@@ -381,39 +372,31 @@ export default function DiskusiPage() {
             </Dialog.Panel>
           </div>
         </Dialog>
-
-        {/* modal kelola member + edit deskripsi */}
+        {/* modal kelola member + edit deskripsi (modern style) */}
         {selectedGroup && (
-          <Dialog
-            open={true}
-            onClose={() => setSelectedGroup(null)}
-            className="relative z-20"
-          >
-            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+          <Dialog open={true} onClose={() => setSelectedGroup(null)} className="relative z-20">
+            <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" aria-hidden="true" />
             <div className="fixed inset-0 flex items-center justify-center p-4">
-              <Dialog.Panel className="w-full max-w-md bg-white p-6 rounded shadow">
-                <Dialog.Title className="text-lg font-bold mb-4">
-                  Kelola Grup: {selectedGroup.name}
-                </Dialog.Title>
-
+              <Dialog.Panel className="w-full max-w-md bg-white/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl border border-[#3061F2]/20">
+                <Dialog.Title className="text-xl font-bold mb-4 text-[#3061F2]">Kelola Grup: {selectedGroup.name}</Dialog.Title>
                 {/* Edit deskripsi */}
                 {isEditDesc ? (
                   <div className="mb-4">
                     <textarea
-                      className="w-full border px-3 py-2 rounded mb-2"
+                      className="w-full border border-[#3061F2]/20 px-4 py-2 rounded-xl mb-2 focus:outline-none focus:ring-2 focus:ring-[#3061F2] bg-white/90"
                       value={editedDesc}
                       onChange={(e) => setEditedDesc(e.target.value)}
                     />
                     <div className="flex gap-2 justify-end">
                       <button
                         onClick={() => setIsEditDesc(false)}
-                        className="text-gray-500"
+                        className="text-gray-500 px-4 py-2 rounded-xl hover:bg-gray-100 transition-all"
                       >
                         Batal
                       </button>
                       <button
                         onClick={updateDescription}
-                        className="bg-blue-600 text-white px-3 py-1 rounded"
+                        className="bg-gradient-to-r from-[#3061F2] to-[#F2BF27] text-white px-5 py-2 rounded-xl shadow hover:scale-105 hover:shadow-xl transition-all font-semibold"
                       >
                         Simpan
                       </button>
@@ -421,32 +404,27 @@ export default function DiskusiPage() {
                   </div>
                 ) : (
                   <div className="mb-4">
-                    <p className="text-gray-600 mb-2">
-                      {selectedGroup.description || "Belum ada deskripsi."}
-                    </p>
+                    <p className="text-gray-600 mb-2">{selectedGroup.description || "Belum ada deskripsi."}</p>
                     <button
                       onClick={() => setIsEditDesc(true)}
-                      className="text-sm text-blue-600 underline"
+                      className="text-sm text-[#3061F2] underline font-semibold hover:text-[#F2BF27] transition-all"
                     >
                       Edit Deskripsi
                     </button>
                   </div>
                 )}
-
                 {/* Kelola member */}
                 <ul className="mb-4">
                   {selectedGroup.members?.map((member) => (
                     <li
                       key={member.uid}
-                      className="flex justify-between items-center border-b py-1"
+                      className="flex justify-between items-center border-b py-2 border-gray-200/40"
                     >
-                      <span>
-                        {member.uid} ({member.role})
-                      </span>
+                      <span className="font-medium text-gray-700">{member.uid} <span className="text-xs text-gray-400">({member.role})</span></span>
                       {member.uid !== user?.uid && (
                         <button
                           onClick={() => removeMember(member.uid)}
-                          className="text-red-600 text-sm"
+                          className="text-red-600 text-sm px-3 py-1 rounded-xl hover:bg-red-50 transition-all"
                         >
                           Hapus
                         </button>
@@ -455,7 +433,7 @@ export default function DiskusiPage() {
                   ))}
                 </ul>
                 <input
-                  className="w-full border px-3 py-2 rounded mb-3"
+                  className="w-full border border-[#3061F2]/20 px-4 py-2 rounded-xl mb-3 focus:outline-none focus:ring-2 focus:ring-[#3061F2] bg-white/90"
                   value={newMemberUid}
                   onChange={(e) => setNewMemberUid(e.target.value)}
                   placeholder="UID untuk ditambahkan"
@@ -463,13 +441,13 @@ export default function DiskusiPage() {
                 <div className="flex justify-end gap-2">
                   <button
                     onClick={() => setSelectedGroup(null)}
-                    className="text-gray-500"
+                    className="text-gray-500 px-4 py-2 rounded-xl hover:bg-gray-100 transition-all"
                   >
                     Tutup
                   </button>
                   <button
                     onClick={addMember}
-                    className="bg-green-600 text-white px-4 py-2 rounded"
+                    className="bg-gradient-to-r from-[#F2BF27] to-[#3061F2] text-white px-5 py-2 rounded-xl shadow hover:scale-105 hover:shadow-xl transition-all font-semibold"
                   >
                     Tambah
                   </button>

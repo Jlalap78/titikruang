@@ -19,7 +19,14 @@ import {
 } from "react-icons/fa";
 
 const videos = [
-  
+  {
+    url: "https://youtu.be/6808T0axIMw",
+    title: "TitikRuang: Bangkit Bersama Kami dari Ancaman Pinjol dan Judol",
+    type: "🎬 Video Edukasi",
+    duration: "1.49 Minutes",
+    level: "Pemula",
+    views: "10"
+  },
   
 ];
 
@@ -31,7 +38,7 @@ export default function PembelajaranPage() {
   const [scrollY, setScrollY] = useState(0);
 
   const dropdowns = {
-    support: ["🗣️ Ruang Curhat", "🤝 Diskusi Komunitas"],
+    support: ["🗣 Ruang Curhat", "🤝 Diskusi Komunitas"],
     learning: ["🎧 Konten Edukatif", "💰 Simulasi Pinjaman"],
     tools: ["⭐ Kuis Bintang", "🤖 HelpBot", "🚨 Emergency Connect"],
   };
@@ -49,7 +56,8 @@ export default function PembelajaranPage() {
   };
 
   return (
-    <main>
+    <div>
+      <main>
       <div className="min-h-screen bg-gradient-to-br from-[#3061F2] via-white to-[#F2BF27]/10 text-gray-800">
         {/* Header */}
         <motion.header
@@ -239,7 +247,8 @@ export default function PembelajaranPage() {
           )}
         </motion.header>
         {/* Hero */}
-        <section className="bg-gradient-to-b from-blue-500 to-white text-center py-20 px-6">
+        {/* NOTE: made the hero bg transparent so it inherits the page gradient and connects seamlessly with the Video Grid section */}
+        <section className="bg-transparent text-center py-20 px-6">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow">
             Siap Belajar, Mendengar & Bertumbuh?
           </h1>
@@ -250,37 +259,42 @@ export default function PembelajaranPage() {
         </section>
 
         {/* Video Grid */}
-        <section className="py-16 px-6 max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10">
-          {videos.map((vid, idx) => (
-            <motion.div
-              key={idx}
-              className="bg-white p-4 rounded-lg border border-gray-200 shadow-md hover:shadow-xl hover:scale-105 transition"
-              whileHover={{ scale: 1.03 }}
+        {/* Make Video Grid also transparent so both sections share same background */}
+        <section className="bg-transparent py-16 px-6 max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10">
+          <motion.div
+            className="bg-white p-4 rounded-lg border border-gray-200 shadow-md hover:shadow-xl hover:scale-105 transition"
+            whileHover={{ scale: 1.03 }}
+          >
+            <div className="aspect-video mb-4 relative">
+              <iframe
+                src="https://www.youtube.com/embed/6808T0axIMw"
+                className="w-full h-full rounded-md"
+                title="TitikRuang: Bangkit Bersama Kami dari Ancaman Pinjol dan Judol"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+            <div className="text-sm text-blue-500 font-semibold mb-1">🎬 Video Edukasi</div>
+            <h3 className="text-lg font-bold text-black mb-2">TitikRuang: Bangkit Bersama Kami dari Ancaman Pinjol dan Judol</h3>
+            <div className="text-xs text-gray-500 flex gap-4">
+              <span>1.49 Minutes</span>
+              <span>Pemula</span>
+              <span>10 penayangan</span>
+            </div>
+            <a
+              href="https://youtu.be/6808T0axIMw"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-4 px-4 py-2 bg-[#3061F2] text-white rounded-full font-semibold shadow hover:bg-[#F2BF27] hover:text-[#3061F2] transition"
             >
-              <div className="aspect-video mb-4">
-                <iframe
-                  src={vid.url}
-                  className="w-full h-full rounded-md"
-                  title={vid.title}
-                  frameBorder="0"
-                  allowFullScreen
-                ></iframe>
-              </div>
-              <div className="text-sm text-blue-500 font-semibold mb-1">
-                {vid.type}
-              </div>
-              <h3 className="text-lg font-bold text-black mb-2">{vid.title}</h3>
-              <div className="text-xs text-gray-500 flex gap-4">
-                <span>{vid.duration}</span>
-                <span>{vid.level}</span>
-                <span>{vid.views} penayangan</span>
-              </div>
-            </motion.div>
-          ))}
+              Tonton di YouTube
+            </a>
+          </motion.div>
         </section>
 
         {/* Fitur Layanan */}
-        <section className="bg-white py-14 px-6">
+  <section className="bg-white py-14 px-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center">
             Belajar Seru dengan{" "}
             <span className="text-blue-600">TitikRuang Super App</span>
@@ -328,7 +342,7 @@ export default function PembelajaranPage() {
               </div>
             ))}
           </div>
-        </section>
+  </section>
 
         {/* Artikel Terbaru */}
         <section className="bg-white py-14 px-6">
@@ -370,8 +384,8 @@ export default function PembelajaranPage() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="bg-gradient-to-b from-white to-[#f3f4f6] text-center py-20">
+  {/* CTA Section */}
+  <section className="bg-gradient-to-b from-white to-[#f3f4f6] text-center py-20">
           <h2 className="text-3xl font-bold text-black mb-4">
             Bergabunglah bersama ribuan korban, pendengar, dan agen perubahan
           </h2>
@@ -382,7 +396,7 @@ export default function PembelajaranPage() {
         </section>
 
         {/* Footer */}
-        <footer className="text-white bg-gradient-to-r from-[#3061F2] via-[#27A4F2] to-[#F2780C] relative pt-0">
+  <footer className="text-white bg-gradient-to-r from-[#3061F2] via-[#27A4F2] to-[#F2780C] relative pt-0">
           <svg
             className="w-full h-20 md:h-28 block"
             viewBox="0 0 1440 320"
@@ -476,7 +490,7 @@ export default function PembelajaranPage() {
                   <div className="flex items-center gap-2">
                     <FaWhatsapp />
                     <a
-                      href="https://wa.me/10000"
+                      href="https://wa.me/6281959730664"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:underline"
@@ -498,15 +512,9 @@ export default function PembelajaranPage() {
                   >
                     <FaInstagram className="hover:text-pink-500" />
                   </a>
+        
                   <a
-                    href="https://www.facebook.com/akunmu"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <FaFacebook className="hover:text-blue-600" />
-                  </a>
-                  <a
-                    href="https://www.youtube.com/@TitikRuangOfficial"
+                    href="https://youtube.com/@officialtitikruang?si=Go4uHC14HTPqusI8"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -538,9 +546,10 @@ export default function PembelajaranPage() {
           className="fixed bottom-20 right-6 z-[99] bg-[#F2780C] text-white p-3 rounded-full shadow-lg hover:bg-[#F25050] z-50"
           aria-label="Back to Top"
         >
-          ⬆️
+          ⬆
         </button>
       </div>
-    </main>
+      </main>
+    </div>
   );
 }

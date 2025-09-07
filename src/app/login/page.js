@@ -10,8 +10,11 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   sendPasswordResetEmail,
+  updateProfile,
 } from "firebase/auth";
 import { initializeApp, getApps } from "firebase/app";
+import { setDoc, doc } from "firebase/firestore";
+import { db } from "../../lib/firebase";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { FaGoogle } from "react-icons/fa";
@@ -28,7 +31,7 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
-export default function Page() {
+export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [agree, setAgree] = useState(false);
   const [email, setEmail] = useState("");
@@ -149,6 +152,13 @@ export default function Page() {
     setFormError("");
     try {
       const userCred = await createUserWithEmailAndPassword(auth, email, password);
+  // Set displayName to the name entered during registration
+  await updateProfile(userCred.user, { displayName: name });
+      // Save name to Firestore user profile
+      await setDoc(doc(db, "userProfiles", userCred.user.uid), {
+        name: name,
+        createdAt: new Date()
+      }, { merge: true });
       const idToken = await userCred.user.getIdToken();
       await fetch("/api/session/login", {
         method: "POST",
@@ -160,7 +170,7 @@ export default function Page() {
       console.error("Register error:", err);
       const code = err?.code || "";
       if (code.includes("auth/email-already-in-use")) {
-        setEmailError("Email sudah terdaftar");
+        setEmailError("Email sudah terdaftar, silakan login.");
       } else if (code.includes("auth/weak-password")) {
         setPasswordError("Password terlalu lemah");
       } else {

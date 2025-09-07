@@ -1,6 +1,12 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+
+// Fungsi format rupiah
+function formatRupiah(num) {
+  if (!num) return "";
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -20,9 +26,13 @@ import {
 
 export default function KuisBintang() {
   const [harga, setHarga] = useState(10000000);
+  const [hargaLocked, setHargaLocked] = useState(false);
   const [tenor, setTenor] = useState(6);
+  const [tenorLocked, setTenorLocked] = useState(false);
   const [bunga, setBunga] = useState(0.4); // persen per hari
+  const [bungaLocked, setBungaLocked] = useState(false);
   const [danaPribadi, setDanaPribadi] = useState(5000000);
+  const [danaLocked, setDanaLocked] = useState(false);
   const [pengeluaranList, setPengeluaranList] = useState([
     { nama: "", jumlah: 0 },
   ]);
@@ -33,7 +43,7 @@ export default function KuisBintang() {
   const dropdownRef = useRef(null);
 
   const dropdowns = {
-    support: ["🗣️ Ruang Curhat", "🤝 Diskusi Komunitas"],
+    support: ["🗣 Ruang Curhat", "🤝 Diskusi Komunitas"],
     learning: ["🎧 Konten Edukatif", "💰 Simulasi Pinjaman"],
     tools: ["⭐ Kuis Bintang", "🤖 HelpBot", "🚨 Emergency Connect"],
   };
@@ -78,16 +88,18 @@ export default function KuisBintang() {
   const evaluasiSisa = sisaDana - pembayaranPerBulan;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#3061F2] via-white to-[#F2BF27]/10 text-gray-800">
-      {/* Header */}
-      <motion.header
-        className="bg-white text-gray-900 shadow sticky top-0 z-50"
-        initial={{ y: 0 }}
-        animate={{ y: scrollY > 100 ? -100 : 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <div className="max-w-7xl mx-auto flex items-center justify-between p-4 relative">
-          <Link href="/" className="flex items-center gap-2 cursor-pointer">
+  <div className="min-h-screen bg-gradient-to-br from-[#3061F2] via-white to-[#F2BF27]/10 text-gray-800">
+      {/* Main wrapper for all content */}
+      <div>
+        {/* Header */}
+        <motion.header
+          className="bg-white text-gray-900 shadow sticky top-0 z-50"
+          initial={{ y: 0 }}
+          animate={{ y: scrollY > 100 ? -100 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="max-w-7xl mx-auto flex items-center justify-between p-4 relative">
+            <Link href="/" className="flex items-center gap-2 cursor-pointer">
             <Image
               src="/logo.png"
               alt="TitikRuang Logo"
@@ -269,74 +281,130 @@ export default function KuisBintang() {
         </h1>
 
         <div className="max-w-3xl mx-auto space-y-6 bg-white p-6 rounded-xl shadow-xl">
-          <div>
-            <label className="block font-semibold mb-2">
+          <div className="mb-6">
+            <label className="block text-lg font-bold mb-2 text-gray-800 tracking-wide">
               Jumlah Pinjaman (Rp)
             </label>
-            <input
-              type="range"
-              min={1000000}
-              max={100000000}
-              step={1000000}
-              value={harga}
-              onChange={(e) => setHarga(Number(e.target.value))}
-              className="w-full"
-            />
-            <p className="mt-1 text-blue-600 font-semibold">
+            <div className="flex items-center gap-4">
+              <input
+                type="range"
+                min={1000000}
+                max={100000000}
+                step={100000}
+                value={harga}
+                onChange={(e) => setHarga(Number(e.target.value))}
+                className="w-full accent-blue-500 h-2 rounded-full"
+                disabled={hargaLocked}
+              />
+              {!hargaLocked ? (
+                <button
+                  className="px-4 py-2 rounded-xl font-semibold text-white bg-blue-500 hover:bg-blue-600 transition-all duration-200 shadow"
+                  onClick={() => setHargaLocked(true)}
+                >Input</button>
+              ) : (
+                <button
+                  className="px-4 py-2 rounded-xl font-semibold text-white bg-red-500 hover:bg-red-600 transition-all duration-200 shadow"
+                  onClick={() => setHargaLocked(false)}
+                >Batalkan</button>
+              )}
+            </div>
+            <p className="mt-2 text-blue-700 text-xl font-semibold tracking-wide">
               Rp {harga.toLocaleString()}
             </p>
+            {!hargaLocked && <p className="text-sm text-red-500 font-semibold mt-1">Klik Input untuk konfirmasi</p>}
           </div>
 
-          <div>
-            <label className="block font-semibold mb-2">Tenor (bulan)</label>
-            <input
-              type="range"
-              min={1}
-              max={24}
-              value={tenor}
-              onChange={(e) => setTenor(Number(e.target.value))}
-              className="w-full"
-            />
-            <p className="mt-1 text-blue-600 font-semibold">
-              {tenor} bulan ({hari} hari)
+          <div className="mb-6">
+            <label className="block text-lg font-bold mb-2 text-gray-800 tracking-wide">Tenor (bulan)</label>
+            <div className="flex items-center gap-4">
+              <input
+                type="range"
+                min={1}
+                max={24}
+                value={tenor}
+                onChange={(e) => setTenor(Number(e.target.value))}
+                className="w-full accent-blue-500 h-2 rounded-full"
+                disabled={tenorLocked}
+              />
+              {!tenorLocked ? (
+                <button
+                  className="px-4 py-2 rounded-xl font-semibold text-white bg-blue-500 hover:bg-blue-600 transition-all duration-200 shadow"
+                  onClick={() => setTenorLocked(true)}
+                >Input</button>
+              ) : (
+                <button
+                  className="px-4 py-2 rounded-xl font-semibold text-white bg-red-500 hover:bg-red-600 transition-all duration-200 shadow"
+                  onClick={() => setTenorLocked(false)}
+                >Batalkan</button>
+              )}
+            </div>
+            <p className="mt-2 text-blue-700 text-xl font-semibold tracking-wide">
+              {tenor} bulan <span className="text-gray-500 text-base">({hari} hari)</span>
             </p>
+            {!tenorLocked && <p className="text-sm text-red-500 font-semibold mt-1">Klik Input untuk konfirmasi</p>}
           </div>
 
-          <div>
-            <label className="block font-semibold mb-2">
-              Bunga per Hari (%)
-            </label>
-            <input
-              type="range"
-              min={0.1}
-              max={1}
-              step={0.1}
-              value={bunga}
-              onChange={(e) => setBunga(Number(e.target.value))}
-              className="w-full"
-            />
-            <p className="mt-1 text-blue-600 font-semibold">
-              {bunga.toFixed(1)}% per hari
+          <div className="mb-6">
+            <label className="block text-lg font-bold mb-2 text-gray-800 tracking-wide">Bunga per Hari (%)</label>
+            <div className="flex items-center gap-4">
+              <input
+                type="range"
+                min={0.1}
+                max={1}
+                step={0.1}
+                value={bunga}
+                onChange={(e) => setBunga(Number(e.target.value))}
+                className="w-full accent-blue-500 h-2 rounded-full"
+                disabled={bungaLocked}
+              />
+              {!bungaLocked ? (
+                <button
+                  className="px-4 py-2 rounded-xl font-semibold text-white bg-blue-500 hover:bg-blue-600 transition-all duration-200 shadow"
+                  onClick={() => setBungaLocked(true)}
+                >Input</button>
+              ) : (
+                <button
+                  className="px-4 py-2 rounded-xl font-semibold text-white bg-red-500 hover:bg-red-600 transition-all duration-200 shadow"
+                  onClick={() => setBungaLocked(false)}
+                >Batalkan</button>
+              )}
+            </div>
+            <p className="mt-2 text-blue-700 text-xl font-semibold tracking-wide">
+              {bunga.toFixed(1)}% <span className="text-gray-500 text-base">per hari</span>
             </p>
+            {!bungaLocked && <p className="text-sm text-red-500 font-semibold mt-1">Klik Input untuk konfirmasi</p>}
           </div>
 
-          <div>
-            <label className="block font-semibold mb-2">
-              Dana Pribadi (Rp)
-            </label>
-            <input
-              type="range"
-              min={0}
-              max={100000000}
-              step={500000}
-              value={danaPribadi}
-              onChange={(e) => setDanaPribadi(Number(e.target.value))}
-              className="w-full"
-            />
-            <p className="mt-1 text-blue-600 font-semibold">
+          <div className="mb-6">
+            <label className="block text-lg font-bold mb-2 text-gray-800 tracking-wide">Dana Pribadi (Rp)</label>
+            <div className="flex items-center gap-4">
+              <input
+                type="range"
+                min={0}
+                max={100000000}
+                step={100000}
+                value={danaPribadi}
+                onChange={(e) => setDanaPribadi(Number(e.target.value))}
+                className="w-full accent-blue-500 h-2 rounded-full"
+                disabled={danaLocked}
+              />
+              {!danaLocked ? (
+                <button
+                  className="px-4 py-2 rounded-xl font-semibold text-white bg-blue-500 hover:bg-blue-600 transition-all duration-200 shadow"
+                  onClick={() => setDanaLocked(true)}
+                >Input</button>
+              ) : (
+                <button
+                  className="px-4 py-2 rounded-xl font-semibold text-white bg-red-500 hover:bg-red-600 transition-all duration-200 shadow"
+                  onClick={() => setDanaLocked(false)}
+                >Batalkan</button>
+              )}
+            </div>
+            <p className="mt-2 text-blue-700 text-xl font-semibold tracking-wide">
               Rp {danaPribadi.toLocaleString()}
             </p>
-            <p className="text-sm text-gray-500 mt-1">*Gaji tiap Bulan</p>
+            <p className="text-base text-gray-400 mt-1 italic">*Gaji tiap Bulan</p>
+            {!danaLocked && <p className="text-sm text-red-500 font-semibold mt-1">Klik Input untuk konfirmasi</p>}
           </div>
 
           <div>
@@ -344,7 +412,10 @@ export default function KuisBintang() {
               Rincian Pengeluaran Pribadi
             </label>
             {pengeluaranList.map((item, index) => (
-              <div key={index} className="flex gap-2 mb-2">
+              <div
+                key={index}
+                className="flex gap-4 mb-4 items-center bg-white rounded-2xl shadow-md border border-gray-200 transition-all duration-300 hover:shadow-lg px-4 py-3"
+              >
                 <input
                   type="text"
                   placeholder="Nama Pengeluaran"
@@ -352,21 +423,27 @@ export default function KuisBintang() {
                   onChange={(e) =>
                     handlePengeluaranChange(index, "nama", e.target.value)
                   }
-                  className="flex-1 border p-2 rounded"
+                  className="flex-1 bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-base focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all duration-200 shadow-sm placeholder-gray-400"
                 />
                 <input
-                  type="number"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   placeholder="Jumlah (Rp)"
-                  value={item.jumlah}
-                  onChange={(e) =>
-                    handlePengeluaranChange(index, "jumlah", e.target.value)
-                  }
-                  className="w-40 border p-2 rounded"
+                  value={item.jumlah === 0 ? "" : formatRupiah(item.jumlah)}
+                  onChange={(e) => {
+                    // Hapus karakter non-digit
+                    const raw = e.target.value.replace(/\D/g, "");
+                    const val = raw === "" ? 0 : Number(raw);
+                    handlePengeluaranChange(index, "jumlah", val);
+                  }}
+                  className="w-44 bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-base focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all duration-200 shadow-sm placeholder-gray-400 text-right"
                 />
                 {index > 0 && (
                   <button
                     onClick={() => removePengeluaran(index)}
-                    className="text-red-600 font-bold px-2"
+                    className="text-red-500 font-bold px-3 py-2 rounded-full bg-red-50 hover:bg-red-100 transition-all duration-200 shadow-sm"
+                    aria-label="Hapus Pengeluaran"
                   >
                     −
                   </button>
@@ -389,46 +466,62 @@ export default function KuisBintang() {
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <h2 className="text-lg font-bold text-blue-700">Hasil Simulasi</h2>
-            <p className="mt-2">
-              Jumlah Pinjaman: <strong>Rp {pinjaman.toLocaleString()}</strong>
-            </p>
-            <p>
-              Total Bunga ({hari} hari):{" "}
-              <strong>Rp {Math.round(bungaTotal).toLocaleString()}</strong>
-            </p>
-            <p>
-              Total yang Harus Dibayar:{" "}
-              <strong className="text-red-600 text-xl">
-                Rp {Math.round(totalPembayaran).toLocaleString()}
-              </strong>
-            </p>
-            <p>
-              Pembayaran Per Bulan:{" "}
-              <strong className="text-blue-600 text-xl">
-                {" "}
-                Rp {Math.round(pembayaranPerBulan).toLocaleString()}
-              </strong>
-            </p>
+            {harga > 0 && tenor > 0 && bunga > 0 && danaPribadi > 0 &&
+              pengeluaranList.every(item => item.nama.trim() !== "" && Number(item.jumlah) > 0) ? (
+                <>
+                  <p className="mt-2">
+                    Jumlah Pinjaman: <strong>Rp {pinjaman.toLocaleString()}</strong>
+                  </p>
+                  <p>
+                    Total Bunga ({hari} hari):{" "}
+                    <strong>Rp {Math.round(bungaTotal).toLocaleString()}</strong>
+                  </p>
+                  <p>
+                    Total yang Harus Dibayar:{" "}
+                    <strong className="text-red-600 text-xl">
+                      Rp {Math.round(totalPembayaran).toLocaleString()}
+                    </strong>
+                  </p>
+                  <p>
+                    Pembayaran Per Bulan:{" "}
+                    <strong className="text-blue-600 text-xl">
+                      {" "}
+                      Rp {Math.round(pembayaranPerBulan).toLocaleString()}
+                    </strong>
+                  </p>
+                </>
+              ) : (
+                <p className="text-gray-500 font-semibold">
+                  Silakan isi semua data pinjaman, tenor, bunga, dana pribadi, dan rincian pengeluaran terlebih dahulu untuk melihat hasil simulasi.
+                </p>
+              )}
           </div>
 
           <div className="mt-4 p-4 bg-white border rounded-lg">
             <h3 className="font-semibold text-gray-800 mb-2">
               Evaluasi Kemampuan Dana Pribadi
             </h3>
-            {evaluasiSisa >= 0 ? (
-              <p className="text-green-600 font-semibold">
-                ✅ Dana kamu cukup untuk membayar tiap bulan. Sisa bulanan: Rp{" "}
-                {Math.round(evaluasiSisa).toLocaleString()} Apa Kamu yakin Masih
-                ingin Meminjam?. Coba kamu Pertimbangkan lagi
-              </p>
-            ) : (
-              <p className="text-red-600 font-semibold">
-                ❌ Dana kamu tidak memenuhi untuk melakukan pembayaran tiap
-                bulannya. uang yang masih kamu perlu bayarkan: Rp{" "}
-                {Math.abs(Math.round(evaluasiSisa)).toLocaleString()} apa kamu
-                yakin masih ingin meminjam?
-              </p>
-            )}
+            {harga > 0 && tenor > 0 && bunga > 0 && danaPribadi > 0 &&
+              pengeluaranList.every(item => item.nama.trim() !== "" && Number(item.jumlah) > 0) ? (
+                evaluasiSisa >= 0 ? (
+                  <p className="text-green-600 font-semibold">
+                    ✅ Dana kamu cukup untuk membayar tiap bulan. Sisa bulanan: Rp{" "}
+                    {Math.round(evaluasiSisa).toLocaleString()} Apa Kamu yakin Masih
+                    ingin Meminjam?. Coba kamu Pertimbangkan lagi
+                  </p>
+                ) : (
+                  <p className="text-red-600 font-semibold">
+                    ❌ Dana kamu tidak memenuhi untuk melakukan pembayaran tiap
+                    bulannya. uang yang masih kamu perlu bayarkan: Rp{" "}
+                    {Math.abs(Math.round(evaluasiSisa)).toLocaleString()} apa kamu
+                    yakin masih ingin meminjam?
+                  </p>
+                )
+              ) : (
+                <p className="text-gray-500 font-semibold">
+                  Silakan isi semua data pinjaman, tenor, bunga, dana pribadi, dan rincian pengeluaran terlebih dahulu untuk melihat rekomendasi.
+                </p>
+              )}
           </div>
         </div>
       </div>
@@ -528,7 +621,7 @@ export default function KuisBintang() {
                 <div className="flex items-center gap-2">
                   <FaWhatsapp />
                   <a
-                    href="https://wa.me/10000"
+                    href="https://wa.me/6281959730664"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:underline"
@@ -550,15 +643,9 @@ export default function KuisBintang() {
                 >
                   <FaInstagram className="hover:text-pink-500" />
                 </a>
+                
                 <a
-                  href="https://www.facebook.com/akunmu"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaFacebook className="hover:text-blue-600" />
-                </a>
-                <a
-                  href="https://www.youtube.com/@TitikRuangOfficial"
+                  href="https://youtube.com/@officialtitikruang?si=Go4uHC14HTPqusI8"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -590,8 +677,9 @@ export default function KuisBintang() {
         className="fixed bottom-20 right-6 z-[99] bg-[#F2780C] text-white p-3 rounded-full shadow-lg hover:bg-[#F25050] z-50"
         aria-label="Back to Top"
       >
-        ⬆️
+        ⬆
       </button>
+      </div>
     </div>
   );
 }
