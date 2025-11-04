@@ -344,7 +344,27 @@ export default function PembelajaranPage() {
                 time: "13 minutes read",
                 slug: "artikel1",
               },
-              
+              {
+                image: "/artikel2.png",
+                title: "Yuk Cari Tahu: Laporkan Pinjol Ilegal, Lindungi Dirimu Sekarang!",
+                date: "30 Agustus 2025",
+                time: "13 minutes read",
+                slug: "artikel2",
+              },
+              {
+                image: "/artikel3.png",
+                title: "Lingkaran Judol dan Pinjol: Dari Godaan Keuntungan hingga Jeratan Hutang",
+                date: "10 September 2025",
+                time: "13 minutes read",
+                slug: "artikel3",
+              },
+              {
+                image: "/artikel4.png",
+                title: "Kecanduan Judi Online: Saat Perilaku Impulsif Mengalahkan Rasionalitas",
+                date: "23 September 2025",
+                time: "13 minutes read",
+                slug: "artikel4",
+              },
             ].map((item, i) => (
               <Link
                 key={i}
